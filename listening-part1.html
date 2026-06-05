@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>IELTS Listening - Part 1</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+}
+
+.header{
+    background:#003366;
+    color:white;
+    padding:15px;
+}
+
+.container{
+    display:flex;
+    height:90vh;
+}
+
+.left{
+    width:70%;
+    padding:20px;
+    overflow-y:auto;
+}
+
+.right{
+    width:30%;
+    padding:20px;
+    background:#f5f5f5;
+    overflow-y:auto;
+}
+
+.question{
+    margin-bottom:12px;
+}
+
+input{
+    width:100%;
+    padding:8px;
+    box-sizing:border-box;
+}
+
+.timer{
+    font-size:22px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>IELTS Listening Test - Part 1</h2>
+    <div class="timer" id="timer">30:00</div>
+</div>
+
+<div class="container">
+
+<div class="left">
+
+<h3>Audio</h3>
+
+<audio controls>
+    <source src="./part1.mp3" type="audio/mpeg">
+</audio>
+
+<h3>Questions 1–10</h3>
+
+<p>
+Complete the notes below.
+Write ONE WORD AND/OR A NUMBER for each answer.
+</p>
+
+<p>
+(Paste your Cambridge Part 1 questions here.)
+</p>
+
+</div>
+
+<div class="right">
+
+<h3>Answer Sheet</h3>
+
+<div id="answers"></div>
+
+</div>
+
+</div>
+
+<script>
+
+for(let i=1;i<=10;i++){
+    document.getElementById("answers").innerHTML +=
+    `<div class="question">
+        Question ${i}
+        <input type="text" id="q${i}">
+    </div>`;
+}
+
+let time = 1800;
+
+setInterval(function(){
+
+    let minutes = Math.floor(time/60);
+    let seconds = time%60;
+
+    document.getElementById("timer").innerHTML =
+        String(minutes).padStart(2,'0')
+        + ":" +
+        String(seconds).padStart(2,'0');
+
+    if(time > 0){
+        time--;
+    }
+
+},1000);
+
+</script>
+
+</body>
+</html>
