@@ -56,6 +56,8 @@
             text-decoration: none;
             font-weight: bold;
             border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
         }
         .btn:hover {
             background-color: #0056b3;
@@ -68,7 +70,6 @@
         .option-line input {
             margin-right: 8px;
         }
-        /* ✅ IMPROVED FLOW CHART STYLES */
         .flow-chart {
             border: 1px solid #ccc;
             padding: 20px 25px;
@@ -93,11 +94,40 @@
             text-transform: uppercase;
             margin: 0 8px;
         }
+        .answer-output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            white-space: pre-line;
+            display: none;
+        }
     </style>
+    <script>
+        function showAnswers() {
+            let answers = "--- YOUR ANSWERS ---\n\n";
+
+            // Q21-24 Radio
+            for (let i = 21; i <= 24; i++) {
+                let sel = "";
+                document.getElementsByName('q'+i).forEach(opt => { if (opt.checked) sel = opt.id.slice(-1).toUpperCase(); });
+                answers += "Question " + i + ": " + (sel || "(not answered)") + "\n";
+            }
+            // Q25-30 Text
+            for (let i = 25; i <= 30; i++) {
+                let val = document.getElementById('q'+i).value.trim();
+                answers += "Question " + i + ": " + (val || "(not answered)") + "\n";
+            }
+
+            let box = document.getElementById('answerBox');
+            box.textContent = answers;
+            box.style.display = 'block';
+        }
+    </script>
 </head>
 <body>
 
-    <!-- Tabs -->
     <div class="tabs">
         <a class="tab-link" href="listening-part1.html">Part 1</a>
         <a class="tab-link" href="listening-part2.html">Part 2</a>
@@ -105,14 +135,12 @@
         <a class="tab-link" href="listening-part4.html">Part 4</a>
     </div>
 
-    <!-- Header -->
     <div class="header-bar">
         <h2>IELTS Listening Test - Part 3</h2>
         <span>10:22</span>
     </div>
 
     <div class="container">
-        <!-- Main Content → Full Width -->
         <div>
             <div class="audio-player">
                 <audio controls>
@@ -128,63 +156,27 @@
             <em>Assignment on sleep and dreams</em></p>
 
             <p><strong>21</strong> Luke read that one reason why we often forget dreams is that<br>
-            <div class="option-line">
-                <input type="radio" name="q21" id="q21a">
-                <label for="q21a">A our memories cannot cope with too much information.</label>
-            </div>
-            <div class="option-line">
-                <input type="radio" name="q21" id="q21b">
-                <label for="q21b">B we might otherwise be confused about what is real.</label>
-            </div>
-            <div class="option-line">
-                <input type="radio" name="q21" id="q21c">
-                <label for="q21c">C we do not think they are important.</label>
-            </div>
+            <div class="option-line"><input type="radio" name="q21" id="q21a"><label for="q21a">A our memories cannot cope with too much information.</label></div>
+            <div class="option-line"><input type="radio" name="q21" id="q21b"><label for="q21b">B we might otherwise be confused about what is real.</label></div>
+            <div class="option-line"><input type="radio" name="q21" id="q21c"><label for="q21c">C we do not think they are important.</label></div>
             </p>
 
             <p><strong>22</strong> What do Luke and Susie agree about dreams predicting the future?<br>
-            <div class="option-line">
-                <input type="radio" name="q22" id="q22a">
-                <label for="q22a">A It may just be due to chance.</label>
-            </div>
-            <div class="option-line">
-                <input type="radio" name="q22" id="q22b">
-                <label for="q22b">B It only happens with certain types of event.</label>
-            </div>
-            <div class="option-line">
-                <input type="radio" name="q22" id="q22c">
-                <label for="q22c">C It happens more often than some people think.</label>
-            </div>
+            <div class="option-line"><input type="radio" name="q22" id="q22a"><label for="q22a">A It may just be due to chance.</label></div>
+            <div class="option-line"><input type="radio" name="q22" id="q22b"><label for="q22b">B It only happens with certain types of event.</label></div>
+            <div class="option-line"><input type="radio" name="q22" id="q22c"><label for="q22c">C It happens more often than some people think.</label></div>
             </p>
 
             <p><strong>23</strong> Susie says that a study on pre-school children having a short nap in the day<br>
-            <div class="option-line">
-                <input type="radio" name="q23" id="q23a">
-                <label for="q23a">A had controversial results.</label>
-            </div>
-            <div class="option-line">
-                <input type="radio" name="q23" id="q23b">
-                <label for="q23b">B used faulty research methodology.</label>
-            </div>
-            <div class="option-line">
-                <input type="radio" name="q23" id="q23c">
-                <label for="q23c">C failed to reach any clear conclusions.</label>
-            </div>
+            <div class="option-line"><input type="radio" name="q23" id="q23a"><label for="q23a">A had controversial results.</label></div>
+            <div class="option-line"><input type="radio" name="q23" id="q23b"><label for="q23b">B used faulty research methodology.</label></div>
+            <div class="option-line"><input type="radio" name="q23" id="q23c"><label for="q23c">C failed to reach any clear conclusions.</label></div>
             </p>
 
             <p><strong>24</strong> In their last assignment, both students had problems with<br>
-            <div class="option-line">
-                <input type="radio" name="q24" id="q24a">
-                <label for="q24a">A statistical analysis.</label>
-            </div>
-            <div class="option-line">
-                <input type="radio" name="q24" id="q24b">
-                <label for="q24b">B making an action plan.</label>
-            </div>
-            <div class="option-line">
-                <input type="radio" name="q24" id="q24c">
-                <label for="q24c">C self-assessment.</label>
-            </div>
+            <div class="option-line"><input type="radio" name="q24" id="q24a"><label for="q24a">A statistical analysis.</label></div>
+            <div class="option-line"><input type="radio" name="q24" id="q24b"><label for="q24b">B making an action plan.</label></div>
+            <div class="option-line"><input type="radio" name="q24" id="q24c"><label for="q24c">C self-assessment.</label></div>
             </p>
 
 
@@ -202,8 +194,9 @@
 
                 <div class="flow-row">
                     Decide on sample:<br>
-                    Twelve students from the <span class="flow-q-num">25</span>
-                    <input type="text" class="flow-input" placeholder="ONE WORD">
+                    Twelve students from the
+                    <span class="flow-q-num">25</span>
+                    <input type="text" id="q25" class="flow-input" placeholder="ONE WORD">
                     department
                 </div>
 
@@ -216,19 +209,19 @@
                     Decide on procedure:<br>
                     Answers on
                     <span class="flow-q-num">26</span>
-                    <input type="text" class="flow-input" placeholder="ONE WORD">
+                    <input type="text" id="q26" class="flow-input" placeholder="ONE WORD">
                 </div>
 
                 <div class="flow-row">
                     Check ethical guidelines for working with
                     <span class="flow-q-num">27</span>
-                    <input type="text" class="flow-input" placeholder="ONE WORD">
+                    <input type="text" id="q27" class="flow-input" placeholder="ONE WORD">
                 </div>
 
                 <div class="flow-row">
                     Ensure that risk is assessed and
                     <span class="flow-q-num">28</span>
-                    <input type="text" class="flow-input" placeholder="ONE WORD">
+                    <input type="text" id="q28" class="flow-input" placeholder="ONE WORD">
                     is kept to a minimum
                 </div>
 
@@ -236,21 +229,23 @@
                     Analyse the results:<br>
                     Calculate the correlation and make a
                     <span class="flow-q-num">29</span>
-                    <input type="text" class="flow-input" placeholder="ONE WORD">
+                    <input type="text" id="q29" class="flow-input" placeholder="ONE WORD">
                 </div>
 
                 <div class="flow-row">
                     <span class="flow-q-num">30</span>
-                    <input type="text" class="flow-input" placeholder="ONE WORD">
+                    <input type="text" id="q30" class="flow-input" placeholder="ONE WORD">
                     the research
                 </div>
             </div>
 
 
-            <!-- BACK TO START BUTTON -->
             <div class="nav-buttons">
-                <a href="listening-part1.html" class="btn">Back to Start → Part 1</a>
+                <button class="btn" onclick="showAnswers()">Show My Answers</button>
+                <a href="listening-part4.html" class="btn">Next Page → Part 4</a>
             </div>
+
+            <div id="answerBox" class="answer-output"></div>
 
         </div>
     </div>
