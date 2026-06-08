@@ -1,497 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Reading - Passage 1</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+<script>
+    // --- PERSISTENT 60-Minute Countdown Timer ---
+    // Reset timer when first opening Reading section
+    localStorage.removeItem('readingTimeLeft');
+    let timeLeft = 60 * 60;
+    const countdownEl = document.getElementById('countdown');
+
+    function updateTimer() {
+        if (timeLeft <= 0) {
+            countdownEl.textContent = "00:00";
+            alert("Time's up!");
+            localStorage.removeItem('readingTimeLeft');
+            clearInterval(timerInterval);
+            return;
         }
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.7;
-            color: #333;
-        }
-        .tabs {
-            background-color: #222;
-            padding: 12px 0;
-        }
-        .tab-link {
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            font-weight: bold;
-            display: inline-block;
-        }
-        .tab-link.active {
-            background-color: #007bff;
-        }
-        .header-bar {
-            background-color: #eee;
-            padding: 18px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        /* Timer style */
-        .timer {
-            font-size: 20px;
-            font-weight: bold;
-            color: #d9534f;
-            background: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-        }
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        localStorage.setItem('readingTimeLeft', timeLeft);
+        timeLeft--;
+    }
 
-        /* Side-by-side layout like real computer IELTS */
-        .test-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2px;
-            height: calc(100vh - 170px);
-        }
+    const timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
 
-        /* Left side: Reading passage */
-        .passage-section {
-            background-color: #f9f9f9;
-            padding: 25px;
-            overflow-y: auto;
-            border-right: 1px solid #ddd;
-        }
-        .passage-section h3 {
-            margin-bottom: 15px;
-            color: #222;
-            text-align: center;
-        }
-        .passage-section em {
-            display: block;
-            margin-bottom: 20px;
-            color: #555;
-            text-align: center;
-        }
-        .passage-section p {
-            margin-bottom: 18px;
-            text-align: justify;
-        }
+    // --- Text Highlight Feature ---
+    const passageContainer = document.querySelector('.highlightable');
 
-        /* ✅ Highlight styles - now works perfectly */
-        .highlight {
-            background-color: #fff350;
-            padding: 2px 0;
-            border-radius: 2px;
-        }
-        .highlightable {
-            cursor: text;
-            user-select: text;
-        }
-        /* Temporary selection color */
-        .highlightable ::selection {
-            background: #ffe566;
-        }
+    passageContainer.addEventListener('mouseup', function() {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
 
-        /* Right side: Questions */
-        .questions-section {
-            background-color: #ffffff;
-            padding: 25px;
-            overflow-y: auto;
-        }
-        .questions-section h3 {
-            margin-bottom: 20px;
-            color: #222;
-        }
-        .q-group {
-            margin-bottom: 30px;
-        }
-        .q-instructions {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-        .q-row {
-            margin: 20px 0;
-            display: flex;
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-        .q-num {
-            font-weight: bold;
-            margin-right: 12px;
-            min-width: 28px;
-        }
-        .text-input {
-            padding: 7px 12px;
-            border: 1px solid #999;
-            width: 200px;
-            text-transform: uppercase;
-            margin: 4px 10px;
-            border-radius: 3px;
-            font-size: 15px;
-        }
-        .option {
-            margin: 10px 0 10px 40px;
-            display: flex;
-            align-items: flex-start;
-        }
-        .option input {
-            margin-right: 12px;
-            width: auto;
-            cursor: pointer;
-            margin-top: 4px;
-        }
+        const range = selection.getRangeAt(0);
+        const selectedText = selection.toString().trim();
 
-        .nav-buttons {
-            margin-top: 40px;
-            text-align: right;
-        }
-        .btn {
-            padding: 12px 24px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 4px;
-            margin-left: 12px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        .answer-box {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e9ecef;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            white-space: pre-line;
-            display: none;
-            font-family: monospace;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-    </style>
-</head>
-<body>
+        if (!selectedText) return;
 
-    <div class="tabs">
-        <a class="tab-link" href="listening-part4.html">← Listening Test</a>
-        <a class="tab-link active" href="reading1.html">Passage 1</a>
-    </div>
-
-    <div class="header-bar">
-        <h2>IELTS Reading Test</h2>
-        <div class="timer">Time Left: <span id="countdown">60:00</span></div>
-    </div>
-
-    <div class="test-container">
-        <!-- LEFT: READING PASSAGE -->
-        <div class="passage-section">
-            <h3>Reading Passage 1</h3>
-            <em>You should spend about 20 minutes on Questions 1–13, which are based on Reading Passage 1 below.</em>
-
-            <h4 style="text-align: center; margin-bottom: 20px;">The White Horse of Uffington</h4>
-
-            <div class="highlightable">
-                <p>The cutting of huge figures or 'geoglyphs' into the earth of English hillsides has taken place for more than 3,000 years. There are 56 hill figures scattered around England, with the vast majority on the chalk downlands of the country's southern counties. The figures include giants, horses, crosses and regimental badges. Although the majority of these geoglyphs date within the last 300 years or so, there are one or two that are much older.</p>
-
-                <p>The most famous of these figures is perhaps also the most mysterious - the Uffington White Horse in Oxfordshire. The White Horse has recently been re-dated and shown to be even older than its previously assigned ancient pre-Roman Iron Age date. More controversial is the date of the enigmatic Long Man of Wilmington in Sussex. While many historians are convinced the figure is prehistoric, others believe that it was the work of an artistic monk from a nearby priory and was created between the 11th and 15th centuries.</p>
-
-                <p>The method of cutting these huge figures was simply to remove the overlying grass to reveal the gleaming white chalk below. However, the grass would soon grow over the geoglyph again unless it was regularly cleaned or scoured by a fairly large team of people. One reason that the vast majority of hill figures have disappeared is that when the traditions associated with the figures faded, people no longer bothered or remembered to clear away the grass to expose the chalk outline. Furthermore, over hundreds of years the outlines would sometimes change due to people not always cutting in exactly the same place, thus creating a different shape to the original geoglyph. The fact that any ancient hill figures survive at all in England today is testament to the strength and continuity of local customs and beliefs which, in one case at least, must stretch back over millennia.</p>
-
-                <p>The Uffington White Horse is a unique, stylised representation of a horse consisting of a long, sleek back, thin disjointed legs, a streaming tail, and a bird-like beaked head. The elegant creature almost melts into the landscape. The horse is situated 2.5 km from Uffington village on a steep slope close to the Late Bronze Age (c. 7th century BCE) hillfort of Uffington Castle and below the Ridgeway, a long-distance Neolithic track.</p>
-
-                <p>The Uffington Horse is also surrounded by Bronze Age burial mounds. It is not far from the Bronze Age cemetery of Lambourn Seven Barrows, which consists of more than 30 well-preserved burial mounds. The carving has been placed in such a way as to make it extremely difficult to see from close quarters, and like many geoglyphs is best appreciated from the air. Nevertheless, there are certain areas of the Vale of the White Horse, the valley containing and named after the enigmatic creature, from which an adequate impression may be gained. Indeed on a clear day the carving can be seen from up to 30 km away.</p>
-
-                <p>The earliest evidence of a horse at Uffington is from the 1070s CE when 'White Horse Hill' is mentioned in documents from the nearby Abbey of Abingdon, and the first reference to the horse itself is soon after, in 1190 CE. However, the carving is believed to date back much further than that. Due to the similarity of the Uffington White Horse to the stylised depictions of horses on 1st century BCE coins, it had been thought that the creature must also date to that period.</p>
-
-                <p>However, in 1995 Optically Stimulated Luminescence (OSL) testing was carried out by the Oxford Archaeological Unit on soil from two of the lower layers of the horse's body, and from another cut near the base. The result was a date for the horse's construction somewhere between 1400 and 600 BCE - in other words, it had a Late Bronze Age or Early Iron Age origin. The latter end of this date range would tie the carving of the horse in with occupation of the nearby Uffington hillfort, indicating that it may represent a tribal emblem marking the land of the inhabitants of the hillfort. Alternatively, the carving may have been carried out during a Bronze or Iron Age ritual. Some researchers see the horse as representing the Celtic horse goddess Epona, who was worshipped as a protector of horses, and for her associations with fertility. However, the cult of Epona was not imported from Gaul (France) until around the first century CE. This date is at least six centuries after the Uffington Horse was probably carved. Nevertheless, the horse had great ritual and economic significance during the Bronze and Iron Ages, as attested by its depictions on jewellery and other metal objects. It is possible that the carving represents a goddess in native mythology, such as Rhiannon, described in later Welsh mythology as a beautiful woman dressed in gold and riding a white horse.</p>
-
-                <p>The fact that geoglyphs can disappear easily, along with their associated rituals and meaning, indicates that they were never intended to be anything more than temporary gestures. But this does not lessen their importance. These giant carvings are a fascinating glimpse into the minds of their creators and how they viewed the landscape in which they lived.</p>
-            </div>
-        </div>
-
-        <!-- RIGHT: QUESTIONS -->
-        <div class="questions-section">
-            <h3>Questions 1–13</h3>
-
-            <div class="q-group">
-                <div class="q-instructions">
-                    <strong>Questions 1–7</strong><br>
-                    Do the following statements agree with the information given in Reading Passage 1?<br>
-                    Write<br>
-                    <strong>TRUE</strong> if the statement agrees with the information<br>
-                    <strong>FALSE</strong> if the statement contradicts the information<br>
-                    <strong>NOT GIVEN</strong> if there is no information on this
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">1</span>
-                    <input type="text" class="text-input" id="r1q1" placeholder="TRUE/FALSE/NOT GIVEN">
-                    <span>The geoglyphs of England are less than 3,000 years old.</span>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">2</span>
-                    <input type="text" class="text-input" id="r1q2" placeholder="TRUE/FALSE/NOT GIVEN">
-                    <span>Most hill figures in England are located in the north of the country.</span>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">3</span>
-                    <input type="text" class="text-input" id="r1q3" placeholder="TRUE/FALSE/NOT GIVEN">
-                    <span>There is disagreement among experts about when the Long Man of Wilmington was created.</span>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">4</span>
-                    <input type="text" class="text-input" id="r1q4" placeholder="TRUE/FALSE/NOT GIVEN">
-                    <span>Grass growing over geoglyphs helped protect them from damage.</span>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">5</span>
-                    <input type="text" class="text-input" id="r1q5" placeholder="TRUE/FALSE/NOT GIVEN">
-                    <span>The shape of some geoglyphs has changed over time.</span>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">6</span>
-                    <input type="text" class="text-input" id="r1q6" placeholder="TRUE/FALSE/NOT GIVEN">
-                    <span>The White Horse can be seen clearly from the top of the hill where it is carved.</span>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">7</span>
-                    <input type="text" class="text-input" id="r1q7" placeholder="TRUE/FALSE/NOT GIVEN">
-                    <span>The first written record of the White Horse itself dates from the 12th century.</span>
-                </div>
-            </div>
-
-            <div class="q-group">
-                <div class="q-instructions">
-                    <strong>Questions 8–13</strong><br>
-                    Choose the correct letter, A, B, C or D.
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">8</span>
-                    <span>Before OSL dating was used, what did experts think about the age of the Uffington White Horse?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q8" value="A" id="r1q8a">
-                    <label for="r1q8a">A It was older than 1400 BCE.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q8" value="B" id="r1q8b">
-                    <label for="r1q8b">B It dated from the 1st century BCE.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q8" value="C" id="r1q8c">
-                    <label for="r1q8c">C It was created during the Roman occupation.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q8" value="D" id="r1q8d">
-                    <label for="r1q8d">D It was made by monks between the 11th and 15th centuries.</label>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">9</span>
-                    <span>What was tested to find the age of the White Horse?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q9" value="A" id="r1q9a">
-                    <label for="r1q9a">A documents from the nearby abbey</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q9" value="B" id="r1q9b">
-                    <label for="r1q9b">B ancient coins found in the area</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q9" value="C" id="r1q9c">
-                    <label for="r1q9c">C soil samples from the carving</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q9" value="D" id="r1q9d">
-                    <label for="r1q9d">D burial mounds surrounding the site</label>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">10</span>
-                    <span>When was the White Horse probably created?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q10" value="A" id="r1q10a">
-                    <label for="r1q10a">A 1400–600 BCE</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q10" value="B" id="r1q10b">
-                    <label for="r1q10b">B 700–100 BCE</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q10" value="C" id="r1q10c">
-                    <label for="r1q10c">C 1–1000 CE</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q10" value="D" id="r1q10d">
-                    <label for="r1q10d">D 1100–1500 CE</label>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">11</span>
-                    <span>Why do some people reject the idea that the horse represents the goddess Epona?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q11" value="A" id="r1q11a">
-                    <label for="r1q11a">A She was worshipped mainly in Wales.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q11" value="B" id="r1q11b">
-                    <label for="r1q11b">B Her worship began long after the horse was carved.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q11" value="C" id="r1q11c">
-                    <label for="r1q11c">C She was associated with farming, not horses.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q11" value="D" id="r1q11d">
-                    <label for="r1q11d">D She was usually shown in a different style.</label>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">12</span>
-                    <span>What does the writer suggest about the purpose of geoglyphs?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q12" value="A" id="r1q12a">
-                    <label for="r1q12a">A They were intended to last forever.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q12" value="B" id="r1q12b">
-                    <label for="r1q12b">B They were only meant to exist temporarily.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q12" value="C" id="r1q12c">
-                    <label for="r1q12c">C They were used mainly to mark property boundaries.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q12" value="D" id="r1q12d">
-                    <label for="r1q12d">D They served no important function.</label>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">13</span>
-                    <span>What is the writer's main point in the final paragraph?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q13" value="A" id="r1q13a">
-                    <label for="r1q13a">A Geoglyphs tell us about the beliefs and worldview of ancient people.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q13" value="B" id="r1q13b">
-                    <label for="r1q13b">B Most geoglyphs have disappeared over time.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q13" value="C" id="r1q13c">
-                    <label for="r1q13c">C Modern people cannot understand the meaning of geoglyphs.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r1q13" value="D" id="r1q13d">
-                    <label for="r1q13d">D Geoglyphs were created mainly for artistic reasons.</label>
-                </div>
-            </div>
-
-            <div class="nav-buttons">
-                <button class="btn" onclick="showAnswers()">Show My Answers</button>
-            </div>
-
-            <div id="answerOutput" class="answer-box"></div>
-        </div>
-    </div>
-
-    <script>
-        // --- 60-Minute Countdown Timer ---
-        let timeLeft = 60 * 60; // 60 minutes in seconds
-        const countdownEl = document.getElementById('countdown');
-
-        function updateTimer() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            if (timeLeft === 0) {
-                alert("Time's up!");
-                clearInterval(timerInterval);
-            }
-            timeLeft--;
-        }
-
-        const timerInterval = setInterval(updateTimer, 1000);
-        updateTimer();
-
-        // --- ✅ FIXED Text Highlight Feature ---
-        const passageContainer = document.querySelector('.highlightable');
-
-        passageContainer.addEventListener('mouseup', function() {
-            const selection = window.getSelection();
-            if (!selection.rangeCount) return;
-
-            const range = selection.getRangeAt(0);
-            const selectedText = selection.toString().trim();
-
-            if (!selectedText) return;
-
-            // Check if already highlighted
-            const parent = range.commonAncestorContainer.parentElement;
-            if (parent && parent.classList.contains('highlight')) {
-                // Remove highlight
-                parent.outerHTML = parent.innerHTML;
-                selection.removeAllRanges();
-                return;
-            }
-
-            try {
-                // Create highlight
-                const span = document.createElement('span');
-                span.className = 'highlight';
-                range.surroundContents(span);
-            } catch (e) {
-                // Fallback if selection spans paragraphs: simpler mark
-                const html = range.toString();
-                const span = document.createElement('span');
-                span.className = 'highlight';
-                span.textContent = html;
-                range.deleteContents();
-                range.insertNode(span);
-            }
-
+        const parent = range.commonAncestorContainer.parentElement;
+        if (parent && parent.classList.contains('highlight')) {
+            parent.outerHTML = parent.innerHTML;
             selection.removeAllRanges();
-        });
-
-        // --- Show Answers Function ---
-        function showAnswers() {
-            let answers = "--- READING PASSAGE 1 ANSWERS ---\n\n";
-            for (let i = 1; i <= 13; i++) {
-                const textInput = document.getElementById('r1q' + i);
-                if (textInput) {
-                    answers += `Question ${i}: ${textInput.value.trim() || "(not answered)"}\n`;
-                } else {
-                    const selected = document.querySelector(`input[name="r1q${i}"]:checked`);
-                    answers += `Question ${i}: ${selected ? selected.value : "(not answered)"}\n`;
-                }
-            }
-            const outputBox = document.getElementById('answerOutput');
-            outputBox.textContent = answers;
-            outputBox.style.display = 'block';
-            outputBox.scrollIntoView({ behavior: 'smooth' });
+            return;
         }
-    </script>
 
-</body>
-</html>
+        try {
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            range.surroundContents(span);
+        } catch (e) {
+            const text = range.toString();
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            span.textContent = text;
+            range.deleteContents();
+            range.insertNode(span);
+        }
+
+        selection.removeAllRanges();
+    });
+
+    // --- Show Answers Function ---
+    function showAnswers() {
+        let answers = "--- READING PASSAGE 1 ANSWERS ---\n\n";
+        for (let i = 1; i <= 13; i++) {
+            const textInput = document.getElementById('r1q' + i);
+            if (textInput) {
+                answers += `Question ${i}: ${textInput.value.trim() || "(not answered)"}\n`;
+            } else {
+                const selected = document.querySelector(`input[name="r1q${i}"]:checked`);
+                answers += `Question ${i}: ${selected ? selected.value : "(not answered)"}\n`;
+            }
+        }
+        const outputBox = document.getElementById('answerOutput');
+        outputBox.textContent = answers;
+        outputBox.style.display = 'block';
+        outputBox.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
