@@ -38,22 +38,8 @@
         }
         .container {
             display: grid;
-            grid-template-columns: 65% 35%;
+            grid-template-columns: 100%; /* ← changed to full width now */
             gap: 30px;
-        }
-        .question-nav {
-            display: grid;
-            grid-template-columns: repeat(5, 40px);
-            gap: 8px;
-            margin-bottom: 30px;
-        }
-        .q-box {
-            border: 1px solid #ccc;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .answer-sheet .q-row {
             margin: 8px 0;
@@ -110,7 +96,7 @@
     </div>
 
     <div class="container">
-        <!-- Left Side: Audio + Questions -->
+        <!-- Left Side: Audio + Questions → NOW FULL WIDTH -->
         <div>
             <div class="audio-player">
                 <audio controls>
@@ -273,36 +259,8 @@
 
         </div>
 
-        <!-- Right Side: Navigator + Answer Sheet -->
-        <div>
-            <h3>Question Navigator</h3>
-            <div class="question-nav">
-                <div class="q-box">11</div>
-                <div class="q-box">12</div>
-                <div class="q-box">13</div>
-                <div class="q-box">14</div>
-                <div class="q-box">15</div>
-                <div class="q-box">16</div>
-                <div class="q-box">17</div>
-                <div class="q-box">18</div>
-                <div class="q-box">19</div>
-                <div class="q-box">20</div>
-            </div>
+        <!-- ✅ RIGHT SIDE BAR COMPLETELY REMOVED ✅ -->
 
-            <h3>Answer Sheet</h3>
-            <div class="answer-sheet">
-                <div class="q-row">Question 11 <input type="text" placeholder="A/B/C"></div>
-                <div class="q-row">Question 12 <input type="text" placeholder="A/B/C"></div>
-                <div class="q-row">Question 13 <input type="text" placeholder="A/B/C"></div>
-                <div class="q-row">Question 14 <input type="text" placeholder="A/B/C"></div>
-                <div class="q-row">Question 15 <input type="text" placeholder="A/B/C"></div>
-                <div class="q-row">Question 16 <input type="text" placeholder="A/B/C/D"></div>
-                <div class="q-row">Question 17 <input type="text" placeholder="A/B/C/D"></div>
-                <div class="q-row">Question 18 <input type="text" placeholder="A/B/C/D"></div>
-                <div class="q-row">Question 19 <input type="text" placeholder="A/B/C/D/E"></div>
-                <div class="q-row">Question 20 <input type="text" placeholder="A/B/C/D/E"></div>
-            </div>
-        </div>
     </div>
 
 </body>
