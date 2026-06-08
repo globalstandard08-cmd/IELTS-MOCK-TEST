@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading - Passage 2</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.7;
+            color: #333;
+        }
+        .tabs {
+            background-color: #222;
+            padding: 12px 0;
+        }
+        .tab-link {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .tab-link.active {
+            background-color: #007bff;
+        }
+        .header-bar {
+            background-color: #eee;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #d9534f;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .test-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            height: calc(100vh - 220px);
+        }
+        .passage-section {
+            background-color: #f9f9f9;
+            padding: 25px;
+            overflow-y: auto;
+            border-right: 1px solid #ddd;
+        }
+        .passage-section h3 {
+            margin-bottom: 15px;
+            color: #222;
+            text-align: center;
+        }
+        .passage-section em {
+            display: block;
+            margin-bottom: 20px;
+            color: #555;
+            text-align: center;
+        }
+        .passage-section p {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+        .highlight {
+            background-color: #fff350;
+            padding: 2px 0;
+            border-radius: 2px;
+        }
+        .highlightable {
+            cursor: text;
+            user-select: text;
+        }
+        .highlightable ::selection {
+            background: #ffe566;
+        }
+        .questions-section {
+            background-color: #ffffff;
+            padding: 25px;
+            overflow-y: auto;
+        }
+        .questions-section h3 {
+            margin-bottom: 20px;
+            color: #222;
+        }
+        .q-group {
+            margin-bottom: 30px;
+        }
+        .q-instructions {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .q-row {
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        .q-num {
+            font-weight: bold;
+            margin-right: 12px;
+            min-width: 32px;
+        }
+        .text-input {
+            padding: 7px 12px;
+            border: 1px solid #999;
+            width: 220px;
+            text-transform: uppercase;
+            margin: 4px 10px;
+            border-radius: 3px;
+            font-size: 15px;
+        }
+        .option {
+            margin: 10px 0 10px 44px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .option input {
+            margin-right: 12px;
+            width: auto;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .nav-buttons {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn {
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .answer-box {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            white-space: pre-line;
+            display: none;
+            font-family: monospace;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tabs">
+        <a class="tab-link" href="reading1.html">Passage 1</a>
+        <a class="tab-link active" href="reading2.html">Passage 2</a>
+        <a class="tab-link" href="reading3.html">Passage 3</a>
+    </div>
+
+    <div class="header-bar">
+        <h2>IELTS Reading Test</h2>
+        <div class="timer">Time Left: <span id="countdown">60:00</span></div>
+    </div>
+
+    <div class="test-container">
+        <!-- LEFT: READING PASSAGE 2 -->
+        <div class="passage-section">
+            <h3>Reading Passage 2</h3>
+            <em>You should spend about 20 minutes on Questions 14–26, which are based on Reading Passage 2 below.</em>
+
+            <h4 style="text-align: center; margin-bottom: 20px;">I contain multitudes</h4>
+            <p style="text-align: center; font-style: italic; margin-bottom: 20px;">Wendy Moore reviews Ed Yong’s book about microbes</p>
+
+            <div class="highlightable">
+                <p>Microbes, most of them bacteria, have populated this planet since long before animal life developed and they will outlive us. Invisible to the naked eye, they are ubiquitous. They inhabit the soil, air, rocks and water and are present within every form of life, from seaweed and coral to dogs and humans. And, as Yong explains in his utterly absorbing and hugely important book, we mess with them at our peril.</p>
+                <p>Every species has its own colony of microbes, called a 'microbiome', and these microbes vary not only between species but also between individuals and within different parts of each individual. What is amazing is that while the number of human cells in the average person is about 30 trillion, the number of microbial ones is higher - about 39 trillion. At best, Yong informs us, we are only 50 per cent human. Indeed, some scientists even suggest we should think of each species and its microbes as a single unit, dubbed a 'holobiont'.</p>
+                <p>In each human there are microbes that live only in the stomach, the mouth or the armpit and by and large they do so peacefully. So 'bad' microbes are just microbes out of context. Microbes that sit contentedly in the human gut (where there are more microbes than there are stars in the galaxy) can become deadly if they find their way into the bloodstream. These communities are constantly changing too. The right hand shares just one sixth of its microbes with the left hand. And, of course, we are surrounded by microbes. Every time we eat, we swallow a million microbes in each gram of food; we are continually swapping microbes with other humans, pets and the world at large.</p>
+                <p>It's a fascinating topic and Yong, a young British science journalist, is an extraordinarily adept guide. Writing with lightness and panache, he has a knack of explaining complex science in terms that are both easy to understand and totally enthralling. Yong is on a mission. Leading us gently by the hand, he takes us into the world of microbes - a bizarre, alien planet - in a bid to persuade us to love them as much as he does. By the end, we do.</p>
+                <p>For most of human history we had no idea that microbes existed. The first man to see these extraordinarily potent creatures was a Dutch lens-maker called Antony van Leeuwenhoek in the 1670s. Using microscopes of his own design that could magnify up to 270 times, he examined a drop of water from a nearby lake and found it teeming with tiny creatures he called 'animalcules'. It wasn't until nearly two hundred years later that the research of French biologist Louis Pasteur indicated that some microbes caused disease. It was Pasteur's 'germ theory' that gave bacteria the poor image that endures today.</p>
+                <p>Yong's book is in many ways a plea for microbial tolerance, pointing out that while fewer than one hundred species of bacteria bring disease, many thousands more play a vital role in maintaining our health. The book also acknowledges that our attitude towards bacteria is not a simple one. We tend to see the dangers posed by bacteria, yet at the same time we are sold yoghurts and drinks that supposedly nurture 'friendly' bacteria. In reality, says Yong, bacteria should not be viewed as either friends or foes, villains or heroes. Instead we should realise we have a symbiotic relationship, that can be mutually beneficial or mutually destructive.</p>
+                <p>What then do these millions of organisms do? The answer is pretty much everything. New research is now unravelling the ways in which bacteria aid digestion, regulate our immune systems, eliminate toxins, produce vitamins, affect our behaviour and even combat obesity. 'They actually help us become who we are,' says Yong. But we are facing a growing problem. Our obsession with hygiene, our overuse of antibiotics and our unhealthy, low-fibre diets are disrupting the bacterial balance and may be responsible for soaring rates of allergies and immune problems, such as inflammatory bowel disease (IBD).</p>
+                <p>The most recent research actually turns accepted norms upside down. For example, there are studies indicating that the excessive use of household detergents and antibacterial products actually destroys the microbes that normally keep the more dangerous germs at bay. Other studies show that keeping a dog as a pet gives children early exposure to a diverse range of bacteria, which may help protect them against allergies later.</p>
+                <p>The readers of Yong's book must be prepared for a decidedly unglamorous world. Among the less appealing case studies is one about a fungus that is wiping out entire populations of frogs and that can be halted by a rare microbial bacterium. Another is about squid that carry luminescent bacteria that protect them against predators. However, if you can overcome your distaste for some of the investigations, the reasons for Yong's enthusiasm become clear. The microbial world is a place of wonder. Already, in an attempt to stop mosquitoes spreading dengue fever - a disease that infects 400 million people a year - mosquitoes are being loaded with a bacterium to block the disease. In the future, our ability to manipulate microbes means we could construct buildings with useful microbes built into their walls to fight off infections. Just imagine a neonatal hospital ward coated in a specially mixed cocktail of microbes so that babies get the best start in life.</p>
+            </div>
+        </div>
+
+        <!-- RIGHT: QUESTIONS -->
+        <div class="questions-section">
+            <h3>Questions 14–26</h3>
+
+            <div class="q-group">
+                <div class="q-instructions">
+                    <strong>Questions 14–19</strong><br>
+                    Do the following statements agree with the claims of the writer in Reading Passage 2?<br>
+                    Write<br>
+                    <strong>TRUE</strong> if the statement agrees with the claims<br>
+                    <strong>FALSE</strong> if the statement contradicts the claims<br>
+                    <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">14</span>
+                    <input type="text" class="text-input" id="r2q14" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Ed Yong’s style of writing is difficult to follow.</span>
+                </div>
+                <div class="q-row">
+                    <span class="q-num">15</span>
+                    <input type="text" class="text-input" id="r2q15" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Antony van Leeuwenhoek’s microscopes were more powerful than modern ones.</span>
+                </div>
+                <div class="q-row">
+                    <span class="q-num">16</span>
+                    <input type="text" class="text-input" id="r2q16" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Louis Pasteur’s work led to a negative view of bacteria.</span>
+                </div>
+                <div class="q-row">
+                    <span class="q-num">17</span>
+                    <input type="text" class="text-input" id="r2q17" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Yong believes bacteria should be regarded as either helpful or harmful.</span>
+                </div>
+                <div class="q-row">
+                    <span class="q-num">18</span>
+                    <input type="text" class="text-input" id="r2q18" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>There is evidence that high levels of hygiene may be linked to health issues.</span>
+                </div>
+                <div class="q-row">
+                    <span class="q-num">19</span>
+                    <input type="text" class="text-input" id="r2q19" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Research shows that having pets always prevents allergies in children.</span>
+                </div>
+            </div>
+
+            <div class="q-group">
+                <div class="q-instructions">
+                    <strong>Questions 20–26</strong><br>
+                    Choose the correct letter, A, B, C or D.
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">20</span>
+                    <span>What point does the writer make about microbes in the first paragraph?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q20" value="A" id="r2q20a">
+                    <label for="r2q20a">A They are found in very limited environments.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q20" value="B" id="r2q20b">
+                    <label for="r2q20b">B They existed after animals first appeared.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q20" value="C" id="r2q20c">
+                    <label for="r2q20c">C It is dangerous to interfere with them.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q20" value="D" id="r2q20d">
+                    <label for="r2q20d">D Most of them are harmful to humans.</label>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">21</span>
+                    <span>Why does the writer mention the number of human and microbial cells?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q21" value="A" id="r2q21a">
+                    <label for="r2q21a">A To show how little we understand our bodies.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q21" value="B" id="r2q21b">
+                    <label for="r2q21b">B To explain the concept of the holobiont.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q21" value="C" id="r2q21c">
+                    <label for="r2q21c">C To emphasise how significant microbes are.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q21" value="D" id="r2q21d">
+                    <label for="r2q21d">D To illustrate differences between individuals.</label>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">22</span>
+                    <span>What does the writer say about microbes in the third paragraph?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q22" value="A" id="r2q22a">
+                    <label for="r2q22a">A They can be harmful if they are in the wrong place.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q22" value="B" id="r2q22b">
+                    <label for="r2q22b">B Those in the gut are the most dangerous.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q22" value="C" id="r2q22c">
+                    <label for="r2q22c">C The same microbes are found all over the body.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q22" value="D" id="r2q22d">
+                    <label for="r2q22d">D We rarely exchange microbes with others.</label>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">23</span>
+                    <span>According to the text, what was the result of Pasteur’s research?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q23" value="A" id="r2q23a">
+                    <label for="r2q23a">A It confirmed Leeuwenhoek’s earlier findings.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q23" value="B" id="r2q23b">
+                    <label for="r2q23b">B It changed people’s perception of bacteria.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q23" value="C" id="r2q23c">
+                    <label for="r2q23c">C It proved most bacteria cause disease.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q23" value="D" id="r2q23d">
+                    <label for="r2q23d">D It led to the invention of antibiotics.</label>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">24</span>
+                    <span>What does Yong suggest about the relationship between humans and bacteria?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q24" value="A" id="r2q24a">
+                    <label for="r2q24a">A It is mostly harmful.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q24" value="B" id="r2q24b">
+                    <label for="r2q24b">B It is complex and changeable.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q24" value="C" id="r2q24c">
+                    <label for="r2q24c">C It depends entirely on diet.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q24" value="D" id="r2q24d">
+                    <label for="r2q24d">D It can be improved by taking supplements.</label>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">25</span>
+                    <span>What does recent research show about antibacterial products?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q25" value="A" id="r2q25a">
+                    <label for="r2q25a">A They are essential for good health.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q25" value="B" id="r2q25b">
+                    <label for="r2q25b">B They are not as effective as antibiotics.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q25" value="C" id="r2q25c">
+                    <label for="r2q25c">C They may remove helpful protection.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q25" value="D" id="r2q25d">
+                    <label for="r2q25d">D They have no long-term effect.</label>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">26</span>
+                    <span>What is the writer’s conclusion in the final paragraph?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q26" value="A" id="r2q26a">
+                    <label for="r2q26a">A We may be able to use microbes in beneficial ways.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q26" value="B" id="r2q26b">
+                    <label for="r2q26b">B Most microbes are too unpleasant to study.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q26" value="C" id="r2q26c">
+                    <label for="r2q26c">C We should avoid manipulating microbes.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q26" value="D" id="r2q26d">
+                    <label for="r2q26d">D Hospitals already use microbes to treat illness.</label>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="reading1.html" class="btn">← Previous Passage 1</a>
+                <a href="reading3.html" class="btn">Next → Passage 3</a>
+            </div>
+
+            <button class="btn" style="margin-top: 20px;" onclick="showAnswers()">Show My Answers</button>
+            <div id="answerOutput" class="answer-box"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- PERSISTENT 60-Minute Countdown Timer ---
+        let timeLeft = localStorage.getItem('readingTimeLeft');
+        if (timeLeft === null || isNaN(timeLeft) || timeLeft <= 0) {
+            timeLeft = 60 * 60;
+        }
+        const countdownEl = document.getElementById('countdown');
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                countdownEl.textContent = "00:00";
+                alert("Time's up!");
+                localStorage.removeItem('readingTimeLeft');
+                clearInterval(timerInterval);
+                return;
+            }
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            localStorage.setItem('readingTimeLeft', timeLeft);
+            timeLeft--;
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // --- Text Highlight Feature ---
+        const passageContainer = document.querySelector('.highlightable');
+        passageContainer.addEventListener('mouseup', function() {
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+            const range = selection.getRangeAt(0);
+            const selectedText = selection.toString().trim();
+            if (!selectedText) return;
+
+            const parent = range.commonAncestorContainer.parentElement;
+            if (parent && parent.classList.contains('highlight')) {
+                parent.outerHTML = parent.innerHTML;
+                selection.removeAllRanges();
+                return;
+            }
+
+            try {
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                range.surroundContents(span);
+            } catch (e) {
+                const text = range.toString();
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                span.textContent = text;
+                range.deleteContents();
+                range.insertNode(span);
+            }
+            selection.removeAllRanges();
+        });
+
+        // --- Show Answers Function ---
+        function showAnswers() {
+            let answers = "--- READING PASSAGE 2 ANSWERS ---\n\n";
+            for (let i = 14; i <= 26; i++) {
+                const textInput = document.getElementById('r2q' + i);
+                if (textInput) {
+                    answers += `Question ${i}: ${textInput.value.trim() || "(not answered)"}\n`;
+                } else {
+                    const selected = document.querySelector(`input[name="r2q${i}"]:checked`);
+                    answers += `Question ${i}: ${selected ? selected.value : "(not answered)"}\n`;
+                }
+            }
+            const outputBox = document.getElementById('answerOutput');
+            outputBox.textContent = answers;
+            outputBox.style.display = 'block';
+            outputBox.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
