@@ -71,11 +71,43 @@ Write ONE WORD AND/OR A NUMBER for each answer.
 <script>
 
 for(let i=1;i<=10;i++){
+
     document.getElementById("answers").innerHTML +=
     `<div class="question">
         Question ${i}
         <input type="text" id="q${i}">
     </div>`;
+
+    document.getElementById("navigator").innerHTML +=
+    `<button onclick="goToQuestion(${i})" id="nav${i}">
+        ${i}
+    </button>`;
+}
+
+function goToQuestion(num){
+    document.getElementById("q"+num).focus();
+}
+
+for(let i=1;i<=10;i++){
+
+    let saved = localStorage.getItem("q"+i);
+
+    if(saved){
+        document.getElementById("q"+i).value = saved;
+        document.getElementById("nav"+i).classList.add("answered");
+    }
+
+    document.getElementById("q"+i).addEventListener("input",function(){
+
+        localStorage.setItem("q"+i,this.value);
+
+        if(this.value.trim()!==""){
+            document.getElementById("nav"+i).classList.add("answered");
+        }else{
+            document.getElementById("nav"+i).classList.remove("answered");
+        }
+
+    });
 }
 
 let time = 1800;
