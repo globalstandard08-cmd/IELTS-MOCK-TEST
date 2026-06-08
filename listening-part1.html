@@ -62,18 +62,24 @@
         .btn:hover {
             background-color: #0056b3;
         }
-        .q-row {
-            margin: 12px 0;
-            display: flex;
+        .notes-box {
+            border: 1px solid #ccc;
+            padding: 20px 25px;
+            margin: 15px 0;
+            background-color: #f9f9f9;
+            line-height: 2;
+        }
+        .note-row {
+            display: inline-flex;
             align-items: center;
             flex-wrap: wrap;
         }
-        .q-row input {
+        .note-row input {
             padding: 4px 8px;
             border: 1px solid #999;
-            width: 180px;
+            width: 160px;
             text-transform: uppercase;
-            margin-left: 8px;
+            margin: 0 8px;
         }
         .answer-output {
             margin-top: 20px;
@@ -100,6 +106,7 @@
 </head>
 <body>
 
+    <!-- Tabs -->
     <div class="tabs">
         <a class="tab-link active" href="listening-part1.html">Part 1</a>
         <a class="tab-link" href="listening-part2.html">Part 2</a>
@@ -107,6 +114,7 @@
         <a class="tab-link" href="listening-part4.html">Part 4</a>
     </div>
 
+    <!-- Header -->
     <div class="header-bar">
         <h2>IELTS Listening Test - Part 1</h2>
         <span>00:00</span>
@@ -114,9 +122,10 @@
 
     <div class="container">
         <div>
+            <!-- Audio Player - fixed filename -->
             <div class="audio-player">
                 <audio controls>
-                    <source src="16test1sec1.mp3" type="audio/mpeg">
+                    <source src="part1.mp3.mp3" type="audio/mpeg">
                     Your browser does not support the audio element.
                 
             </div>
@@ -125,49 +134,55 @@
             <p><strong>Complete the notes below.</strong><br>
             Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
 
-            <div style="border:1px solid #ccc; padding:20px; background:#f9f9f9;">
-                <p><strong>Accommodation Request Form</strong></p>
+            <div class="notes-box">
+                <p><strong>Copying photos to digital format</strong><br>
+                Name of company: Picturerep</p>
 
-                <div class="q-row">
-                    <strong>1</strong> Name: <input type="text" id="q1" placeholder="ONE WORD/NUMBER">
-                </div>
-                <div class="q-row">
-                    <strong>2</strong> Age: <input type="text" id="q2" placeholder="ONE WORD/NUMBER">
-                </div>
-                <div class="q-row">
-                    <strong>3</strong> Length of course: <input type="text" id="q3" placeholder="ONE WORD/NUMBER"> months
-                </div>
-                <div class="q-row">
-                    <strong>4</strong> Occupation: <input type="text" id="q4" placeholder="ONE WORD/NUMBER">
-                </div>
-                <div class="q-row">
-                    <strong>5</strong> Address in country: <input type="text" id="q5" placeholder="ONE WORD/NUMBER">
-                </div>
-                <div class="q-row">
-                    <strong>6</strong> Telephone number: <input type="text" id="q6" placeholder="ONE WORD/NUMBER">
-                </div>
-                <div class="q-row">
-                    <strong>7</strong> Preferred location: <input type="text" id="q7" placeholder="ONE WORD/NUMBER">
-                </div>
-                <div class="q-row">
-                    <strong>8</strong> Type of accommodation: <input type="text" id="q8" placeholder="ONE WORD/NUMBER">
-                </div>
-                <div class="q-row">
-                    <strong>9</strong> Special diet: <input type="text" id="q9" placeholder="ONE WORD/NUMBER">
-                </div>
-                <div class="q-row">
-                    <strong>10</strong> Other requirements: <input type="text" id="q10" placeholder="ONE WORD/NUMBER">
-                </div>
+                <p><strong>Requirements</strong><br>
+                • Maximum size of photos is 30 cm, minimum size 4 cm.<br>
+                • Photos must not be in a
+                <span class="note-row"><strong>1</strong> <input type="text" id="q1" placeholder="ONE WORD"></span>
+                or an album.</p>
+
+                <p><strong>Cost</strong><br>
+                • The cost for 360 photos is
+                <span class="note-row"><strong>2 £</strong> <input type="text" id="q2" placeholder="NUMBER"></span>
+                (including one disk).<br>
+                • Before the completed order is sent,
+                <span class="note-row"><strong>3</strong> <input type="text" id="q3" placeholder="ONE WORD"></span>
+                is required.</p>
+
+                <p><strong>Services included in the price</strong><br>
+                • Photos can be placed in a folder, e.g. with the name
+                <span class="note-row"><strong>4</strong> <input type="text" id="q4" placeholder="ONE WORD"></span>.<br>
+                • The
+                <span class="note-row"><strong>5</strong> <input type="text" id="q5" placeholder="ONE WORD"></span>
+                and contrast can be improved if necessary.<br>
+                • Photos which are very fragile will be scanned by
+                <span class="note-row"><strong>6</strong> <input type="text" id="q6" placeholder="ONE WORD"></span>.</p>
+
+                <p><strong>Special restore service (costs extra)</strong><br>
+                • It may be possible to remove an object from a photo, or change the
+                <span class="note-row"><strong>7</strong> <input type="text" id="q7" placeholder="ONE WORD"></span>.<br>
+                • A photo which is not correctly in
+                <span class="note-row"><strong>8</strong> <input type="text" id="q8" placeholder="ONE WORD"></span>
+                cannot be fixed.</p>
+
+                <p><strong>Other information</strong><br>
+                • Orders are completed within
+                <span class="note-row"><strong>9</strong> <input type="text" id="q9" placeholder="ONE WORD/NUMBER"></span>.<br>
+                • Send the photos in a box (not
+                <span class="note-row"><strong>10</strong> <input type="text" id="q10" placeholder="ONE WORD"></span>).</p>
             </div>
 
-
+            <!-- Buttons -->
             <div class="nav-buttons">
                 <button class="btn" onclick="showAnswers()">Show My Answers</button>
                 <a href="listening-part2.html" class="btn">Next Page → Part 2</a>
             </div>
 
+            <!-- Answer display area -->
             <div id="answerBox" class="answer-output"></div>
-
         </div>
     </div>
 
