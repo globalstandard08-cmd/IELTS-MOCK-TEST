@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading - Passage 3</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.7;
+            color: #333;
+        }
+        .tabs {
+            background-color: #222;
+            padding: 12px 0;
+        }
+        .tab-link {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .tab-link.active {
+            background-color: #007bff;
+        }
+        .header-bar {
+            background-color: #eee;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #d9534f;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        /* Better scrollbar for easier navigation */
+        .scrollable {
+            overflow-y: auto;
+            scrollbar-width: auto;
+            scrollbar-color: #999 #f8f8f8;
+        }
+        .scrollable::-webkit-scrollbar {
+            width: 16px;
+        }
+        .scrollable::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 8px;
+        }
+        .scrollable::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 8px;
+            border: 4px solid #f1f1f1;
+        }
+        .scrollable::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+        .test-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            height: calc(100vh - 220px);
+        }
+        .passage-section {
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-right: 1px solid #ddd;
+        }
+        .passage-section h3 {
+            margin-bottom: 15px;
+            color: #222;
+            text-align: center;
+        }
+        .passage-section em {
+            display: block;
+            margin-bottom: 20px;
+            color: #555;
+            text-align: center;
+        }
+        .passage-section p {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+        .highlight {
+            background-color: #fff350;
+            padding: 2px 0;
+            border-radius: 2px;
+        }
+        .highlightable {
+            cursor: text;
+            user-select: text;
+        }
+        .highlightable ::selection {
+            background: #ffe566;
+        }
+        .questions-section {
+            background-color: #ffffff;
+            padding: 25px;
+        }
+        .questions-section h3 {
+            margin-bottom: 20px;
+            color: #222;
+        }
+        .q-group {
+            margin-bottom: 30px;
+        }
+        .q-instructions {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .q-row {
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        .q-num {
+            font-weight: bold;
+            margin-right: 12px;
+            min-width: 32px;
+        }
+        .text-input {
+            padding: 7px 12px;
+            border: 1px solid #999;
+            width: 220px;
+            text-transform: uppercase;
+            margin: 4px 10px;
+            border-radius: 3px;
+            font-size: 15px;
+        }
+        .option {
+            margin: 10px 0 10px 44px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .option input {
+            margin-right: 12px;
+            width: auto;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .nav-buttons {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn {
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .answer-box {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            white-space: pre-line;
+            display: none;
+            font-family: monospace;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tabs">
+        <a class="tab-link" href="reading1.html">← Passage 1</a>
+        <a class="tab-link" href="reading2.html">Passage 2</a>
+        <a class="tab-link active" href="reading3.html">Passage 3</a>
+    </div>
+
+    <div class="header-bar">
+        <h2>IELTS Reading Test</h2>
+        <div class="timer">Time Left: <span id="countdown">60:00</span></div>
+    </div>
+
+    <div class="test-container">
+        <!-- LEFT: READING PASSAGE 3 -->
+        <div class="passage-section scrollable">
+            <h3>Reading Passage 3</h3>
+            <em>You should spend about 20 minutes on Questions 27–40, which are based on Reading Passage 3 below.</em>
+
+            <h4 style="text-align: center; margin-bottom: 20px;">How to make wise decisions</h4>
+
+            <div class="highlightable">
+                <p>Across cultures, wisdom has been considered one of the most revered human qualities. Although the truly wise may seem few and far between, empirical research examining wisdom suggests that it isn't an exceptional trait possessed by a small handful of bearded philosophers after all - in fact, the latest studies suggest that most of us have the ability to make wise decisions, given the right context.</p>
+
+                <p>'It appears that experiential, situational, and cultural factors are even more powerful in shaping wisdom than previously imagined,' says Associate Professor Igor Grossmann of the University of Waterloo in Ontario, Canada. 'Recent empirical findings from cognitive, developmental, social, and personality psychology cumulatively suggest that people's ability to reason wisely varies dramatically across experiential and situational contexts. Understanding the role of such contextual factors offers unique insights into understanding wisdom in daily life, as well as how it can be enhanced and taught.'</p>
+
+                <p>It seems that it's not so much that some people simply possess wisdom and others lack it, but that our ability to reason wisely depends on a variety of external factors. 'It is impossible to characterize thought processes attributed to wisdom without considering the role of contextual factors,' explains Grossmann. 'In other words, wisdom is not solely an "inner quality" but rather unfolds as a function of situations people happen to be in. Some situations are more likely to promote wisdom than others.'</p>
+
+                <p>Coming up with a definition of wisdom is challenging, but Grossmann and his colleagues have identified four key characteristics as part of a framework of wise reasoning. One is intellectual humility or recognition of the limits of our own knowledge, and another is appreciation of perspectives wider than the issue at hand. Sensitivity to the possibility of change in social relations is also key, along with compromise or integration of different attitudes and beliefs.</p>
+
+                <p>Grossmann and his colleagues have also found that one of the most reliable ways to support wisdom in our own day-to-day decisions is to look at scenarios from a third-party perspective, as though giving advice to a friend. Research suggests that when adopting a first-person viewpoint we focus on 'the focal features of the environment' and when we adopt a third-person, 'observer' viewpoint we reason more broadly and focus more on interpersonal and moral ideals such as justice and impartiality. Looking at problems from this more expansive viewpoint appears to foster cognitive processes related to wise decisions.</p>
+
+                <p>What are we to do, then, when confronted with situations like a disagreement with a spouse or negotiating a contract at work, that require us to take a personal stake? Grossmann argues that even when we aren't able to change the situation, we can still evaluate these experiences from different perspectives.</p>
+
+                <p>For example, in one experiment that took place during the peak of a recent economic recession, graduating college seniors were asked to reflect on their job prospects. The students were instructed to imagine their career either 'as if you were a distant observer' or 'before your own eyes as if you were right there'. Participants in the group assigned to the 'distant observer' role displayed more wisdom-related reasoning (intellectual humility and recognition of change) than did participants in the control group.</p>
+
+                <p>In another study, couples in long-term romantic relationships were instructed to visualize an unresolved relationship conflict either through the eyes of an outsider or from their own perspective. Participants then discussed the incident with their partner for 10 minutes, after which they wrote down their thoughts about it. Couples in the 'other's eyes' condition were significantly more likely to rely on wise reasoning - recognizing others' perspectives and searching for a compromise - compared to the couples in the egocentric condition.</p>
+
+                <p>'Ego-decentering promotes greater focus on others and enables a bigger picture, conceptual view of the experience, affording recognition of intellectual humility and change,' says Grossmann.</p>
+
+                <p>We might associate wisdom with intelligence or particular personality traits, but research shows only a small positive relationship between wise thinking and crystallized intelligence and the personality traits of openness and agreeableness. 'It is remarkable how much people can vary in their wisdom from one situation to the next, and how much stronger such contextual effects are for understanding the relationship between wise judgment and its social and affective outcomes as compared to the generalized "traits",' Grossmann explains. 'That is, knowing how wisely a person behaves in a given situation is more informative for understanding their emotions or likelihood to forgive [or] retaliate as compared to knowing whether the person may be wise "in general".'</p>
+            </div>
+        </div>
+
+        <!-- RIGHT: QUESTIONS -->
+        <div class="questions-section scrollable">
+            <h3>Questions 27–40</h3>
+
+            <div class="q-group">
+                <div class="q-instructions">
+                    <strong>Questions 27–31</strong><br>
+                    Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
+                    Write<br>
+                    <strong>TRUE</strong> if the statement agrees with the claims<br>
+                    <strong>FALSE</strong> if the statement contradicts the claims<br>
+                    <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">27</span>
+                    <input type="text" class="text-input" id="r3q27" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Wisdom is a quality that very few people are able to acquire.</span>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">28</span>
+                    <input type="text" class="text-input" id="r3q28" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Grossmann believes that wisdom is influenced more by circumstances than previously thought.</span>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">29</span>
+                    <input type="text" class="text-input" id="r3q29" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>It is easier to teach wisdom to children than to adults.</span>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">30</span>
+                    <input type="text" class="text-input" id="r3q30" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Wisdom involves acknowledging that we do not know everything.</span>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">31</span>
+                    <input type="text" class="text-input" id="r3q31" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>People are naturally able to view difficult situations objectively.</span>
+                </div>
+            </div>
+
+            <div class="q-group">
+                <div class="q-instructions">
+                    <strong>Questions 32–36</strong><br>
+                    Choose the correct letter, A, B, C or D.
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">32</span>
+                    <span>What does Grossmann say about wise reasoning?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q32" value="A" id="r3q32a">
+                    <label for="r3q32a">A It depends mostly on a person’s natural ability.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q32" value="B" id="r3q32b">
+                    <label for="r3q32b">B It changes depending on the situation.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q32" value="C" id="r3q32c">
+                    <label for="r3q32c">C It is consistent across different cultures.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q32" value="D" id="r3q32d">
+                    <label for="r3q32d">D It develops slowly over many years.</label>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">33</span>
+                    <span>What is one of the key features of wise reasoning according to the text?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q33" value="A" id="r3q33a">
+                    <label for="r3q33a">A The ability to ignore other people’s views.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q33" value="B" id="r3q33b">
+                    <label for="r3q33b">B A fixed way of looking at social relationships.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q33" value="C" id="r3q33c">
+                    <label for="r3q33c">C Recognising the limits of one’s own knowledge.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q33" value="D" id="r3q33d">
+                    <label for="r3q33d">D Having strong personal opinions.</label>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">34</span>
+                    <span>Why does viewing a problem as an outsider help?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q34" value="A" id="r3q34a">
+                    <label for="r3q34a">A It allows people to think more broadly.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q34" value="B" id="r3q34b">
+                    <label for="r3q34b">B It reduces the time taken to make a decision.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q34" value="C" id="r3q34c">
+                    <label for="r3q34c">C It makes people feel less involved.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q34" value="D" id="r3q34d">
+                    <label for="r3q34d">D It focuses attention on small details.</label>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">35</span>
+                    <span>What was the outcome of the study involving college students?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q35" value="A" id="r3q35a">
+                    <label for="r3q35a">A They became more confident about finding work.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q35" value="B" id="r3q35b">
+                    <label for="r3q35b">B They showed signs of wise thinking.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q35" value="C" id="r3q35c">
+                    <label for="r3q35c">C They felt more anxious about the economy.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q35" value="D" id="r3q35d">
+                    <label for="r3q35d">D They changed their career plans completely.</label>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">36</span>
+                    <span>What did the research on couples find?</span>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q36" value="A" id="r3q36a">
+                    <label for="r3q36a">A They argued for longer periods.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q36" value="B" id="r3q36b">
+                    <label for="r3q36b">B They became more critical of each other.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q36" value="C" id="r3q36c">
+                    <label for="r3q36c">C They were more willing to consider different views.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q36" value="D" id="r3q36d">
+                    <label for="r3q36d">D They avoided talking about difficult topics.</label>
+                </div>
+            </div>
+
+            <div class="q-group">
+                <div class="q-instructions">
+                    <strong>Questions 37–40</strong><br>
+                    Complete the summary below.<br>
+                    Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
+                </div>
+
+                <p style="margin-bottom:15px;">Research shows that wisdom has only a limited connection with intelligence and certain personality <strong>37</strong> ............................ . A person’s level of wisdom is not fixed; instead, it can change greatly according to the <strong>38</strong> ............................ they are in. Understanding this is more useful than knowing someone’s general character when trying to predict their emotional reactions or whether they will choose to <strong>39</strong> ............................ or react with anger. Grossmann argues that looking at situations from a distance helps people gain a broader <strong>40</strong> ............................ of what is happening.</p>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="reading2.html" class="btn">← Previous Passage 2</a>
+                <span></span>
+            </div>
+
+            <button class="btn" style="margin-top: 20px;" onclick="showAnswers()">Show My Answers</button>
+            <div id="answerOutput" class="answer-box"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- PERSISTENT 60-Minute Countdown Timer ---
+        let timeLeft = localStorage.getItem('readingTimeLeft');
+        if (timeLeft === null || isNaN(timeLeft) || timeLeft <= 0) {
+            timeLeft = 60 * 60;
+        }
+        const countdownEl = document.getElementById('countdown');
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                countdownEl.textContent = "00:00";
+                alert("Time's up!");
+                localStorage.removeItem('readingTimeLeft');
+                clearInterval(timerInterval);
+                return;
+            }
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            localStorage.setItem('readingTimeLeft', timeLeft);
+            timeLeft--;
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // --- Text Highlight Feature ---
+        const passageContainer = document.querySelector('.highlightable');
+        passageContainer.addEventListener('mouseup', function() {
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+            const range = selection.getRangeAt(0);
+            const selectedText = selection.toString().trim();
+            if (!selectedText) return;
+
+            const parent = range.commonAncestorContainer.parentElement;
+            if (parent && parent.classList.contains('highlight')) {
+                parent.outerHTML = parent.innerHTML;
+                selection.removeAllRanges();
+                return;
+            }
+
+            try {
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                range.surroundContents(span);
+            } catch (e) {
+                const text = range.toString();
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                span.textContent = text;
+                range.deleteContents();
+                range.insertNode(span);
+            }
+            selection.removeAllRanges();
+        });
+
+        // --- Show Answers Function ---
+        function showAnswers() {
+            let answers = "--- READING PASSAGE 3 ANSWERS ---\n\n";
+            for (let i = 27; i <= 40; i++) {
+                const textInput = document.getElementById('r3q' + i);
+                if (textInput) {
+                    answers += `Question ${i}: ${textInput.value.trim() || "(not answered)"}\n`;
+                } else {
+                    const selected = document.querySelector(`input[name="r3q${i}"]:checked`);
+                    answers += `Question ${i}: ${selected ? selected.value : "(not answered)"}\n`;
+                }
+            }
+            const outputBox = document.getElementById('answerOutput');
+            outputBox.textContent = answers;
+            outputBox.style.display = 'block';
+            outputBox.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
