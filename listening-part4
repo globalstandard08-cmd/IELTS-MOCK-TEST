@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Listening Test - Part 4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .tabs {
+            background-color: #222;
+            padding: 10px 0;
+            margin: -20px -20px 20px -20px;
+        }
+        .tab-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+        .tab-link.active {
+            background-color: #444;
+        }
+        .header-bar {
+            background-color: #eee;
+            padding: 15px 20px;
+            margin: -20px -20px 20px -20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .audio-player {
+            margin: 20px 0;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 100%;
+            gap: 30px;
+        }
+        strong {
+            font-weight: bold;
+        }
+        .nav-buttons {
+            margin-top: 30px;
+            text-align: right;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .note-box {
+            border: 1px solid #ccc;
+            padding: 20px 25px;
+            margin: 15px 0;
+            background-color: #f9f9f9;
+            line-height: 2;
+        }
+        .note-q {
+            display: inline-flex;
+            align-items: center;
+        }
+        .note-q input {
+            padding: 4px 8px;
+            border: 1px solid #999;
+            width: 160px;
+            text-transform: uppercase;
+            margin: 0 8px;
+        }
+        /* Answer display box */
+        .answer-output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            white-space: pre-line;
+            display: none;
+        }
+    </style>
+    <script>
+        function showAnswers() {
+            let answers = "--- YOUR ANSWERS ---\n\n";
+
+            // Part 4 Answers
+            for (let i = 31; i <= 40; i++) {
+                let val = document.getElementById('q'+i).value.trim();
+                answers += "Question " + i + ": " + (val || "(not answered)") + "\n";
+            }
+
+            let box = document.getElementById('answerBox');
+            box.textContent = answers;
+            box.style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <a class="tab-link" href="listening-part1.html">Part 1</a>
+        <a class="tab-link" href="listening-part2.html">Part 2</a>
+        <a class="tab-link" href="listening-part3.html">Part 3</a>
+        <a class="tab-link active" href="listening-part4.html">Part 4</a>
+    </div>
+
+    <!-- Header -->
+    <div class="header-bar">
+        <h2>IELTS Listening Test - Part 4</h2>
+        <span>10:00</span>
+    </div>
+
+    <div class="container">
+        <div>
+            <div class="audio-player">
+                <audio controls>
+                    <source src="16test1sec4.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                
+            </div>
+
+            <h3>Questions 31–40</h3>
+            <p><strong>Complete the notes below.</strong><br>
+            Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+
+            <div class="note-box">
+                <p><strong>Health benefits of dance</strong></p>
+
+                <p>Recent findings:<br>
+                • All forms of dance produce various hormones associated with feelings of happiness.<br>
+                • Dancing with others has a more positive impact than dancing alone.<br>
+                • An experiment on university students suggested that dance increases
+                <span class="note-q"><strong>31</strong> <input type="text" id="q31" placeholder="ONE WORD"></span>.<br>
+                • For those with mental illness, dance could be used as a form of
+                <span class="note-q"><strong>32</strong> <input type="text" id="q32" placeholder="ONE WORD"></span>.
+                </p>
+
+                <p><strong>Benefits of dance for older people:</strong><br>
+                • accessible for people with low levels of
+                <span class="note-q"><strong>33</strong> <input type="text" id="q33" placeholder="ONE WORD"></span>.<br>
+                • reduces the risk of heart disease<br>
+                • better
+                <span class="note-q"><strong>34</strong> <input type="text" id="q34" placeholder="ONE WORD"></span> reduces the risk of accidents<br>
+                • improves
+                <span class="note-q"><strong>35</strong> <input type="text" id="q35" placeholder="ONE WORD"></span> function by making it work faster<br>
+                • improves participants' general well-being<br>
+                • gives people more
+                <span class="note-q"><strong>36</strong> <input type="text" id="q36" placeholder="ONE WORD"></span> to take exercise<br>
+                • can lessen the feeling of
+                <span class="note-q"><strong>37</strong> <input type="text" id="q37" placeholder="ONE WORD"></span>, very common in older people
+                </p>
+
+                <p><strong>Benefits of Zumba:</strong><br>
+                • A study at The University of Wisconsin showed that doing Zumba for 40 minutes uses up as many
+                <span class="note-q"><strong>38</strong> <input type="text" id="q38" placeholder="ONE WORD"></span> as other quite intense forms of exercise.<br>
+                • The American Journal of Health Behavior study showed that:<br>
+                &nbsp;&nbsp;- women suffering from
+                <span class="note-q"><strong>39</strong> <input type="text" id="q39" placeholder="ONE WORD"></span> benefited from doing Zumba.<br>
+                &nbsp;&nbsp;- Zumba became a
+                <span class="note-q"><strong>40</strong> <input type="text" id="q40" placeholder="ONE WORD"></span> for the participants.
+                </p>
+            </div>
+
+
+            <!-- BUTTONS -->
+            <div class="nav-buttons">
+                <button class="btn" onclick="showAnswers()">Show My Answers</button>
+                <a href="listening-part1.html" class="btn">Back to Start → Part 1</a>
+            </div>
+
+            <!-- ANSWER DISPLAY BOX -->
+            <div id="answerBox" class="answer-output"></div>
+
+        </div>
+    </div>
+
+</body>
+</html>
