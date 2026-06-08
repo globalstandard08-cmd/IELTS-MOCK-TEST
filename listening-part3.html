@@ -68,23 +68,30 @@
         .option-line input {
             margin-right: 8px;
         }
-        .flow-box {
+        /* ✅ IMPROVED FLOW CHART STYLES */
+        .flow-chart {
             border: 1px solid #ccc;
-            padding: 15px 20px;
-            margin: 10px 0;
+            padding: 20px 25px;
+            margin: 15px 0;
             background-color: #f9f9f9;
+            line-height: 1.8;
         }
-        .flow-q {
-            margin: 8px 0;
+        .flow-row {
+            margin: 10px 0;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
         }
-        .flow-q input {
-            margin-left: 10px;
+        .flow-q-num {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .flow-input {
             padding: 4px 8px;
             border: 1px solid #999;
-            width: 180px;
+            width: 160px;
             text-transform: uppercase;
+            margin: 0 8px;
         }
     </style>
 </head>
@@ -95,6 +102,7 @@
         <a class="tab-link" href="listening-part1.html">Part 1</a>
         <a class="tab-link" href="listening-part2.html">Part 2</a>
         <a class="tab-link active" href="listening-part3.html">Part 3</a>
+        <a class="tab-link" href="listening-part4.html">Part 4</a>
     </div>
 
     <!-- Header -->
@@ -184,46 +192,58 @@
             Complete the flow chart below.<br>
             Write <strong>ONE WORD ONLY</strong> for each answer.</p>
 
-            <div class="flow-box">
+            <div class="flow-chart">
                 <p><strong>Assignment plan</strong></p>
 
-                <p>Decide on research question:<br>
-                Is there a relationship between hours of sleep and number of dreams?</p>
-
-                <div class="flow-q">
-                    <span>Decide on sample:<br>Twelve students from the</span>
-                    <strong>25</strong> <input type="text" placeholder="Write ONE WORD">
-                    <span>department</span>
+                <div class="flow-row">
+                    Decide on research question:<br>
+                    Is there a relationship between hours of sleep and number of dreams?
                 </div>
 
-                <p>Decide on methodology:<br>Self-reporting</p>
-
-                <div class="flow-q">
-                    <span>Decide on procedure:<br>Answers on</span>
-                    <strong>26</strong> <input type="text" placeholder="Write ONE WORD">
+                <div class="flow-row">
+                    Decide on sample:<br>
+                    Twelve students from the
+                    <span class="flow-q-num">25</span>
+                    <input type="text" class="flow-input" placeholder="ONE WORD">
+                    department
                 </div>
 
-                <div class="flow-q">
-                    <span>Check ethical guidelines for working with</span>
-                    <strong>27</strong> <input type="text" placeholder="Write ONE WORD">
+                <div class="flow-row">
+                    Decide on methodology:<br>
+                    Self-reporting
                 </div>
 
-                <div class="flow-q">
-                    <span>Ensure that risk is assessed and</span>
-                    <strong>28</strong> <input type="text" placeholder="Write ONE WORD">
-                    <span>is kept to a minimum</span>
+                <div class="flow-row">
+                    Decide on procedure:<br>
+                    Answers on
+                    <span class="flow-q-num">26</span>
+                    <input type="text" class="flow-input" placeholder="ONE WORD">
                 </div>
 
-                <p>Analyse the results</p>
-
-                <div class="flow-q">
-                    <span>Calculate the correlation and make a</span>
-                    <strong>29</strong> <input type="text" placeholder="Write ONE WORD">
+                <div class="flow-row">
+                    Check ethical guidelines for working with
+                    <span class="flow-q-num">27</span>
+                    <input type="text" class="flow-input" placeholder="ONE WORD">
                 </div>
 
-                <div class="flow-q">
-                    <strong>30</strong> <input type="text" placeholder="Write ONE WORD">
-                    <span>the research</span>
+                <div class="flow-row">
+                    Ensure that risk is assessed and
+                    <span class="flow-q-num">28</span>
+                    <input type="text" class="flow-input" placeholder="ONE WORD">
+                    is kept to a minimum
+                </div>
+
+                <div class="flow-row">
+                    Analyse the results:<br>
+                    Calculate the correlation and make a
+                    <span class="flow-q-num">29</span>
+                    <input type="text" class="flow-input" placeholder="ONE WORD">
+                </div>
+
+                <div class="flow-row">
+                    <span class="flow-q-num">30</span>
+                    <input type="text" class="flow-input" placeholder="ONE WORD">
+                    the research
                 </div>
             </div>
 
