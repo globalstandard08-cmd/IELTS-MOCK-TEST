@@ -1,209 +1,161 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background: #eee;
-}
-
-.container {
-    display: flex;
-}
-
-/* LEFT SIDE */
-.left {
-    flex: 2;
-    padding: 15px;
-}
-
-/* RIGHT SIDE */
-.right {
-    flex: 1;
-    padding: 15px;
-    border-left: 1px solid #ccc;
-}
-
-/* NAVIGATOR */
-#navigator {
-    margin-bottom: 20px;
-}
-
-#navigator button {
-    width: 45px;
-    height: 45px;
-    margin: 3px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    background: white;
-}
-
-#navigator button.answered {
-    background: #4caf50;
-    color: white;
-    border: 1px solid #4caf50;
-}
-
-/* ANSWERS */
-.question {
-    margin-bottom: 10px;
-}
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Listening Test - Part 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .tabs {
+            background-color: #222;
+            padding: 10px 0;
+            margin: -20px -20px 20px -20px;
+        }
+        .tab-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+        .tab-link.active {
+            background-color: #444;
+        }
+        .header-bar {
+            background-color: #eee;
+            padding: 15px 20px;
+            margin: -20px -20px 20px -20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .audio-player {
+            margin: 20px 0;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 65% 35%;
+            gap: 30px;
+        }
+        .question-nav {
+            display: grid;
+            grid-template-columns: repeat(5, 40px);
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+        .q-box {
+            border: 1px solid #ccc;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .answer-sheet .q-row {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        .answer-sheet input {
+            margin-left: 10px;
+            padding: 4px;
+            border: 1px solid #999;
+        }
+        strong {
+            font-weight: bold;
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- TOP NAV -->
-<div style="padding:10px; background:#222; color:white;">
-    <a href="listening-part1.html" style="color:white; margin-right:15px;">Part 1</a>
-    <a href="listening-part2.html" style="color:white; margin-right:15px;">Part 2</a>
-    <a href="listening-part3.html" style="color:white;">Part 3</a>
-</div>
-
-<!-- HEADER -->
-<div class="header">
-    <h2>IELTS Listening Test - Part 1</h2>
-    <div id="timer">30:00</div>
-</div>
-
-<!-- MAIN -->
-<div class="container">
-
-    <div class="left">
-        <h3>Audio</h3>
-        <audio controls>
-            <source src="./part1.mp3.mp3" type="audio/mpeg">
-        </audio>
-
-        <h3>Questions 1–10</h3>
-        <p>Complete the notes below. Write ONE WORD AND/OR A NUMBER.</p>
-
-        <p>(Paste your Cambridge Part 1 questions here.)</p>
+    <!-- Tabs -->
+    <div class="tabs">
+        <a class="tab-link active" href="listening-part1.html">Part 1</a>
+        <a class="tab-link" href="listening-part2.html">Part 2</a>
+        <a class="tab-link" href="listening-part3.html">Part 3</a>
     </div>
 
-    <div class="right">
-
-        <h3>Question Navigator</h3>
-        <div id="navigator"></div>
-
-        <hr>
-
-        <h3>Answer Sheet</h3>
-        <div id="answers"></div>
-
+    <!-- Header -->
+    <div class="header-bar">
+        <h2>IELTS Listening Test - Part 1</h2>
+        <span>29:43</span>
     </div>
 
-</div>
+    <div class="container">
+        <!-- Left Side: Audio + Questions -->
+        <div>
+            <div class="audio-player">
+                <audio controls>
+                    <source src="part1.mp3.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                
+            </div>
 
-<!-- SCRIPT -->
-<script>
+            <h3>Questions 1–10</h3>
+            <p><strong>Complete the notes below.</strong><br>
+            Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
 
-let currentQuestion = 1;
+            <h4>Copying photos to digital format</h4>
+            <p><strong>Name of company:</strong> Picturerep</p>
 
-// =======================
-// NAVIGATION
-// =======================
-function goToQuestion(num){
+            <p><strong>Requirements</strong><br>
+            • Maximum size of photos is 30 cm, minimum size 4 cm.<br>
+            • Photos must not be in a 1 ........................................... or an album.</p>
 
-    currentQuestion = num;
+            <p><strong>Cost</strong><br>
+            • The cost for 360 photos is 2 £ ........................................... (including one disk).<br>
+            • Before the completed order is sent, 3 ........................................... is required.</p>
 
-    document.getElementById("q"+num).focus();
+            <p><strong>Services included in the price</strong><br>
+            • Photos can be placed in a folder, e.g. with the name 4 ........................................... .<br>
+            • The 5 ........................................... and contrast can be improved if necessary.<br>
+            • Photos which are very fragile will be scanned by 6 ........................................... .</p>
 
-    document.getElementById("q"+num).scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-    });
+            <p><strong>Special restore service (costs extra)</strong><br>
+            • It may be possible to remove an object from a photo, or change the 7 ........................................... .<br>
+            • A photo which is not correctly in 8 ........................................... cannot be fixed.</p>
 
-    for(let i=1;i<=10;i++){
-        document.getElementById("nav"+i).style.outline = "none";
-    }
+            <p><strong>Other information</strong><br>
+            • Orders are completed within 9 ........................................... .<br>
+            • Send the photos in a box (not 10 ...........................................) .</p>
 
-    document.getElementById("nav"+num).style.outline = "2px solid #000";
-}
+        </div>
 
+        <!-- Right Side: Navigator + Answer Sheet -->
+        <div>
+            <h3>Question Navigator</h3>
+            <div class="question-nav">
+                <div class="q-box">1</div>
+                <div class="q-box">2</div>
+                <div class="q-box">3</div>
+                <div class="q-box">4</div>
+                <div class="q-box">5</div>
+                <div class="q-box">6</div>
+                <div class="q-box">7</div>
+                <div class="q-box">8</div>
+                <div class="q-box">9</div>
+                <div class="q-box">10</div>
+            </div>
 
-// =======================
-// BUILD QUESTIONS + NAV BUTTONS
-// =======================
-for(let i=1;i<=10;i++){
-
-    // questions
-    document.getElementById("answers").innerHTML +=
-    `<div class="question">
-        Question ${i}
-        <input type="text" id="q${i}">
-    </div>`;
-
-    // nav buttons
-    const btn = document.createElement("button");
-    btn.innerText = i;
-    btn.id = "nav" + i;
-
-    btn.onclick = function () {
-        goToQuestion(i);
-    };
-
-    document.getElementById("navigator").appendChild(btn);
-}
-
-
-// =======================
-// SAVE + LOAD ANSWERS
-// =======================
-for(let i=1;i<=10;i++){
-
-    let saved = localStorage.getItem("q"+i);
-
-    if(saved){
-        document.getElementById("q"+i).value = saved;
-        document.getElementById("nav"+i).classList.add("answered");
-    }
-
-    document.getElementById("q"+i).addEventListener("input",function(){
-
-        currentQuestion = i;
-
-        localStorage.setItem("q"+i,this.value);
-
-        if(this.value.trim()!==""){
-            document.getElementById("nav"+i).classList.add("answered");
-        } else {
-            document.getElementById("nav"+i).classList.remove("answered");
-        }
-
-    });
-}
-
-
-// =======================
-// TIMER
-// =======================
-let time = 1800;
-
-setInterval(function(){
-
-    let minutes = Math.floor(time/60);
-    let seconds = time%60;
-
-    document.getElementById("timer").innerHTML =
-        String(minutes).padStart(2,'0') + ":" + String(seconds).padStart(2,'0');
-
-    if(time > 0){
-        time--;
-    }
-
-},1000);
-
-</script>
+            <h3>Answer Sheet</h3>
+            <div class="answer-sheet">
+                <div class="q-row">Question 1 <input type="text"></div>
+                <div class="q-row">Question 2 <input type="text"></div>
+                <div class="q-row">Question 3 <input type="text"></div>
+                <div class="q-row">Question 4 <input type="text"></div>
+                <div class="q-row">Question 5 <input type="text"></div>
+                <div class="q-row">Question 6 <input type="text"></div>
+                <div class="q-row">Question 7 <input type="text"></div>
+                <div class="q-row">Question 8 <input type="text"></div>
+                <div class="q-row">Question 9 <input type="text"></div>
+                <div class="q-row">Question 10 <input type="text"></div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
