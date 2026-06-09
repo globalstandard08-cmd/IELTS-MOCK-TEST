@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Listening Test - Part 1</title>
+    <title>IELTS Listening Test</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,9 +32,20 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .audio-player {
             margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .audio-note {
+            color: #c0392b;
+            font-weight: bold;
+            margin: 10px 0;
         }
         .container {
             display: grid;
@@ -92,6 +103,11 @@
         }
     </style>
    <script>
+    // Auto-save answers to browser storage
+    function saveAnswer(key, value) {
+        localStorage.setItem(key, value.trim());
+    }
+
     function showAnswers() {
         let answers = "--- YOUR ANSWERS ---\n\n";
         for (let i = 1; i <= 10; i++) {
@@ -103,9 +119,39 @@
         box.style.display = 'block';
     }
 
-    // Timer code
+    // --- PLAY AUDIO AUTOMATICALLY ONE AFTER ANOTHER ---
+    const audioFiles = [
+        "part1.mp3.mp3",
+        "part2.mp3",
+        "part3.mp3",
+        "part4.mp3"
+    ];
+    let currentAudioIndex = 0;
+
     window.addEventListener('load', function() {
-        let timeLeft = 30 * 60; // 30 minutes total
+        const audioPlayer = document.getElementById('listeningAudio');
+        
+        // Load the first part
+        audioPlayer.src = audioFiles[currentAudioIndex];
+        
+        // When one finishes, play the next
+        audioPlayer.addEventListener('ended', function() {
+            currentAudioIndex++;
+            if (currentAudioIndex < audioFiles.length) {
+                audioPlayer.src = audioFiles[currentAudioIndex];
+                audioPlayer.play();
+            }
+        });
+    });
+
+    // --- ONE CONTINUOUS TIMER (30 MIN TOTAL, NEVER RESETS) ---
+    window.addEventListener('load', function() {
+        if (!localStorage.getItem('listeningTestStarted')) {
+            localStorage.setItem('listeningTestStarted', 'true');
+            localStorage.setItem('listeningTimeLeft', 30 * 60);
+        }
+
+        let timeLeft = parseInt(localStorage.getItem('listeningTimeLeft')) || 30 * 60;
         const countdownEl = document.getElementById('countdown');
 
         function updateTimer() {
@@ -116,29 +162,32 @@
             
             if (timeLeft > 0) {
                 timeLeft--;
+                localStorage.setItem('listeningTimeLeft', timeLeft);
             } else {
                 clearInterval(timerInterval);
-                alert("Time is up!");
+                alert("Time is up! You may still review your answers.");
             }
         }
 
         const timerInterval = setInterval(updateTimer, 1000);
     });
-</script>
+   </script>
 </head>
 <body>
 
-    <!-- Tabs -->
+    <!-- Tabs / Navigation -->
     <div class="tabs">
-        <a class="tab-link active" href="listening-part1.html">Part 1</a>
-        <a class="tab-link" href="listening-part2.html">Part 2</a>
-        <a class="tab-link" href="listening-part3.html">Part 3</a>
-        <a class="tab-link" href="listening-part4.html">Part 4</a>
+        <a class="tab-link active" href="listening-part1.html">Listening Part 1</a>
+        <a class="tab-link" href="listening-part2.html">Listening Part 2</a>
+        <a class="tab-link" href="listening-part3.html">Listening Part 3</a>
+        <a class="tab-link" href="listening-part4.html">Listening Part 4</a>
+        <a class="tab-link" href="../reading/reading1.html">Reading</a>
+        <a class="tab-link" href="../writing.html">Writing</a>
     </div>
 
   <div class="header-bar">
     <img src="ielts-logo.png.png" alt="IELTS Logo" style="height: 150px; margin-right: 15px; object-fit: contain;">
-    <h2>IELTS Listening Test - Part 1</h2>
+    <h2>IELTS Listening Test</h2>
     <div class="timer" style="background-color: #ffffff; padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; font-size: 18px; font-weight: bold; color: #333;">
         Time Remaining: <span id="countdown">30:00</span>
     </div>
@@ -146,12 +195,14 @@
 
     <div class="container">
         <div>
-            <!-- Audio Player - fixed filename -->
+            <!-- AUDIO PLAYER - PLAYS ALL PARTS AUTOMATICALLY -->
             <div class="audio-player">
-                <audio controls>
-                    <source src="part1.mp3.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
+                <h4>Listening Test</h4>
+                <p class="audio-note">⚠️ Audio plays automatically one after another. It will NOT switch pages for you — move to the next part's questions when you are ready.</p>
+                <audio id="listeningAudio" controls preload="metadata">
+                    Your browser does not support audio playback.
                 
+                <p style="font-size: 14px; color: #555;">Click play when you are ready to start.</p>
             </div>
 
             <h3>Questions 1–10</h3>
@@ -165,44 +216,44 @@
                 <p><strong>Requirements</strong><br>
                 • Maximum size of photos is 30 cm, minimum size 4 cm.<br>
                 • Photos must not be in a
-                <span class="note-row"><strong>1</strong> <input type="text" id="q1" placeholder="ONE WORD"></span>
+                <span class="note-row"><strong>1</strong> <input type="text" id="q1" placeholder="ONE WORD" oninput="saveAnswer('listening_q1', this.value)"></span>
                 or an album.</p>
 
                 <p><strong>Cost</strong><br>
                 • The cost for 360 photos is
-                <span class="note-row"><strong>2 £</strong> <input type="text" id="q2" placeholder="NUMBER"></span>
+                <span class="note-row"><strong>2 £</strong> <input type="text" id="q2" placeholder="NUMBER" oninput="saveAnswer('listening_q2', this.value)"></span>
                 (including one disk).<br>
                 • Before the completed order is sent,
-                <span class="note-row"><strong>3</strong> <input type="text" id="q3" placeholder="ONE WORD"></span>
+                <span class="note-row"><strong>3</strong> <input type="text" id="q3" placeholder="ONE WORD" oninput="saveAnswer('listening_q3', this.value)"></span>
                 is required.</p>
 
                 <p><strong>Services included in the price</strong><br>
                 • Photos can be placed in a folder, e.g. with the name
-                <span class="note-row"><strong>4</strong> <input type="text" id="q4" placeholder="ONE WORD"></span>.<br>
+                <span class="note-row"><strong>4</strong> <input type="text" id="q4" placeholder="ONE WORD" oninput="saveAnswer('listening_q4', this.value)"></span>.<br>
                 • The
-                <span class="note-row"><strong>5</strong> <input type="text" id="q5" placeholder="ONE WORD"></span>
+                <span class="note-row"><strong>5</strong> <input type="text" id="q5" placeholder="ONE WORD" oninput="saveAnswer('listening_q5', this.value)"></span>
                 and contrast can be improved if necessary.<br>
                 • Photos which are very fragile will be scanned by
-                <span class="note-row"><strong>6</strong> <input type="text" id="q6" placeholder="ONE WORD"></span>.</p>
+                <span class="note-row"><strong>6</strong> <input type="text" id="q6" placeholder="ONE WORD" oninput="saveAnswer('listening_q6', this.value)"></span>.</p>
 
                 <p><strong>Special restore service (costs extra)</strong><br>
                 • It may be possible to remove an object from a photo, or change the
-                <span class="note-row"><strong>7</strong> <input type="text" id="q7" placeholder="ONE WORD"></span>.<br>
+                <span class="note-row"><strong>7</strong> <input type="text" id="q7" placeholder="ONE WORD" oninput="saveAnswer('listening_q7', this.value)"></span>.<br>
                 • A photo which is not correctly in
-                <span class="note-row"><strong>8</strong> <input type="text" id="q8" placeholder="ONE WORD"></span>
+                <span class="note-row"><strong>8</strong> <input type="text" id="q8" placeholder="ONE WORD" oninput="saveAnswer('listening_q8', this.value)"></span>
                 cannot be fixed.</p>
 
                 <p><strong>Other information</strong><br>
                 • Orders are completed within
-                <span class="note-row"><strong>9</strong> <input type="text" id="q9" placeholder="ONE WORD/NUMBER"></span>.<br>
+                <span class="note-row"><strong>9</strong> <input type="text" id="q9" placeholder="ONE WORD/NUMBER" oninput="saveAnswer('listening_q9', this.value)"></span>.<br>
                 • Send the photos in a box (not
-                <span class="note-row"><strong>10</strong> <input type="text" id="q10" placeholder="ONE WORD"></span>).</p>
+                <span class="note-row"><strong>10</strong> <input type="text" id="q10" placeholder="ONE WORD" oninput="saveAnswer('listening_q10', this.value)"></span>).</p>
             </div>
 
             <!-- Buttons -->
             <div class="nav-buttons">
                 <button class="btn" onclick="showAnswers()">Show My Answers</button>
-                <a href="listening-part2.html" class="btn">Next Page → Part 2</a>
+                <a href="listening-part2.html" class="btn">Next → Part 2</a>
             </div>
 
             <!-- Answer display area -->
