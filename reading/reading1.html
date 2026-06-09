@@ -1,79 +1,127 @@
-<script>
-    // --- PERSISTENT 60-Minute Countdown Timer ---
-    // Reset timer when first opening Reading section
-    localStorage.removeItem('readingTimeLeft');
-    let timeLeft = 60 * 60;
-    const countdownEl = document.getElementById('countdown');
+<!-- Reading Passage 1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Passage 1</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
+        #countdown { font-size: 1.4rem; font-weight: bold; color: #d32f2f; margin-bottom: 1rem; }
+        .highlightable { background: #fff; padding: 1rem; border: 1px solid #eee; border-radius: 4px; }
+        .highlight { background-color: #fff350; padding: 2px 0; }
+        .question { margin: 1.2rem 0; }
+        input[type="text"] { padding: 6px; width: 220px; margin-left: 8px; }
+        button { padding: 8px 16px; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 1rem; }
+        button:hover { background: #1565c0; }
+        #answerOutput { margin-top: 1.5rem; padding: 1rem; background: #f5f5f5; border-radius: 4px; white-space: pre-wrap; display: none; }
+    </style>
+</head>
+<body>
 
-    function updateTimer() {
-        if (timeLeft <= 0) {
-            countdownEl.textContent = "00:00";
-            alert("Time's up!");
-            localStorage.removeItem('readingTimeLeft');
-            clearInterval(timerInterval);
-            return;
-        }
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        
-        localStorage.setItem('readingTimeLeft', timeLeft);
-        timeLeft--;
-    }
+    <div id="countdown">60:00</div>
 
-    const timerInterval = setInterval(updateTimer, 1000);
-    updateTimer();
+    <h2>Reading Passage 1</h2>
+    <p>You should spend about 20 minutes on Questions 1–13, which are based on Reading Passage 1 below.</p>
 
-    // --- Text Highlight Feature ---
-    const passageContainer = document.querySelector('.highlightable');
+    <div class="highlightable">
+        <!-- Paste your full Reading Passage 1 text here -->
+        <p>Put your passage content here...</p>
+    </div>
 
-    passageContainer.addEventListener('mouseup', function() {
-        const selection = window.getSelection();
-        if (!selection.rangeCount) return;
+    <h3>Questions 1–13</h3>
+    <!-- Example question structure — adjust types (text/radio) as needed -->
+    <div class="question">
+        <label>Question 1:</label>
+        <input type="text" id="r1q1" name="r1q1">
+    </div>
+    <div class="question">
+        <label>Question 2:</label>
+        <input type="text" id="r1q2" name="r1q2">
+    </div>
+    <!-- Repeat up to Question 13: use IDs r1q3 ... r1q13 -->
 
-        const range = selection.getRangeAt(0);
-        const selectedText = selection.toString().trim();
+    <button onclick="showAnswers()">Show My Answers</button>
+    <div id="answerOutput"></div>
 
-        if (!selectedText) return;
+    <script>
+        // --- PERSISTENT 60-Minute Countdown Timer ---
+        localStorage.removeItem('readingTimeLeft');
+        let timeLeft = 60 * 60;
+        const countdownEl = document.getElementById('countdown');
 
-        const parent = range.commonAncestorContainer.parentElement;
-        if (parent && parent.classList.contains('highlight')) {
-            parent.outerHTML = parent.innerHTML;
-            selection.removeAllRanges();
-            return;
-        }
-
-        try {
-            const span = document.createElement('span');
-            span.className = 'highlight';
-            range.surroundContents(span);
-        } catch (e) {
-            const text = range.toString();
-            const span = document.createElement('span');
-            span.className = 'highlight';
-            span.textContent = text;
-            range.deleteContents();
-            range.insertNode(span);
-        }
-
-        selection.removeAllRanges();
-    });
-
-    // --- Show Answers Function ---
-    function showAnswers() {
-        let answers = "--- READING PASSAGE 1 ANSWERS ---\n\n";
-        for (let i = 1; i <= 13; i++) {
-            const textInput = document.getElementById('r1q' + i);
-            if (textInput) {
-                answers += `Question ${i}: ${textInput.value.trim() || "(not answered)"}\n`;
-            } else {
-                const selected = document.querySelector(`input[name="r1q${i}"]:checked`);
-                answers += `Question ${i}: ${selected ? selected.value : "(not answered)"}\n`;
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                countdownEl.textContent = "00:00";
+                alert("Time's up!");
+                localStorage.removeItem('readingTimeLeft');
+                clearInterval(timerInterval);
+                return;
             }
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            localStorage.setItem('readingTimeLeft', timeLeft);
+            timeLeft--;
         }
-        const outputBox = document.getElementById('answerOutput');
-        outputBox.textContent = answers;
-        outputBox.style.display = 'block';
-        outputBox.scrollIntoView({ behavior: 'smooth' });
-    }
-</script>
+
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // --- Text Highlight Feature ---
+        const passageContainer = document.querySelector('.highlightable');
+
+        passageContainer.addEventListener('mouseup', function() {
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+
+            const range = selection.getRangeAt(0);
+            const selectedText = selection.toString().trim();
+
+            if (!selectedText) return;
+
+            const parent = range.commonAncestorContainer.parentElement;
+            if (parent && parent.classList.contains('highlight')) {
+                parent.outerHTML = parent.innerHTML;
+                selection.removeAllRanges();
+                return;
+            }
+
+            try {
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                range.surroundContents(span);
+            } catch (e) {
+                const text = range.toString();
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                span.textContent = text;
+                range.deleteContents();
+                range.insertNode(span);
+            }
+
+            selection.removeAllRanges();
+        });
+
+        // --- Show Answers Function ---
+        function showAnswers() {
+            let answers = "--- READING PASSAGE 1 ANSWERS ---\n\n";
+            for (let i = 1; i <= 13; i++) {
+                const textInput = document.getElementById('r1q' + i);
+                if (textInput) {
+                    answers += `Question ${i}: ${textInput.value.trim() || "(not answered)"}\n`;
+                } else {
+                    const selected = document.querySelector(`input[name="r1q${i}"]:checked`);
+                    answers += `Question ${i}: ${selected ? selected.value : "(not answered)"}\n`;
+                }
+            }
+            const outputBox = document.getElementById('answerOutput');
+            outputBox.textContent = answers;
+            outputBox.style.display = 'block';
+            outputBox.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
