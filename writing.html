@@ -88,28 +88,19 @@
         }
     </style>
     <script>
-        // Timer: 60 minutes for Writing
         window.addEventListener('load', function() {
-            let timeLeft = 60 * 60; // 60 minutes in seconds
+            let timeLeft = 60 * 60;
             const countdownEl = document.getElementById('countdown');
 
             function updateTimer() {
                 const minutes = Math.floor(timeLeft / 60);
                 const seconds = timeLeft % 60;
-                countdownEl.textContent = 
-                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (timeLeft > 0) {
-                    timeLeft--;
-                } else {
-                    clearInterval(timerInterval);
-                    alert("Time is up! Please finish your writing.");
-                }
+                countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                timeLeft > 0 ? timeLeft-- : (clearInterval(timerInterval), alert("Time is up!"));
             }
 
             const timerInterval = setInterval(updateTimer, 1000);
 
-            // Word count functions
             function countWords(textareaId, countId) {
                 const text = document.getElementById(textareaId).value.trim();
                 const wordCount = text ? text.split(/\s+/).length : 0;
@@ -122,15 +113,12 @@
     </script>
 </head>
 <body>
-
-    <!-- Navigation Tabs (includes Writing) -->
     <div class="tabs">
         <a class="tab-link" href="listening-part1.html">Listening</a>
         <a class="tab-link" href="reading.html">Reading</a>
         <a class="tab-link active" href="writing.html">Writing</a>
     </div>
 
-    <!-- Header with Logo & Timer -->
     <div class="header-bar">
         <img src="ielts-logo.png.png" alt="IELTS Logo" style="height: 90px; margin-right: 15px; object-fit: contain;">
         <h2>IELTS Writing Test</h2>
@@ -142,22 +130,17 @@
     <div class="container">
         <p><strong>Instructions:</strong> You should spend about 20 minutes on Task 1 and about 40 minutes on Task 2. Write at least 150 words for Task 1 and at least 250 words for Task 2.</p>
 
-        <!-- Task 1 with Graph -->
         <div class="task-box">
             <h3>WRITING TASK 1</h3>
             <p>You should spend about 20 minutes on this task.</p>
             <p>The line graph shows the estimated number of cars manufactured (in hundreds of thousands) in China, the UK, Japan and the USA between 2020 and 2035.</p>
             <p>Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</p>
             <p>Write at least 150 words.</p>
-
-            <!-- Your graph image -->
             <img src="cars-manufactured.png" alt="Number of cars manufactured 2020-2035" class="graph-img">
-            
             <textarea id="task1" placeholder="Write your answer for Task 1 here..."></textarea>
             <div class="word-count" id="count1">Word count: 0</div>
         </div>
 
-        <!-- Task 2 with your exact question -->
         <div class="task-box">
             <h3>WRITING TASK 2</h3>
             <p>You should spend about 40 minutes on this task.</p>
@@ -166,17 +149,14 @@
             <p>Why is this? Do you think it is a positive or negative development?</p>
             <p>Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
             <p>Write at least 250 words.</p>
-            
             <textarea id="task2" placeholder="Write your answer for Task 2 here..."></textarea>
             <div class="word-count" id="count2">Word count: 0</div>
         </div>
 
-        <!-- Navigation Buttons -->
         <div class="nav-buttons">
             <a href="reading.html" class="btn">← Previous: Reading</a>
             <button class="btn" onclick="alert('Your writing has been saved locally.')">Save Draft</button>
         </div>
     </div>
-
 </body>
 </html>
