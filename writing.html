@@ -130,28 +130,44 @@
     <div class="container">
         <p><strong>Instructions:</strong> You should spend about 20 minutes on Task 1 and about 40 minutes on Task 2. Write at least 150 words for Task 1 and at least 250 words for Task 2.</p>
 
-        <div class="task-box">
-            <h3>WRITING TASK 1</h3>
-            <p>You should spend about 20 minutes on this task.</p>
-            <p>The line graph shows the estimated number of cars manufactured (in hundreds of thousands) in China, the UK, Japan and the USA between 2020 and 2035.</p>
-            <p>Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</p>
-            <p>Write at least 150 words.</p>
-            <img src="cars-manufactured.png" alt="Number of cars manufactured 2020-2035" class="graph-img">
-            <textarea id="task1" placeholder="Write your answer for Task 1 here..."></textarea>
-            <div class="word-count" id="count1">Word count: 0</div>
-        </div>
+       <!-- WRITING TASK 1 -->
+<div class="task">
+    <h3>Writing Task 1</h3>
+    <p class="instruction">You should spend about 20 minutes on this task.</p>
+    <p class="instruction">The graph below gives information about the number of cars manufactured in three countries between 2000 and 2020.</p>
+    <img src="cars-manufactured.png" alt="Cars manufactured graph" style="max-width: 100%; height: auto; margin: 15px 0; border: 1px solid #ddd;">
+    <p class="instruction">Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</p>
+    <p class="instruction">Write at least 150 words.</p>
 
-        <div class="task-box">
-            <h3>WRITING TASK 2</h3>
-            <p>You should spend about 40 minutes on this task.</p>
-            <p>Write about the following topic:</p>
-            <p>In their advertising, businesses nowadays usually emphasise that their products are new in some way.</p>
-            <p>Why is this? Do you think it is a positive or negative development?</p>
-            <p>Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
-            <p>Write at least 250 words.</p>
-            <textarea id="task2" placeholder="Write your answer for Task 2 here..."></textarea>
-            <div class="word-count" id="count2">Word count: 0</div>
-        </div>
+    <textarea 
+        id="task1" 
+        placeholder="Write your answer for Task 1 here..."
+        style="width: 100%; min-height: 220px; padding: 12px; border: 1px solid #999; font-size: 16px; font-family: Arial, sans-serif; margin-top: 10px; box-sizing: border-box; resize: vertical; overflow-y: auto;"
+        oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'; updateWordCount('task1', 'count1');">
+    </textarea>
+    <p class="word-count" style="margin-top: 8px; font-weight: 500;">Word count: <span id="count1">0</span></p>
+</div>
+
+<!-- WRITING TASK 2 -->
+<div class="task">
+    <h3>Writing Task 2</h3>
+    <p class="instruction">You should spend about 40 minutes on this task.</p>
+    <p class="instruction">Write about the following topic:</p>
+    <blockquote class="topic">
+        Some people say that the only reason for learning a foreign language is in order to travel to or work in a foreign country. Others say that these are not the only reasons why someone should learn a foreign language.<br><br>
+        Discuss both these views and give your own opinion.<br><br>
+        Give reasons for your answer and include any relevant examples from your own knowledge or experience.<br><br>
+        Write at least 250 words.
+    </blockquote>
+
+    <textarea 
+        id="task2" 
+        placeholder="Write your answer for Task 2 here..."
+        style="width: 100%; min-height: 320px; padding: 12px; border: 1px solid #999; font-size: 16px; font-family: Arial, sans-serif; margin-top: 10px; box-sizing: border-box; resize: vertical; overflow-y: auto;"
+        oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'; updateWordCount('task2', 'count2');">
+    </textarea>
+    <p class="word-count" style="margin-top: 8px; font-weight: 500;">Word count: <span id="count2">0</span></p>
+</div>
 
        <div class="nav-buttons">
     <a href="reading/reading3.html" class="btn">← Previous: Reading Passage 3</a>
