@@ -48,6 +48,27 @@
             border-radius: 4px;
             border: 1px solid #ddd;
         }
+        /* Better scrollbar */
+        .scrollable {
+            overflow-y: auto;
+            scrollbar-width: auto;
+            scrollbar-color: #999 #f8f8f8;
+        }
+        .scrollable::-webkit-scrollbar {
+            width: 16px;
+        }
+        .scrollable::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 8px;
+        }
+        .scrollable::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 8px;
+            border: 4px solid #f1f1f1;
+        }
+        .scrollable::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
         .test-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -57,7 +78,6 @@
         .passage-section {
             background-color: #f9f9f9;
             padding: 25px;
-            overflow-y: auto;
             border-right: 1px solid #ddd;
         }
         .passage-section h3 {
@@ -90,7 +110,6 @@
         .questions-section {
             background-color: #ffffff;
             padding: 25px;
-            overflow-y: auto;
         }
         .questions-section h3 {
             margin-bottom: 20px;
@@ -110,11 +129,12 @@
         .text-input {
             padding: 7px 12px;
             border: 1px solid #999;
-            width: 220px;
+            width: 80px;
             text-transform: uppercase;
             margin: 4px 10px;
             border-radius: 3px;
             font-size: 15px;
+            text-align: center;
         }
         .option {
             margin: 10px 0 10px 44px;
@@ -126,6 +146,14 @@
             width: auto;
             cursor: pointer;
             margin-top: 4px;
+        }
+        .word-list {
+            margin: 15px 0;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            line-height: 1.9;
         }
         .nav-buttons {
             margin-top: 30px;
@@ -165,7 +193,7 @@
 <body>
 
     <div class="tabs">
-        <a class="tab-link" href="reading1.html">Passage 1</a>
+        <a class="tab-link" href="reading1.html">← Passage 1</a>
         <a class="tab-link active" href="reading2.html">Passage 2</a>
         <a class="tab-link" href="reading3.html">Passage 3</a>
     </div>
@@ -177,7 +205,7 @@
 
     <div class="test-container">
         <!-- LEFT: READING PASSAGE 2 -->
-        <div class="passage-section">
+        <div class="passage-section scrollable">
             <h3>Reading Passage 2</h3>
             <em>You should spend about 20 minutes on Questions 14–26, which are based on Reading Passage 2 below.</em>
 
@@ -193,207 +221,160 @@
                 <p>Yong's book is in many ways a plea for microbial tolerance, pointing out that while fewer than one hundred species of bacteria bring disease, many thousands more play a vital role in maintaining our health. The book also acknowledges that our attitude towards bacteria is not a simple one. We tend to see the dangers posed by bacteria, yet at the same time we are sold yoghurts and drinks that supposedly nurture 'friendly' bacteria. In reality, says Yong, bacteria should not be viewed as either friends or foes, villains or heroes. Instead we should realise we have a symbiotic relationship, that can be mutually beneficial or mutually destructive.</p>
                 <p>What then do these millions of organisms do? The answer is pretty much everything. New research is now unravelling the ways in which bacteria aid digestion, regulate our immune systems, eliminate toxins, produce vitamins, affect our behaviour and even combat obesity. 'They actually help us become who we are,' says Yong. But we are facing a growing problem. Our obsession with hygiene, our overuse of antibiotics and our unhealthy, low-fibre diets are disrupting the bacterial balance and may be responsible for soaring rates of allergies and immune problems, such as inflammatory bowel disease (IBD).</p>
                 <p>The most recent research actually turns accepted norms upside down. For example, there are studies indicating that the excessive use of household detergents and antibacterial products actually destroys the microbes that normally keep the more dangerous germs at bay. Other studies show that keeping a dog as a pet gives children early exposure to a diverse range of bacteria, which may help protect them against allergies later.</p>
-                <p>The readers of Yong's book must be prepared for a decidedly unglamorous world. Among the less appealing case studies is one about a fungus that is wiping out entire populations of frogs and that can be halted by a rare microbial bacterium. Another is about squid that carry luminescent bacteria that protect them against predators. However, if you can overcome your distaste for some of the investigations, the reasons for Yong's enthusiasm become clear. The microbial world is a place of wonder. Already, in an attempt to stop mosquitoes spreading dengue fever - a disease that infects 400 million people a year - mosquitoes are being loaded with a bacterium to block the disease. In the future, our ability to manipulate microbes means we could construct buildings with useful microbes built into their walls to fight off infections. Just imagine a neonatal hospital ward coated in a specially mixed cocktail of microbes so that babies get the best start in life.</p>
+                <p>The readers of Yong's book must be prepared for a decidedly unglamorous world. Among the less appealing case studies is one about a fungus that is wiping out entire populations of frogs and that can be halted by a rare microbial bacterium. Another is about squid that carry luminescent bacteria that protect them against predators. However, if you can overcome your distaste for some of the investigations, the reasons for Yong's enthusiasm become clear. The microbial world is a place of wonder. Already, in an attempt to stop mosquitoes spreading dengue fever - a disease that infects 400 million people a year - scientists are inserting a specially prepared bacterium into the insects to stop them carrying the virus. In future, we may even see microbes used to combat global warming, or painted onto hospital walls to kill harmful bacteria.</p>
             </div>
         </div>
 
         <!-- RIGHT: QUESTIONS -->
-        <div class="questions-section">
+        <div class="questions-section scrollable">
             <h3>Questions 14–26</h3>
 
             <div class="q-group">
                 <div class="q-instructions">
-                    <strong>Questions 14–19</strong><br>
-                    Do the following statements agree with the claims of the writer in Reading Passage 2?<br>
-                    Write<br>
-                    <strong>TRUE</strong> if the statement agrees with the claims<br>
-                    <strong>FALSE</strong> if the statement contradicts the claims<br>
-                    <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks
+                    <strong>Questions 14–16</strong><br>
+                    Choose the correct letter, A, B, C or D.<br>
+                    Write the correct letter in boxes 14–16 on your answer sheet.
                 </div>
 
                 <div class="q-row">
-                    14 Ed Yong’s style of writing is difficult to follow.<br>
-                    <input type="text" class="text-input" id="r2q14" placeholder="TRUE / FALSE / NOT GIVEN">
+                    14 What point does the writer make about microbes in the first paragraph?
                 </div>
-                <div class="q-row">
-                    15 Antony van Leeuwenhoek’s microscopes were more powerful than modern ones.<br>
-                    <input type="text" class="text-input" id="r2q15" placeholder="TRUE / FALSE / NOT GIVEN">
+                <div class="option">
+                    <input type="radio" name="r2q14" value="A" id="r2q14a">
+                    <label for="r2q14a">A They adapt quickly to their environment.</label>
                 </div>
-                <div class="q-row">
-                    16 Louis Pasteur’s work led to a negative view of bacteria.<br>
-                    <input type="text" class="text-input" id="r2q16" placeholder="TRUE / FALSE / NOT GIVEN">
+                <div class="option">
+                    <input type="radio" name="r2q14" value="B" id="r2q14b">
+                    <label for="r2q14b">B The risk they pose has been exaggerated.</label>
                 </div>
-                <div class="q-row">
-                    17 Yong believes bacteria should be regarded as either helpful or harmful.<br>
-                    <input type="text" class="text-input" id="r2q17" placeholder="TRUE / FALSE / NOT GIVEN">
+                <div class="option">
+                    <input type="radio" name="r2q14" value="C" id="r2q14c">
+                    <label for="r2q14c">C They are more plentiful in animal life than plant life.</label>
                 </div>
-                <div class="q-row">
-                    18 There is evidence that high levels of hygiene may be linked to health issues.<br>
-                    <input type="text" class="text-input" id="r2q18" placeholder="TRUE / FALSE / NOT GIVEN">
+                <div class="option">
+                    <input type="radio" name="r2q14" value="D" id="r2q14d">
+                    <label for="r2q14d">D They will continue to exist for longer than the human race.</label>
                 </div>
+
                 <div class="q-row">
-                    19 Research shows that having pets always prevents allergies in children.<br>
-                    <input type="text" class="text-input" id="r2q19" placeholder="TRUE / FALSE / NOT GIVEN">
+                    15 In the second paragraph, the writer is impressed by the fact that
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q15" value="A" id="r2q15a">
+                    <label for="r2q15a">A each species tends to have vastly different microbes.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q15" value="B" id="r2q15b">
+                    <label for="r2q15b">B some parts of the body contain relatively few microbes.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q15" value="C" id="r2q15c">
+                    <label for="r2q15c">C the average individual has more microbial cells than human ones.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q15" value="D" id="r2q15d">
+                    <label for="r2q15d">D scientists have limited understanding of how microbial cells behave.</label>
+                </div>
+
+                <div class="q-row">
+                    16 What is the writer doing in the fifth paragraph?
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q16" value="A" id="r2q16a">
+                    <label for="r2q16a">A explaining how a discovery was made</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q16" value="B" id="r2q16b">
+                    <label for="r2q16b">B comparing scientists' theories about microbes</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q16" value="C" id="r2q16c">
+                    <label for="r2q16c">C describing confusion among scientists</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r2q16" value="D" id="r2q16d">
+                    <label for="r2q16d">D giving details of how microbes cause disease</label>
                 </div>
             </div>
 
             <div class="q-group">
                 <div class="q-instructions">
-                    <strong>Questions 20–26</strong><br>
-                    Choose the correct letter, A, B, C or D.
+                    <strong>Questions 17–20</strong><br>
+                    Complete the summary using the list of words, A–H, below.<br>
+                    Write the correct letter, A–H, in boxes 17–20 on your answer sheet.
+                </div>
+
+                <div class="word-list">
+                    <strong>A</strong> solution &nbsp;&nbsp;&nbsp;
+                    <strong>B</strong> partnership &nbsp;&nbsp;&nbsp;
+                    <strong>C</strong> destruction &nbsp;&nbsp;&nbsp;
+                    <strong>D</strong> exaggeration<br>
+                    <strong>E</strong> cleanliness &nbsp;&nbsp;&nbsp;
+                    <strong>F</strong> regulations &nbsp;&nbsp;&nbsp;
+                    <strong>G</strong> illness &nbsp;&nbsp;&nbsp;
+                    <strong>H</strong> nutrition
+                </div>
+
+                <p style="margin-bottom:15px;">
+                    Yong's book argues that we should be more tolerant of microbes. Many have a beneficial effect, and only a relatively small number lead to
+                    <strong>17</strong> <input type="text" class="text-input" id="r2q17">.
+                    And although it is misleading to think of microbes as 'friendly', we should also stop thinking of them as the enemy. In fact, we should accept that our relationship with microbes is one based on
+                    <strong>18</strong> <input type="text" class="text-input" id="r2q18">.
+                </p>
+
+                <p style="margin-bottom:15px;">
+                    New research shows that microbes have numerous benefits for humans. Amongst other things, they aid digestion, remove poisons, produce vitamins and may even help reduce obesity. However, there is a growing problem. Our poor
+                    <strong>19</strong> <input type="text" class="text-input" id="r2q19">,
+                    our overuse of antibiotics, and our excessive focus on
+                    <strong>20</strong> <input type="text" class="text-input" id="r2q20">
+                    are upsetting the bacterial balance and may be contributing to the huge increase in allergies and immune system problems.
+                </p>
+            </div>
+
+            <div class="q-group">
+                <div class="q-instructions">
+                    <strong>Questions 21–26</strong><br>
+                    Do the following statements agree with the claims of the writer in Reading Passage 2?<br>
+                    In boxes 21–26 on your answer sheet, write<br>
+                    <strong>YES</strong> if the statement agrees with the claims of the writer<br>
+                    <strong>NO</strong> if the statement contradicts the claims of the writer<br>
+                    <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this
                 </div>
 
                 <div class="q-row">
-                    <span class="q-num">20</span>
-                    <span>What point does the writer make about microbes in the first paragraph?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q20" value="A" id="r2q20a">
-                    <label for="r2q20a">A They are found in very limited environments.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q20" value="B" id="r2q20b">
-                    <label for="r2q20b">B They existed after animals first appeared.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q20" value="C" id="r2q20c">
-                    <label for="r2q20c">C It is dangerous to interfere with them.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q20" value="D" id="r2q20d">
-                    <label for="r2q20d">D Most of them are harmful to humans.</label>
+                    21 It is possible that using antibacterial products in the home fails to have the desired effect.<br>
+                    <input type="text" class="text-input" id="r2q21" placeholder="YES / NO / NOT GIVEN">
                 </div>
 
                 <div class="q-row">
-                    <span class="q-num">21</span>
-                    <span>Why does the writer mention the number of human and microbial cells?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q21" value="A" id="r2q21a">
-                    <label for="r2q21a">A To show how little we understand our bodies.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q21" value="B" id="r2q21b">
-                    <label for="r2q21b">B To explain the concept of the holobiont.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q21" value="C" id="r2q21c">
-                    <label for="r2q21c">C To emphasise how significant microbes are.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q21" value="D" id="r2q21d">
-                    <label for="r2q21d">D To illustrate differences between individuals.</label>
+                    22 It is a good idea to ensure that children come into contact with as few bacteria as possible.<br>
+                    <input type="text" class="text-input" id="r2q22" placeholder="YES / NO / NOT GIVEN">
                 </div>
 
                 <div class="q-row">
-                    <span class="q-num">22</span>
-                    <span>What does the writer say about microbes in the third paragraph?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q22" value="A" id="r2q22a">
-                    <label for="r2q22a">A They can be harmful if they are in the wrong place.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q22" value="B" id="r2q22b">
-                    <label for="r2q22b">B Those in the gut are the most dangerous.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q22" value="C" id="r2q22c">
-                    <label for="r2q22c">C The same microbes are found all over the body.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q22" value="D" id="r2q22d">
-                    <label for="r2q22d">D We rarely exchange microbes with others.</label>
+                    23 Yong's book contains more case studies than are necessary.<br>
+                    <input type="text" class="text-input" id="r2q23" placeholder="YES / NO / NOT GIVEN">
                 </div>
 
                 <div class="q-row">
-                    <span class="q-num">23</span>
-                    <span>According to the text, what was the result of Pasteur’s research?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q23" value="A" id="r2q23a">
-                    <label for="r2q23a">A It confirmed Leeuwenhoek’s earlier findings.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q23" value="B" id="r2q23b">
-                    <label for="r2q23b">B It changed people’s perception of bacteria.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q23" value="C" id="r2q23c">
-                    <label for="r2q23c">C It proved most bacteria cause disease.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q23" value="D" id="r2q23d">
-                    <label for="r2q23d">D It led to the invention of antibiotics.</label>
+                    24 The case study about bacteria that prevent squid from being attacked may have limited appeal.<br>
+                    <input type="text" class="text-input" id="r2q24" placeholder="YES / NO / NOT GIVEN">
                 </div>
 
                 <div class="q-row">
-                    <span class="q-num">24</span>
-                    <span>What does Yong suggest about the relationship between humans and bacteria?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q24" value="A" id="r2q24a">
-                    <label for="r2q24a">A It is mostly harmful.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q24" value="B" id="r2q24b">
-                    <label for="r2q24b">B It is complex and changeable.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q24" value="C" id="r2q24c">
-                    <label for="r2q24c">C It depends entirely on diet.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q24" value="D" id="r2q24d">
-                    <label for="r2q24d">D It can be improved by taking supplements.</label>
+                    25 Efforts to control dengue fever have been surprisingly successful.<br>
+                    <input type="text" class="text-input" id="r2q25" placeholder="YES / NO / NOT GIVEN">
                 </div>
 
                 <div class="q-row">
-                    <span class="q-num">25</span>
-                    <span>What does recent research show about antibacterial products?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q25" value="A" id="r2q25a">
-                    <label for="r2q25a">A They are essential for good health.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q25" value="B" id="r2q25b">
-                    <label for="r2q25b">B They are not as effective as antibiotics.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q25" value="C" id="r2q25c">
-                    <label for="r2q25c">C They may remove helpful protection.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q25" value="D" id="r2q25d">
-                    <label for="r2q25d">D They have no long-term effect.</label>
-                </div>
-
-                <div class="q-row">
-                    <span class="q-num">26</span>
-                    <span>What is the writer’s conclusion in the final paragraph?</span>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q26" value="A" id="r2q26a">
-                    <label for="r2q26a">A We may be able to use microbes in beneficial ways.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q26" value="B" id="r2q26b">
-                    <label for="r2q26b">B Most microbes are too unpleasant to study.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q26" value="C" id="r2q26c">
-                    <label for="r2q26c">C We should avoid manipulating microbes.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q26" value="D" id="r2q26d">
-                    <label for="r2q26d">D Hospitals already use microbes to treat illness.</label>
+                    26 Microbes that reduce the risk of infection have already been put inside the walls of some hospital wards.<br>
+                    <input type="text" class="text-input" id="r2q26" placeholder="YES / NO / NOT GIVEN">
                 </div>
             </div>
 
             <div class="nav-buttons">
                 <a href="reading1.html" class="btn">← Previous Passage 1</a>
-                <a href="reading3.html" class="btn">Next → Passage 3</a>
+                <a href="reading3.html" class="btn">Next Passage 3 →</a>
             </div>
 
             <button class="btn" style="margin-top: 20px;" onclick="showAnswers()">Show My Answers</button>
