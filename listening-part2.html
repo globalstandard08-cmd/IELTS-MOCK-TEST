@@ -153,13 +153,28 @@
 
     window.addEventListener('load', function() {
         const audioPlayer = document.getElementById('listeningAudio');
-        // When audio ends, play next part automatically
+        let userStarted = false;
+
+        // Mark that user has interacted, so next audio can play
+        audioPlayer.addEventListener('play', function() {
+            userStarted = true;
+        });
+
+        // When audio ends, load and play next one
         audioPlayer.addEventListener('ended', function() {
-            const currentSrc = audioPlayer.src.split('/').pop();
+            if (!userStarted) return; // only if user started first
+
+            const currentSrc = audioPlayer.src.split('/').pop().split('?')[0];
             const currentIndex = audioFiles.indexOf(currentSrc);
+
             if (currentIndex !== -1 && currentIndex + 1 < audioFiles.length) {
-                audioPlayer.src = audioFiles[currentIndex + 1];
-                audioPlayer.play();
+                const nextFile = audioFiles[currentIndex + 1];
+                audioPlayer.src = nextFile;
+                audioPlayer.load();
+                audioPlayer.play().catch(err => {
+                    console.log("Auto-play blocked: user can click play manually");
+                    alert("Next part is ready — click Play to continue");
+                });
             }
         });
     });
@@ -213,7 +228,7 @@
     <div class="container">
         <div>
             <div class="audio-player">
-                <p class="audio-note">⚠️ Audio plays continuously one after another. It will NOT switch pages — move to the next part when ready.</p>
+                <p class="audio-note">⚠️ Click Play once to start. Audio will continue automatically through all parts. It will NOT switch pages — move when ready.</p>
                 <audio id="listeningAudio" controls>
                     <source src="16test1sec2.mp3" type="audio/mpeg">
                     Your browser does not support the audio element.
