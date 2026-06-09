@@ -81,31 +81,39 @@
         }
     </style>
     <script>
-        function showAnswers() {
-            let answers = "--- YOUR ANSWERS ---\n\n";
-
-            // Q11-15 Radio
-            for (let i = 11; i <= 15; i++) {
-                let sel = "";
-                document.getElementsByName('q'+i).forEach(opt => { if (opt.checked) sel = opt.id.slice(-1).toUpperCase(); });
-                answers += "Question " + i + ": " + (sel || "(not answered)") + "\n";
-            }
-            // Q16-18 Select
-            for (let i = 16; i <= 18; i++) {
-                let val = document.querySelector('[name="q'+i+'"]').value;
-                answers += "Question " + i + ": " + (val || "(not answered)") + "\n";
-            }
-            // Q19-20 Checkbox
-            let q1920 = [];
-            document.querySelectorAll('[name="q1920"]:checked').forEach(cb => q1920.push(cb.value));
-            answers += "Question 19: " + (q1920[0] || "(not answered)") + "\n";
-            answers += "Question 20: " + (q1920[1] || "(not answered)") + "\n";
-
-            let box = document.getElementById('answerBox');
-            box.textContent = answers;
-            box.style.display = 'block';
+    function showAnswers() {
+        let answers = "--- YOUR ANSWERS ---\n\n";
+        for (let i = 1; i <= 10; i++) {
+            let val = document.getElementById('q'+i).value.trim();
+            answers += "Question " + i + ": " + (val || "(not answered)") + "\n";
         }
-    </script>
+        let box = document.getElementById('answerBox');
+        box.textContent = answers;
+        box.style.display = 'block';
+    }
+
+    // Timer code
+    window.addEventListener('load', function() {
+        let timeLeft = 30 * 60; // 30 minutes total
+        const countdownEl = document.getElementById('countdown');
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownEl.textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+            } else {
+                clearInterval(timerInterval);
+                alert("Time is up!");
+            }
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+    });
+</script>
 </head>
 <body>
 
