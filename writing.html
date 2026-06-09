@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Writing Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .tabs {
+            background-color: #222;
+            padding: 10px 0;
+            margin: -20px -20px 20px -20px;
+        }
+        .tab-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+        .tab-link.active {
+            background-color: #444;
+        }
+        .header-bar {
+            background-color: #eee;
+            padding: 15px 20px;
+            margin: -20px -20px 20px -20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .task-box {
+            border: 1px solid #ccc;
+            padding: 20px 25px;
+            margin: 25px 0;
+            background-color: #f9f9f9;
+        }
+        .graph-img {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+        }
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 12px;
+            border: 1px solid #999;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            margin-top: 10px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        .word-count {
+            text-align: right;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+        .nav-buttons {
+            margin-top: 30px;
+            text-align: right;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        // Timer: 60 minutes for Writing
+        window.addEventListener('load', function() {
+            let timeLeft = 60 * 60; // 60 minutes in seconds
+            const countdownEl = document.getElementById('countdown');
+
+            function updateTimer() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                countdownEl.textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft > 0) {
+                    timeLeft--;
+                } else {
+                    clearInterval(timerInterval);
+                    alert("Time is up! Please finish your writing.");
+                }
+            }
+
+            const timerInterval = setInterval(updateTimer, 1000);
+
+            // Word count functions
+            function countWords(textareaId, countId) {
+                const text = document.getElementById(textareaId).value.trim();
+                const wordCount = text ? text.split(/\s+/).length : 0;
+                document.getElementById(countId).textContent = `Word count: ${wordCount}`;
+            }
+
+            document.getElementById('task1').addEventListener('input', () => countWords('task1', 'count1'));
+            document.getElementById('task2').addEventListener('input', () => countWords('task2', 'count2'));
+        });
+    </script>
+</head>
+<body>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+        <a class="tab-link" href="listening-part1.html">Listening</a>
+        <a class="tab-link" href="reading.html">Reading</a>
+        <a class="tab-link active" href="writing.html">Writing</a>
+    </div>
+
+    <!-- Header with Logo & Timer -->
+    <div class="header-bar">
+        <img src="ielts-logo.png.png" alt="IELTS Logo" style="height: 90px; margin-right: 15px; object-fit: contain;">
+        <h2>IELTS Writing Test</h2>
+        <div class="timer" style="background-color: #ffffff; padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; font-size: 18px; font-weight: bold; color: #333;">
+            Time Remaining: <span id="countdown">60:00</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <p><strong>Instructions:</strong> You should spend about 20 minutes on Task 1 and about 40 minutes on Task 2. Write at least 150 words for Task 1 and at least 250 words for Task 2.</p>
+
+        <!-- Task 1 with Graph -->
+        <div class="task-box">
+            <h3>Task 1</h3>
+            <p>The line graph shows the estimated number of cars manufactured (in hundreds of thousands) in China, the UK, Japan and the USA between 2020 and 2035.</p>
+            <p>Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</p>
+            <p>Write at least 150 words.</p>
+
+            <!-- Your graph image -->
+            <img src="cars-manufactured.png" alt="Number of cars manufactured 2020-2035" class="graph-img">
+            
+            <textarea id="task1" placeholder="Write your answer for Task 1 here..."></textarea>
+            <div class="word-count" id="count1">Word count: 0</div>
+        </div>
+
+        <!-- Task 2 - you can replace this once you have your question -->
+        <div class="task-box">
+            <h3>Task 2</h3>
+            <p>Some people say that now we can see films on our phones or tablets there is no need to go to the cinema. Others say that to be fully enjoyed, films need to be seen in a cinema.</p>
+            <p>Discuss both these views and give your own opinion.</p>
+            <p>Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
+            <p>Write at least 250 words.</p>
+            
+            <textarea id="task2" placeholder="Write your answer for Task 2 here..."></textarea>
+            <div class="word-count" id="count2">Word count: 0</div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+            <a href="reading.html" class="btn">← Previous: Reading</a>
+            <button class="btn" onclick="alert('Your writing has been saved locally.')">Save Draft</button>
+        </div>
+    </div>
+
+</body>
+</html>
