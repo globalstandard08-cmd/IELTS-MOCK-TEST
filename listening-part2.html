@@ -35,6 +35,15 @@
         }
         .audio-player {
             margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .audio-note {
+            color: #c0392b;
+            font-weight: bold;
+            margin: 10px 0;
         }
         .container {
             display: grid;
@@ -81,29 +90,107 @@
         }
     </style>
     <script>
+    // --- AUTO-SAVE FUNCTION ---
+    function saveAnswer(key, value) {
+        localStorage.setItem(key, value.trim());
+    }
+
+    // --- LOAD SAVED ANSWERS WHEN PAGE OPENS ---
+    window.addEventListener('load', function() {
+        // Load radio answers
+        for (let i = 11; i <= 15; i++) {
+            const saved = localStorage.getItem(`listening_q${i}`);
+            if (saved) {
+                const radio = document.querySelector(`input[name="q${i}"][value="${saved}"]`);
+                if (radio) radio.checked = true;
+            }
+        }
+        // Load select answers
+        for (let i = 16; i <= 18; i++) {
+            const saved = localStorage.getItem(`listening_q${i}`);
+            if (saved) document.getElementById(`q${i}`).value = saved;
+        }
+        // Load checkbox answers
+        const savedCheck = localStorage.getItem('listening_q1920');
+        if (savedCheck) {
+            const values = savedCheck.split(',');
+            values.forEach(val => {
+                const cb = document.querySelector(`input[name="q1920"][value="${val}"]`);
+                if (cb) cb.checked = true;
+            });
+        }
+    });
+
     function showAnswers() {
         let answers = "--- YOUR ANSWERS ---\n\n";
-        for (let i = 1; i <= 10; i++) {
-            let val = document.getElementById('q'+i).value.trim();
-            answers += "Question " + i + ": " + (val || "(not answered)") + "\n";
+        // Q11-Q15 Radio
+        for (let i = 11; i <= 15; i++) {
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            answers += `Question ${i}: ${selected ? selected.value : "(not answered)"}\n`;
         }
+        // Q16-Q18 Select
+        for (let i = 16; i <= 18; i++) {
+            const val = document.getElementById(`q${i}`).value;
+            answers += `Question ${i}: ${val || "(not answered)"}\n`;
+        }
+        // Q19-Q20 Checkbox
+        const checked = document.querySelectorAll('input[name="q1920"]:checked');
+        const vals = Array.from(checked).map(cb => cb.value).join(', ');
+        answers += `Questions 19 & 20: ${vals || "(not answered)"}\n`;
+
         let box = document.getElementById('answerBox');
         box.textContent = answers;
         box.style.display = 'block';
     }
 
+    // --- CONTINUOUS AUDIO PLAYBACK ---
+    const audioFiles = [
+        "part1.mp3.mp3",
+        "16test1sec2.mp3",
+        "part3.mp3",
+        "part4.mp3"
+    ];
+
     window.addEventListener('load', function() {
-        let timeLeft = 30 * 60;
+        const audioPlayer = document.getElementById('listeningAudio');
+        // When audio ends, play next part automatically
+        audioPlayer.addEventListener('ended', function() {
+            const currentSrc = audioPlayer.src.split('/').pop();
+            const currentIndex = audioFiles.indexOf(currentSrc);
+            if (currentIndex !== -1 && currentIndex + 1 < audioFiles.length) {
+                audioPlayer.src = audioFiles[currentIndex + 1];
+                audioPlayer.play();
+            }
+        });
+    });
+
+    // --- ONE CONTINUOUS TIMER (NEVER RESETS) ---
+    window.addEventListener('load', function() {
+        if (!localStorage.getItem('listeningTestStarted')) {
+            localStorage.setItem('listeningTestStarted', 'true');
+            localStorage.setItem('listeningTimeLeft', 30 * 60);
+        }
+
+        let timeLeft = parseInt(localStorage.getItem('listeningTimeLeft')) || 30 * 60;
         const countdownEl = document.getElementById('countdown');
+
         function updateTimer() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            timeLeft > 0 ? timeLeft-- : (clearInterval(timerInterval), alert("Time is up!"));
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                localStorage.setItem('listeningTimeLeft', timeLeft);
+            } else {
+                clearInterval(timerInterval);
+                alert("Time is up! You may still review your answers.");
+            }
         }
+
         const timerInterval = setInterval(updateTimer, 1000);
     });
-</script>
+    </script>
 </head>
 <body>
 
@@ -112,6 +199,8 @@
         <a class="tab-link active" href="listening-part2.html">Part 2</a>
         <a class="tab-link" href="listening-part3.html">Part 3</a>
         <a class="tab-link" href="listening-part4.html">Part 4</a>
+        <a class="tab-link" href="../reading/reading1.html">Reading</a>
+        <a class="tab-link" href="../writing.html">Writing</a>
     </div>
 <div class="header-bar">
     <img src="ielts-logo.png.png" alt="IELTS Logo" style="height: 90px; margin-right: 15px; object-fit: contain;">
@@ -124,7 +213,8 @@
     <div class="container">
         <div>
             <div class="audio-player">
-                <audio controls>
+                <p class="audio-note">⚠️ Audio plays continuously one after another. It will NOT switch pages — move to the next part when ready.</p>
+                <audio id="listeningAudio" controls>
                     <source src="16test1sec2.mp3" type="audio/mpeg">
                     Your browser does not support the audio element.
                 
@@ -136,33 +226,33 @@
             Choose the correct letter, A, B or C.</p>
 
             <p><strong>11</strong> Dartfield House school used to be<br>
-            <div class="option-line"><input type="radio" name="q11" id="q11a"><label for="q11a">A a tourist information centre.</label></div>
-            <div class="option-line"><input type="radio" name="q11" id="q11b"><label for="q11b">B a private home.</label></div>
-            <div class="option-line"><input type="radio" name="q11" id="q11c"><label for="q11c">C a local council building.</label></div>
+            <div class="option-line"><input type="radio" name="q11" id="q11a" value="A" onchange="saveAnswer('listening_q11', this.value)"><label for="q11a">A a tourist information centre.</label></div>
+            <div class="option-line"><input type="radio" name="q11" id="q11b" value="B" onchange="saveAnswer('listening_q11', this.value)"><label for="q11b">B a private home.</label></div>
+            <div class="option-line"><input type="radio" name="q11" id="q11c" value="C" onchange="saveAnswer('listening_q11', this.value)"><label for="q11c">C a local council building.</label></div>
             </p>
 
             <p><strong>12</strong> What is planned with regard to the lower school?<br>
-            <div class="option-line"><input type="radio" name="q12" id="q12a"><label for="q12a">A All buildings on the main site will be improved.</label></div>
-            <div class="option-line"><input type="radio" name="q12" id="q12b"><label for="q12b">B The lower school site will be used for new homes.</label></div>
-            <div class="option-line"><input type="radio" name="q12" id="q12c"><label for="q12c">C Additional school buildings will be constructed on the lower school site.</label></div>
+            <div class="option-line"><input type="radio" name="q12" id="q12a" value="A" onchange="saveAnswer('listening_q12', this.value)"><label for="q12a">A All buildings on the main site will be improved.</label></div>
+            <div class="option-line"><input type="radio" name="q12" id="q12b" value="B" onchange="saveAnswer('listening_q12', this.value)"><label for="q12b">B The lower school site will be used for new homes.</label></div>
+            <div class="option-line"><input type="radio" name="q12" id="q12c" value="C" onchange="saveAnswer('listening_q12', this.value)"><label for="q12c">C Additional school buildings will be constructed on the lower school site.</label></div>
             </p>
 
             <p><strong>13</strong> The catering has been changed because of<br>
-            <div class="option-line"><input type="radio" name="q13" id="q13a"><label for="q13a">A long queuing times.</label></div>
-            <div class="option-line"><input type="radio" name="q13" id="q13b"><label for="q13b">B changes to the school timetable.</label></div>
-            <div class="option-line"><input type="radio" name="q13" id="q13c"><label for="q13c">C dissatisfaction with the menus.</label></div>
+            <div class="option-line"><input type="radio" name="q13" id="q13a" value="A" onchange="saveAnswer('listening_q13', this.value)"><label for="q13a">A long queuing times.</label></div>
+            <div class="option-line"><input type="radio" name="q13" id="q13b" value="B" onchange="saveAnswer('listening_q13', this.value)"><label for="q13b">B changes to the school timetable.</label></div>
+            <div class="option-line"><input type="radio" name="q13" id="q13c" value="C" onchange="saveAnswer('listening_q13', this.value)"><label for="q13c">C dissatisfaction with the menus.</label></div>
             </p>
 
             <p><strong>14</strong> Parents are asked to<br>
-            <div class="option-line"><input type="radio" name="q14" id="q14a"><label for="q14a">A help their children to decide in advance which serving point to use.</label></div>
-            <div class="option-line"><input type="radio" name="q14" id="q14b"><label for="q14b">B make sure their children have enough money for food.</label></div>
-            <div class="option-line"><input type="radio" name="q14" id="q14c"><label for="q14c">C advise their children on healthy food to eat.</label></div>
+            <div class="option-line"><input type="radio" name="q14" id="q14a" value="A" onchange="saveAnswer('listening_q14', this.value)"><label for="q14a">A help their children to decide in advance which serving point to use.</label></div>
+            <div class="option-line"><input type="radio" name="q14" id="q14b" value="B" onchange="saveAnswer('listening_q14', this.value)"><label for="q14b">B make sure their children have enough money for food.</label></div>
+            <div class="option-line"><input type="radio" name="q14" id="q14c" value="C" onchange="saveAnswer('listening_q14', this.value)"><label for="q14c">C advise their children on healthy food to eat.</label></div>
             </p>
 
             <p><strong>15</strong> What does the speaker say about the existing canteen?<br>
-            <div class="option-line"><input type="radio" name="q15" id="q15a"><label for="q15a">A Food will still be served there.</label></div>
-            <div class="option-line"><input type="radio" name="q15" id="q15b"><label for="q15b">B Only staff will have access to it.</label></div>
-            <div class="option-line"><input type="radio" name="q15" id="q15c"><label for="q15c">C Pupils can take their food into it.</label></div>
+            <div class="option-line"><input type="radio" name="q15" id="q15a" value="A" onchange="saveAnswer('listening_q15', this.value)"><label for="q15a">A Food will still be served there.</label></div>
+            <div class="option-line"><input type="radio" name="q15" id="q15b" value="B" onchange="saveAnswer('listening_q15', this.value)"><label for="q15b">B Only staff will have access to it.</label></div>
+            <div class="option-line"><input type="radio" name="q15" id="q15c" value="C" onchange="saveAnswer('listening_q15', this.value)"><label for="q15c">C Pupils can take their food into it.</label></div>
             </p>
 
 
@@ -178,11 +268,11 @@
 
             <p><strong>Food available at serving points in Food Hall</strong><br>
             16 World Adventures
-                <select name="q16"><option value="">-- Choose --</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select><br>
+                <select id="q16" name="q16" onchange="saveAnswer('listening_q16', this.value)"><option value="">-- Choose --</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select><br>
             17 Street Life
-                <select name="q17"><option value="">-- Choose --</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select><br>
+                <select id="q17" name="q17" onchange="saveAnswer('listening_q17', this.value)"><option value="">-- Choose --</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select><br>
             18 Speedy Italian
-                <select name="q18"><option value="">-- Choose --</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select>
+                <select id="q18" name="q18" onchange="saveAnswer('listening_q18', this.value)"><option value="">-- Choose --</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select>
             </p>
 
 
@@ -190,14 +280,15 @@
             Choose TWO letters, A–E.<br>
             Which TWO optional after-school lessons are new?</p>
 
-            <div class="option-line"><input type="checkbox" name="q1920" id="optA" value="A"><label for="optA">A swimming</label></div>
-            <div class="option-line"><input type="checkbox" name="q1920" id="optB" value="B"><label for="optB">B piano</label></div>
-            <div class="option-line"><input type="checkbox" name="q1920" id="optC" value="C"><label for="optC">C acting</label></div>
-            <div class="option-line"><input type="checkbox" name="q1920" id="optD" value="D"><label for="optD">D cycling</label></div>
-            <div class="option-line"><input type="checkbox" name="q1920" id="optE" value="E"><label for="optE">E theatre sound and lighting</label></div>
+            <div class="option-line"><input type="checkbox" name="q1920" id="optA" value="A" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(cb => cb.value).join(','))"><label for="optA">A swimming</label></div>
+            <div class="option-line"><input type="checkbox" name="q1920" id="optB" value="B" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(cb => cb.value).join(','))"><label for="optB">B piano</label></div>
+            <div class="option-line"><input type="checkbox" name="q1920" id="optC" value="C" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(cb => cb.value).join(','))"><label for="optC">C acting</label></div>
+            <div class="option-line"><input type="checkbox" name="q1920" id="optD" value="D" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(cb => cb.value).join(','))"><label for="optD">D cycling</label></div>
+            <div class="option-line"><input type="checkbox" name="q1920" id="optE" value="E" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(cb => cb.value).join(','))"><label for="optE">E theatre sound and lighting</label></div>
 
 
             <div class="nav-buttons">
+                <a href="listening-part1.html" class="btn">← Previous: Part 1</a>
                 <button class="btn" onclick="showAnswers()">Show My Answers</button>
                 <a href="listening-part3.html" class="btn">Next Page → Part 3</a>
             </div>
