@@ -129,15 +129,12 @@
         .text-input {
             padding: 7px 12px;
             border: 1px solid #999;
-            width: 220px;
+            width: 80px;
             text-transform: uppercase;
             margin: 4px 10px;
             border-radius: 3px;
             font-size: 15px;
-        }
-        .gap-input {
-            width: 150px;
-            margin: 0 6px;
+            text-align: center;
         }
         .option {
             margin: 10px 0 10px 44px;
@@ -149,6 +146,14 @@
             width: auto;
             cursor: pointer;
             margin-top: 4px;
+        }
+        .word-list {
+            margin: 15px 0;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            line-height: 1.9;
         }
         .nav-buttons {
             margin-top: 30px;
@@ -235,155 +240,165 @@
 
             <div class="q-group">
                 <div class="q-instructions">
-                    <strong>Questions 27–31</strong><br>
-                    Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
-                    Write<br>
-                    <strong>TRUE</strong> if the statement agrees with the claims<br>
-                    <strong>FALSE</strong> if the statement contradicts the claims<br>
-                    <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks
+                    <strong>Questions 27–30</strong><br>
+                    Choose the correct letter, A, B, C or D.<br>
+                    Write the correct letter in boxes 27–30 on your answer sheet.
                 </div>
 
                 <div class="q-row">
-                    27 Wisdom is a quality that very few people are able to acquire.<br>
-                    <input type="text" class="text-input" id="r3q27" placeholder="TRUE / FALSE / NOT GIVEN">
+                    27 What point does the writer make in the first paragraph?
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q27" value="A" id="r3q27a">
+                    <label for="r3q27a">A Wisdom appears to be unique to the human race.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q27" value="B" id="r3q27b">
+                    <label for="r3q27b">B A basic assumption about wisdom may be wrong.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q27" value="C" id="r3q27c">
+                    <label for="r3q27c">C Concepts of wisdom may depend on the society we belong to.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q27" value="D" id="r3q27d">
+                    <label for="r3q27d">D There is still much to be discovered about the nature of wisdom.</label>
                 </div>
 
                 <div class="q-row">
-                    28 Grossmann believes that wisdom is influenced more by circumstances than previously thought.<br>
-                    <input type="text" class="text-input" id="r3q28" placeholder="TRUE / FALSE / NOT GIVEN">
+                    28 What does Igor Grossmann suggest about the ability to make wise decisions?
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q28" value="A" id="r3q28a">
+                    <label for="r3q28a">A It can vary greatly from one person to another.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q28" value="B" id="r3q28b">
+                    <label for="r3q28b">B Earlier research into it was based on unreliable data.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q28" value="C" id="r3q28c">
+                    <label for="r3q28c">C The importance of certain influences on it was underestimated.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q28" value="D" id="r3q28d">
+                    <label for="r3q28d">D Various branches of psychology define it according to their own criteria.</label>
                 </div>
 
                 <div class="q-row">
-                    29 It is easier to teach wisdom to children than to adults.<br>
-                    <input type="text" class="text-input" id="r3q29" placeholder="TRUE / FALSE / NOT GIVEN">
+                    29 According to the third paragraph, Grossmann claims that the level of wisdom an individual shows
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q29" value="A" id="r3q29a">
+                    <label for="r3q29a">A can be greater than they think it is.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q29" value="B" id="r3q29b">
+                    <label for="r3q29b">B will be different in different circumstances.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q29" value="C" id="r3q29c">
+                    <label for="r3q29c">C may be determined by particular aspects of their personality.</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q29" value="D" id="r3q29d">
+                    <label for="r3q29d">D should develop over time as a result of their life experiences.</label>
                 </div>
 
                 <div class="q-row">
-                    30 Wisdom involves acknowledging that we do not know everything.<br>
-                    <input type="text" class="text-input" id="r3q30" placeholder="TRUE / FALSE / NOT GIVEN">
+                    30 What is described in the fifth paragraph?
                 </div>
-
-                <div class="q-row">
-                    31 People are naturally able to view difficult situations objectively.<br>
-                    <input type="text" class="text-input" id="r3q31" placeholder="TRUE / FALSE / NOT GIVEN">
+                <div class="option">
+                    <input type="radio" name="r3q30" value="A" id="r3q30a">
+                    <label for="r3q30a">A a difficulty encountered when attempting to reason wisely</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q30" value="B" id="r3q30b">
+                    <label for="r3q30b">B an example of the type of person who is likely to reason wisely</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q30" value="C" id="r3q30c">
+                    <label for="r3q30c">C a controversial view about the benefits of reasoning wisely</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="r3q30" value="D" id="r3q30d">
+                    <label for="r3q30d">D a recommended strategy that can help people to reason wisely</label>
                 </div>
             </div>
 
             <div class="q-group">
                 <div class="q-instructions">
-                    <strong>Questions 32–36</strong><br>
-                    Choose the correct letter, A, B, C or D.
+                    <strong>Questions 31–35</strong><br>
+                    Complete the summary using the list of words, A–J, below.<br>
+                    Write the correct letter, A–J, in boxes 31–35 on your answer sheet.
                 </div>
 
-                <div class="q-row">
-                    32 What does Grossmann say about wise reasoning?
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q32" value="A" id="r3q32a">
-                    <label for="r3q32a">A It depends mostly on a person’s natural ability.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q32" value="B" id="r3q32b">
-                    <label for="r3q32b">B It changes depending on the situation.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q32" value="C" id="r3q32c">
-                    <label for="r3q32c">C It is consistent across different cultures.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q32" value="D" id="r3q32d">
-                    <label for="r3q32d">D It develops slowly over many years.</label>
+                <div class="word-list">
+                    <strong>A</strong> opinions &nbsp;&nbsp;&nbsp;
+                    <strong>B</strong> confidence &nbsp;&nbsp;&nbsp;
+                    <strong>C</strong> view &nbsp;&nbsp;&nbsp;
+                    <strong>D</strong> modesty<br>
+                    <strong>E</strong> problems &nbsp;&nbsp;&nbsp;
+                    <strong>F</strong> objectivity &nbsp;&nbsp;&nbsp;
+                    <strong>G</strong> fairness &nbsp;&nbsp;&nbsp;
+                    <strong>H</strong> experiences<br>
+                    <strong>I</strong> range &nbsp;&nbsp;&nbsp;
+                    <strong>J</strong> reasons
                 </div>
 
-                <div class="q-row">
-                    33 What is one of the key features of wise reasoning according to the text?
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q33" value="A" id="r3q33a">
-                    <label for="r3q33a">A The ability to ignore other people’s views.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q33" value="B" id="r3q33b">
-                    <label for="r3q33b">B A fixed way of looking at social relationships.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q33" value="C" id="r3q33c">
-                    <label for="r3q33c">C Recognising the limits of one’s own knowledge.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q33" value="D" id="r3q33d">
-                    <label for="r3q33d">D Having strong personal opinions.</label>
-                </div>
+                <p style="margin-bottom:15px;">
+                    Igor Grossmann and colleagues have established four characteristics which enable us to make wise decisions. It is important to have a certain degree of
+                    <strong>31</strong> <input type="text" class="text-input" id="r3q31">
+                    regarding the extent of our knowledge, and to take into account
+                    <strong>32</strong> <input type="text" class="text-input" id="r3q32">
+                    which may not be the same as our own. We should also be able to take a broad
+                    <strong>33</strong> <input type="text" class="text-input" id="r3q33">
+                    of any situation. Another key characteristic is being aware of the likelihood of alterations in the way that people relate to each other.
+                </p>
 
-                <div class="q-row">
-                    34 Why does viewing a problem as an outsider help?
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q34" value="A" id="r3q34a">
-                    <label for="r3q34a">A It allows people to think more broadly.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q34" value="B" id="r3q34b">
-                    <label for="r3q34b">B It reduces the time taken to make a decision.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q34" value="C" id="r3q34c">
-                    <label for="r3q34c">C It makes people feel less involved.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q34" value="D" id="r3q34d">
-                    <label for="r3q34d">D It focuses attention on small details.</label>
-                </div>
-
-                <div class="q-row">
-                    35 What was the outcome of the study involving college students?
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q35" value="A" id="r3q35a">
-                    <label for="r3q35a">A They became more confident about finding work.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q35" value="B" id="r3q35b">
-                    <label for="r3q35b">B They showed signs of wise thinking.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q35" value="C" id="r3q35c">
-                    <label for="r3q35c">C They felt more anxious about the economy.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q35" value="D" id="r3q35d">
-                    <label for="r3q35d">D They changed their career plans completely.</label>
-                </div>
-
-                <div class="q-row">
-                    36 What did the research on couples find?
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q36" value="A" id="r3q36a">
-                    <label for="r3q36a">A They argued for longer periods.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q36" value="B" id="r3q36b">
-                    <label for="r3q36b">B They became more critical of each other.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q36" value="C" id="r3q36c">
-                    <label for="r3q36c">C They were more willing to consider different views.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r3q36" value="D" id="r3q36d">
-                    <label for="r3q36d">D They avoided talking about difficult topics.</label>
-                </div>
+                <p style="margin-bottom:15px;">
+                    Grossmann also believes that it is better to regard scenarios with
+                    <strong>34</strong> <input type="text" class="text-input" id="r3q34">.
+                    By avoiding the first-person perspective, we focus more on
+                    <strong>35</strong> <input type="text" class="text-input" id="r3q35">
+                    and on other moral ideals, which in turn leads to wiser decision-making.
+                </p>
             </div>
 
             <div class="q-group">
                 <div class="q-instructions">
-                    <strong>Questions 37–40</strong><br>
-                    Complete the summary below.<br>
-                    Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
+                    <strong>Questions 36–40</strong><br>
+                    Do the following statements agree with the information given in Reading Passage 3?<br>
+                    In boxes 36–40 on your answer sheet, write<br>
+                    <strong>TRUE</strong> if the statement agrees with the information<br>
+                    <strong>FALSE</strong> if the statement contradicts the information<br>
+                    <strong>NOT GIVEN</strong> if there is no information on this
                 </div>
 
-                <p style="margin-bottom:15px;">Research shows that wisdom has only a limited connection with intelligence and certain personality <strong>37</strong> <input type="text" class="text-input gap-input" id="r3q37">. A person’s level of wisdom is not fixed; instead, it can change greatly according to the <strong>38</strong> <input type="text" class="text-input gap-input" id="r3q38"> they are in. Understanding this is more useful than knowing someone’s general character when trying to predict their emotional reactions or whether they will choose to <strong>39</strong> <input type="text" class="text-input gap-input" id="r3q39"> or react with anger. Grossmann argues that looking at situations from a distance helps people gain a broader <strong>40</strong> <input type="text" class="text-input gap-input" id="r3q40"> of what is happening.</p>
+                <div class="q-row">
+                    36 Students participating in the job prospects experiment could choose one of two perspectives to take.<br>
+                    <input type="text" class="text-input" id="r3q36" placeholder="TRUE / FALSE / NOT GIVEN">
+                </div>
+
+                <div class="q-row">
+                    37 Participants in the couples experiment were aware that they were taking part in a study about wise reasoning.<br>
+                    <input type="text" class="text-input" id="r3q37" placeholder="TRUE / FALSE / NOT GIVEN">
+                </div>
+
+                <div class="q-row">
+                    38 In the couples experiments, the length of the couples' relationships had an impact on the results.<br>
+                    <input type="text" class="text-input" id="r3q38" placeholder="TRUE / FALSE / NOT GIVEN">
+                </div>
+
+                <div class="q-row">
+                    39 In both experiments, the participants who looked at the situation from a more detached viewpoint tended to make wiser decisions.<br>
+                    <input type="text" class="text-input" id="r3q39" placeholder="TRUE / FALSE / NOT GIVEN">
+                </div>
+
+                <div class="q-row">
+                    40 Grossmann believes that a person's wisdom is determined by their intelligence to only a very limited extent.<br>
+                    <input type="text" class="text-input" id="r3q40" placeholder="TRUE / FALSE / NOT GIVEN">
+                </div>
             </div>
 
             <div class="nav-buttons">
