@@ -108,6 +108,14 @@
         localStorage.setItem(key, value.trim());
     }
 
+    // Load saved answers when page opens
+    window.addEventListener('load', function() {
+        for (let i = 1; i <= 10; i++) {
+            const saved = localStorage.getItem(`listening_q${i}`);
+            if (saved) document.getElementById(`q${i}`).value = saved;
+        }
+    });
+
     function showAnswers() {
         let answers = "--- YOUR ANSWERS ---\n\n";
         for (let i = 1; i <= 10; i++) {
@@ -119,27 +127,34 @@
         box.style.display = 'block';
     }
 
-    // --- PLAY AUDIO AUTOMATICALLY ONE AFTER ANOTHER ---
+    // --- CONTINUOUS AUDIO PLAYBACK ---
     const audioFiles = [
         "part1.mp3.mp3",
         "part2.mp3",
         "part3.mp3",
         "part4.mp3"
     ];
-    let currentAudioIndex = 0;
+    let userStarted = false;
 
     window.addEventListener('load', function() {
         const audioPlayer = document.getElementById('listeningAudio');
-        
-        // Load the first part
-        audioPlayer.src = audioFiles[currentAudioIndex];
-        
-        // When one finishes, play the next
+
+        // Mark that user has interacted (required for auto-play)
+        audioPlayer.addEventListener('play', () => userStarted = true);
+
+        // Play next part when current ends
         audioPlayer.addEventListener('ended', function() {
-            currentAudioIndex++;
-            if (currentAudioIndex < audioFiles.length) {
-                audioPlayer.src = audioFiles[currentAudioIndex];
-                audioPlayer.play();
+            if (!userStarted) return;
+
+            const currentSrc = audioPlayer.src.split('/').pop().split('?')[0];
+            const currentIndex = audioFiles.indexOf(currentSrc);
+
+            if (currentIndex !== -1 && currentIndex + 1 < audioFiles.length) {
+                audioPlayer.src = audioFiles[currentIndex + 1];
+                audioPlayer.load();
+                audioPlayer.play().catch(() => {
+                    alert("Next part ready — click Play to continue");
+                });
             }
         });
     });
@@ -195,14 +210,15 @@
 
     <div class="container">
         <div>
-            <!-- AUDIO PLAYER - PLAYS ALL PARTS AUTOMATICALLY -->
+            <!-- AUDIO PLAYER - NOW WITH SOURCE AND WORKING AUTO-PLAY -->
             <div class="audio-player">
                 <h4>Listening Test</h4>
-                <p class="audio-note">⚠️ Audio plays automatically one after another. It will NOT switch pages for you — move to the next part's questions when you are ready.</p>
+                <p class="audio-note">⚠️ Click Play once to start. Audio will continue automatically through all parts. It will NOT switch pages — move when ready.</p>
                 <audio id="listeningAudio" controls preload="metadata">
+                    <source src="part1.mp3.mp3" type="audio/mpeg">
                     Your browser does not support audio playback.
                 
-                <p style="font-size: 14px; color: #555;">Click play when you are ready to start.</p>
+                <p style="font-size: 14px; color: #555;">Audio plays once only, just like the real test.</p>
             </div>
 
             <h3>Questions 1–10</h3>
