@@ -1,53 +1,347 @@
-<!-- Reading Passage 1 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Reading Passage 1</title>
+    <title>IELTS Reading - Passage 1</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
-        #countdown { font-size: 1.4rem; font-weight: bold; color: #d32f2f; margin-bottom: 1rem; }
-        .highlightable { background: #fff; padding: 1rem; border: 1px solid #eee; border-radius: 4px; }
-        .highlight { background-color: #fff350; padding: 2px 0; }
-        .question { margin: 1.2rem 0; }
-        input[type="text"] { padding: 6px; width: 220px; margin-left: 8px; }
-        button { padding: 8px 16px; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 1rem; }
-        button:hover { background: #1565c0; }
-        #answerOutput { margin-top: 1.5rem; padding: 1rem; background: #f5f5f5; border-radius: 4px; white-space: pre-wrap; display: none; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.7;
+            color: #333;
+        }
+        .tabs {
+            background-color: #222;
+            padding: 12px 0;
+        }
+        .tab-link {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .tab-link.active {
+            background-color: #007bff;
+        }
+        .header-bar {
+            background-color: #eee;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #d9534f;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .scrollable {
+            overflow-y: auto;
+            scrollbar-width: auto;
+            scrollbar-color: #999 #f8f8f8;
+        }
+        .scrollable::-webkit-scrollbar {
+            width: 16px;
+        }
+        .scrollable::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 8px;
+        }
+        .scrollable::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 8px;
+            border: 4px solid #f1f1f1;
+        }
+        .scrollable::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+        .test-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            height: calc(100vh - 220px);
+        }
+        .passage-section {
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-right: 1px solid #ddd;
+        }
+        .passage-section h3 {
+            margin-bottom: 15px;
+            color: #222;
+            text-align: center;
+        }
+        .passage-section em {
+            display: block;
+            margin-bottom: 20px;
+            color: #555;
+            text-align: center;
+        }
+        .passage-section p {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+        .highlight {
+            background-color: #fff350;
+            padding: 2px 0;
+            border-radius: 2px;
+        }
+        .highlightable {
+            cursor: text;
+            user-select: text;
+        }
+        .highlightable ::selection {
+            background: #ffe566;
+        }
+        .questions-section {
+            background-color: #ffffff;
+            padding: 25px;
+        }
+        .questions-section h3 {
+            margin-bottom: 20px;
+            color: #222;
+        }
+        .q-group {
+            margin-bottom: 30px;
+        }
+        .q-instructions {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .q-row {
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        .q-num {
+            font-weight: bold;
+            margin-right: 12px;
+            min-width: 32px;
+        }
+        .text-input {
+            padding: 7px 12px;
+            border: 1px solid #999;
+            width: 220px;
+            text-transform: uppercase;
+            margin: 4px 10px;
+            border-radius: 3px;
+            font-size: 15px;
+        }
+        .option {
+            margin: 10px 0 10px 44px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .option input {
+            margin-right: 12px;
+            width: auto;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .nav-buttons {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .btn {
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .answer-box {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            white-space: pre-line;
+            display: none;
+            font-family: monospace;
+            font-size: 15px;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
 
-    <div id="countdown">60:00</div>
-
-    <h2>Reading Passage 1</h2>
-    <p>You should spend about 20 minutes on Questions 1–13, which are based on Reading Passage 1 below.</p>
-
-    <div class="highlightable">
-        <!-- Paste your full Reading Passage 1 text here -->
-        <p>Put your passage content here...</p>
+    <div class="tabs">
+        <a class="tab-link active" href="reading1.html">Passage 1</a>
+        <a class="tab-link" href="reading2.html">Passage 2</a>
+        <a class="tab-link" href="reading3.html">Passage 3 →</a>
     </div>
 
-    <h3>Questions 1–13</h3>
-    <!-- Example question structure — adjust types (text/radio) as needed -->
-    <div class="question">
-        <label>Question 1:</label>
-        <input type="text" id="r1q1" name="r1q1">
+    <div class="header-bar">
+        <h2>IELTS Reading Test</h2>
+        <div class="timer">Time Left: <span id="countdown">60:00</span></div>
     </div>
-    <div class="question">
-        <label>Question 2:</label>
-        <input type="text" id="r1q2" name="r1q2">
-    </div>
-    <!-- Repeat up to Question 13: use IDs r1q3 ... r1q13 -->
 
-    <button onclick="showAnswers()">Show My Answers</button>
-    <div id="answerOutput"></div>
+    <div class="test-container">
+        <!-- LEFT: READING PASSAGE 1 -->
+        <div class="passage-section scrollable">
+            <h3>Reading Passage 1</h3>
+            <em>You should spend about 20 minutes on Questions 1–13, which are based on Reading Passage 1 below.</em>
+
+            <h4 style="text-align: center; margin-bottom: 20px;">The White Horse of Uffington</h4>
+
+            <div class="highlightable">
+                <p>The cutting of huge figures or 'geoglyphs' into the earth of English hillsides has taken place for more than 3,000 years. There are 56 hill figures scattered around England, with the vast majority on the chalk downlands of the country's southern counties. The figures include giants, horses, crosses and regimental badges. Although the majority of these geoglyphs date within the last 300 years or so, there are one or two that are much older.</p>
+
+                <p>The most famous of these figures is perhaps also the most mysterious - the Uffington White Horse in Oxfordshire. The White Horse has recently been re-dated and shown to be even older than its previously assigned ancient pre-Roman Iron Age date. More controversial is the date of the enigmatic Long Man of Wilmington in Sussex. While many historians are convinced the figure is prehistoric, others believe that it was the work of an artistic monk from a nearby priory and was created between the 11th and 15th centuries.</p>
+
+                <p>The method of cutting these huge figures was simply to remove the overlying grass to reveal the gleaming white chalk below. However, the grass would soon grow over the geoglyph again unless it was regularly cleaned or scoured by a fairly large team of people. One reason that the vast majority of hill figures have disappeared is that when the traditions associated with the figures faded, people no longer bothered or remembered to clear away the grass to expose the chalk outline. Furthermore, over hundreds of years the outlines would sometimes change due to people not always cutting in exactly the same place, thus creating a different shape to the original geoglyph. The fact that any ancient hill figures survive at all in England today is testament to the strength and continuity of local customs and beliefs which, in one case at least, must stretch back over millennia.</p>
+
+                <p>The Uffington White Horse is a unique, stylised representation of a horse consisting of a long, sleek back, thin disjointed legs, a streaming tail, and a bird-like beaked head. The elegant creature almost melts into the landscape. The horse is situated 2.5 km from Uffington village on a steep slope close to the Late Bronze Age (c. 7th century BCE) hillfort of Uffington Castle and below the Ridgeway, a long-distance Neolithic track.</p>
+
+                <p>The Uffington Horse is also surrounded by Bronze Age burial mounds. It is not far from the Bronze Age cemetery of Lambourn Seven Barrows, which consists of more than 30 well-preserved burial mounds. The carving has been placed in such a way as to make it extremely difficult to see from close quarters, and like many geoglyphs is best appreciated from the air. Nevertheless, there are certain areas of the Vale of the White Horse, the valley containing and named after the enigmatic creature, from which an adequate impression may be gained. Indeed on a clear day the carving can be seen from up to 30 km away.</p>
+
+                <p>The earliest evidence of a horse at Uffington is from the 1070s CE when 'White Horse Hill' is mentioned in documents from the nearby Abbey of Abingdon, and the first reference to the horse itself is soon after, in 1190 CE. However, the carving is believed to date back much further than that. Due to the similarity of the Uffington White Horse to the stylised depictions of horses on 1st century BCE coins, it had been thought that the creature must also date to that period.</p>
+
+                <p>However, in 1995 Optically Stimulated Luminescence (OSL) testing was carried out by the Oxford Archaeological Unit on soil from two of the lower layers of the horse's body, and from another cut near the base. The result was a date for the horse's construction somewhere between 1400 and 600 BCE - in other words, it had a Late Bronze Age or Early Iron Age origin.</p>
+
+                <p>The latter end of this date range would tie the carving of the horse in with occupation of the nearby Uffington hillfort, indicating that it may represent a tribal emblem marking the land of the inhabitants of the hillfort. Alternatively, the carving may have been carried out during a Bronze or Iron Age ritual. Some researchers see the horse as representing the Celtic horse goddess Epona, who was worshipped as a protector of horses, and for her associations with fertility. However, the cult of Epona was not imported from Gaul (France) until around the first century CE. This date is at least six centuries after the Uffington Horse was probably carved. Nevertheless, the horse had great ritual and economic significance during the Bronze and Iron Ages, as attested by its depictions on jewellery and other metal objects. It is possible that the carving represents a goddess in native mythology, such as Rhiannon, described in later Welsh mythology as a beautiful woman dressed in gold and riding a white horse.</p>
+
+                <p>The fact that geoglyphs can disappear easily, along with their associated rituals and meaning, indicates that they were never intended to be anything more than temporary gestures. But this does not lessen their importance. These giant carvings are a fascinating glimpse into the minds of their creators and how they viewed the landscape in which they lived.</p>
+            </div>
+        </div>
+
+        <!-- RIGHT: QUESTIONS -->
+        <div class="questions-section scrollable">
+            <h3>Questions 1–13</h3>
+
+            <div class="q-group">
+                <div class="q-instructions">
+                    <strong>Questions 1–8</strong><br>
+                    Do the following statements agree with the information given in Reading Passage 1?<br>
+                    Write<br>
+                    <strong>TRUE</strong> if the statement agrees with the information<br>
+                    <strong>FALSE</strong> if the statement contradicts the information<br>
+                    <strong>NOT GIVEN</strong> if there is no information on this
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">1</span>
+                    <input type="text" class="text-input" id="r1q1" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Most geoglyphs in England are located in a particular area of the country.</span>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">2</span>
+                    <input type="text" class="text-input" id="r1q2" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>There are more geoglyphs in the shape of a horse than any other creature.</span>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">3</span>
+                    <input type="text" class="text-input" id="r1q3" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>A recent dating of the Uffington White Horse indicates that people were mistaken about its age.</span>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">4</span>
+                    <input type="text" class="text-input" id="r1q4" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Historians have come to an agreement about the origins of the Long Man of Wilmington.</span>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">5</span>
+                    <input type="text" class="text-input" id="r1q5" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Geoglyphs were created by people placing white chalk on the hillside.</span>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">6</span>
+                    <input type="text" class="text-input" id="r1q6" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>Many geoglyphs in England are no longer visible.</span>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">7</span>
+                    <input type="text" class="text-input" id="r1q7" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>The shape of some geoglyphs has been altered over time.</span>
+                </div>
+
+                <div class="q-row">
+                    <span class="q-num">8</span>
+                    <input type="text" class="text-input" id="r1q8" placeholder="TRUE/FALSE/NOT GIVEN">
+                    <span>The fame of the Uffington White Horse is due to its size.</span>
+                </div>
+            </div>
+
+            <div class="q-group">
+                <div class="q-instructions">
+                    <strong>Questions 9–13</strong><br>
+                    Complete the notes below.<br>
+                    Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.
+                </div>
+
+                <p style="margin-bottom:15px;"><strong>The Uffington White Horse</strong></p>
+                <p style="margin-bottom:10px;">The location of the Uffington White Horse:</p>
+                <div class="q-row">
+                    <span class="q-num">9</span>
+                    <span>• a distance of 2.5 km from Uffington village<br>• near an ancient road known as the <input type="text" class="text-input" id="r1q9" style="width:150px;">.<br>• close to an ancient cemetery that has a number of burial mounds</span>
+                </div>
+
+                <p style="margin:20px 0 10px 0;">Dating the Uffington White Horse:</p>
+                <div class="q-row">
+                    <span class="q-num">10</span>
+                    <span>• first reference to White Horse Hill appears in <input type="text" class="text-input" id="r1q10" style="width:150px;"> from the 1070s<br>• horses shown on coins from the period 100 BCE - 1 BCE are similar in appearance</span>
+                </div>
+                <div class="q-row">
+                    <span class="q-num">11</span>
+                    <span>• according to analysis of the surrounding <input type="text" class="text-input" id="r1q11" style="width:150px;">, the Horse is Late Bronze Age/ Early Iron Age</span>
+                </div>
+
+                <p style="margin:20px 0 10px 0;">Possible reasons for creation of the Uffington White Horse:</p>
+                <div class="q-row">
+                    <span class="q-num">12</span>
+                    <span>• an emblem to indicate land ownership<br>• formed part of an ancient ritual<br>• was a representation of goddess Epona - associated with protection of horses and <input type="text" class="text-input" id="r1q12" style="width:150px;">.</span>
+                </div>
+                <div class="q-row">
+                    <span class="q-num">13</span>
+                    <span>• was a representation of a Welsh goddess called <input type="text" class="text-input" id="r1q13" style="width:150px;">.</span>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="reading2.html" class="btn">Next Passage 2 →</a>
+            </div>
+
+            <button class="btn" style="margin-top: 20px;" onclick="showAnswers()">Show My Answers</button>
+            <div id="answerOutput" class="answer-box"></div>
+        </div>
+    </div>
 
     <script>
         // --- PERSISTENT 60-Minute Countdown Timer ---
-        localStorage.removeItem('readingTimeLeft');
-        let timeLeft = 60 * 60;
+        let timeLeft = localStorage.getItem('readingTimeLeft');
+        if (timeLeft === null || isNaN(timeLeft) || timeLeft <= 0) {
+            timeLeft = 60 * 60;
+        }
         const countdownEl = document.getElementById('countdown');
 
         function updateTimer() {
@@ -71,14 +365,11 @@
 
         // --- Text Highlight Feature ---
         const passageContainer = document.querySelector('.highlightable');
-
         passageContainer.addEventListener('mouseup', function() {
             const selection = window.getSelection();
             if (!selection.rangeCount) return;
-
             const range = selection.getRangeAt(0);
             const selectedText = selection.toString().trim();
-
             if (!selectedText) return;
 
             const parent = range.commonAncestorContainer.parentElement;
