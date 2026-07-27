@@ -56,7 +56,7 @@
             font-weight: bold;
         }
         .nav-buttons {
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: right;
         }
         .btn {
@@ -91,6 +91,11 @@
             width: 160px;
             text-transform: uppercase;
             margin: 0 8px;
+            transition: all 0.2s;
+        }
+        .note-row input.filled {
+            background-color: #e6fffa;
+            border-color: #007bff;
         }
         .answer-output {
             margin-top: 20px;
@@ -102,42 +107,7 @@
             display: none;
         }
 
-        /* === NEW: QUESTION NAVIGATION === */
-        .q-nav {
-            margin: 15px 0;
-            padding: 10px;
-            background: #eef;
-            border-radius: 6px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            align-items: center;
-        }
-        .q-nav a {
-            display: inline-block;
-            width: 32px;
-            height: 32px;
-            line-height: 32px;
-            text-align: center;
-            background: #fff;
-            border: 1px solid #007bff;
-            border-radius: 4px;
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-        }
-        .q-nav a:hover {
-            background: #007bff;
-            color: white;
-        }
-
-        /* === NEW: HIGHLIGHT TOOLS === */
-        .highlight-tools {
-            margin: 10px 0;
-            padding: 8px;
-            background: #fff8e1;
-            border-radius: 4px;
-        }
+        /* Highlight Style */
         .highlight {
             background-color: #ffeb3b;
             color: #000;
@@ -145,7 +115,27 @@
             border-radius: 2px;
         }
 
-        /* === NEW: DRAGGABLE NOTES === */
+        /* Right-Click Context Menu */
+        .context-menu {
+            position: fixed;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 9999;
+            display: none;
+            min-width: 160px;
+        }
+        .context-menu div {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .context-menu div:hover {
+            background: #f0f0f0;
+        }
+
+        /* Draggable Notes */
         .draggable-note {
             position: fixed;
             width: 220px;
@@ -184,18 +174,82 @@
             right: 20px;
             z-index: 998;
         }
+
+        /* Question Status Bar (Bottom) */
+        .question-status {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 6px;
+            margin: 25px 0 15px;
+            padding: 12px 15px;
+            background: #f0f2f5;
+            border-radius: 4px;
+            border: 1px solid #d0d5dd;
+            font-size: 12px;
+        }
+        .part-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #444;
+            margin-right: 4px;
+            margin-left: 8px;
+        }
+        .part-separator {
+            width: 12px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .q-indicator {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: normal;
+            border-radius: 2px;
+            border: 1px solid #d1d5db;
+            background: #e5e7eb;
+            color: #333;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .q-indicator:hover {
+            border-color: #007bff;
+        }
+        .q-indicator.answered {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
     </style>
    <script>
-    // Auto-save answers to browser storage
+    // Auto-save answers
     function saveAnswer(key, value) {
-        localStorage.setItem(key, value.trim());
+        const val = value.trim();
+        localStorage.setItem(key, val);
+        const qNum = key.replace('listening_q','');
+        const input = document.getElementById(`q${qNum}`);
+        if (val) {
+            input.classList.add('filled');
+            markAnswered(qNum);
+        } else {
+            input.classList.remove('filled');
+            unmarkAnswered(qNum);
+        }
     }
 
-    // Load saved answers when page opens
+    // Load saved answers & notes
     window.addEventListener('load', function() {
         for (let i = 1; i <= 10; i++) {
             const saved = localStorage.getItem(`listening_q${i}`);
-            if (saved) document.getElementById(`q${i}`).value = saved;
+            if (saved) {
+                document.getElementById(`q${i}`).value = saved;
+                document.getElementById(`q${i}`).classList.add('filled');
+                markAnswered(i);
+            }
         }
         loadNotes();
     });
@@ -208,18 +262,12 @@
         }
         let box = document.getElementById('answerBox');
         box.textContent = answers;
-        box.style.display = 'block';
+        box.style.display = box.style.display === 'block' ? 'none' : 'block';
     }
 
-    // --- CONTINUOUS AUDIO PLAYBACK ---
-    const audioFiles = [
-        "part1.mp3",
-        "part2.mp3",
-        "part3.mp3",
-        "part4.mp3"
-    ];
+    // Audio Playback
+    const audioFiles = ["part1.mp3", "part2.mp3", "part3.mp3", "part4.mp3"];
     let userStarted = false;
-
     window.addEventListener('load', function() {
         const audioPlayer = document.getElementById('listeningAudio');
         audioPlayer.addEventListener('play', () => userStarted = true);
@@ -230,14 +278,12 @@
             if (currentIndex !== -1 && currentIndex + 1 < audioFiles.length) {
                 audioPlayer.src = audioFiles[currentIndex + 1];
                 audioPlayer.load();
-                audioPlayer.play().catch(() => {
-                    alert("Next part ready — click Play to continue");
-                });
+                audioPlayer.play().catch(() => alert("Next part ready — click Play to continue"));
             }
         });
     });
 
-    // --- ONE CONTINUOUS TIMER ---
+    // Timer
     window.addEventListener('load', function() {
         if (!localStorage.getItem('listeningTestStarted')) {
             localStorage.setItem('listeningTestStarted', 'true');
@@ -260,23 +306,42 @@
         const timerInterval = setInterval(updateTimer, 1000);
     });
 
-    // === NEW: HIGHLIGHT FUNCTIONS ===
-    function highlightSelection() {
+    // === RIGHT-CLICK HIGHLIGHT MENU ===
+    document.addEventListener('contextmenu', function(e) {
         const selection = window.getSelection();
-        if (!selection.toString()) return alert("Select some text first!");
-        const range = selection.getRangeAt(0);
+        const menu = document.getElementById('contextMenu');
+        if (selection.toString().trim() !== "") {
+            e.preventDefault();
+            menu.style.left = e.pageX + "px";
+            menu.style.top = e.pageY + "px";
+            menu.style.display = "block";
+        } else {
+            menu.style.display = "none";
+        }
+    });
+    document.addEventListener('click', () => document.getElementById('contextMenu').style.display = 'none');
+
+    function highlightSelection() {
+        const sel = window.getSelection();
+        if (!sel.toString()) return;
+        const range = sel.getRangeAt(0);
         const span = document.createElement("span");
         span.className = "highlight";
         range.surroundContents(span);
         window.getSelection().removeAllRanges();
     }
+    function removeNearestHighlight() {
+        const sel = window.getSelection();
+        if (!sel.anchorNode) return;
+        let el = sel.anchorNode.parentElement;
+        while (el && !el.classList.contains('highlight')) el = el.parentElement;
+        if (el) el.outerHTML = el.textContent;
+    }
     function removeAllHighlights() {
-        document.querySelectorAll(".highlight").forEach(el => {
-            el.outerHTML = el.textContent;
-        });
+        document.querySelectorAll(".highlight").forEach(el => el.outerHTML = el.textContent);
     }
 
-    // === NEW: DRAGGABLE NOTES ===
+    // === DRAGGABLE NOTES ===
     let noteCount = 0;
     function createNote() {
         noteCount++;
@@ -285,10 +350,7 @@
         note.style.left = (100 + (noteCount * 30)) + "px";
         note.style.top = (150 + (noteCount * 30)) + "px";
         note.innerHTML = `
-            <div class="note-header">
-                Quick Note ${noteCount}
-                <button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button>
-            </div>
+            <div class="note-header">Quick Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div>
             <textarea class="note-text" placeholder="Write your notes here..."></textarea>
         `;
         document.body.appendChild(note);
@@ -296,72 +358,54 @@
         note.querySelector(".note-text").addEventListener("input", saveNotes);
         saveNotes();
     }
-
     function makeDraggable(el) {
         const header = el.querySelector(".note-header");
-        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        header.onmousedown = dragMouseDown;
-        function dragMouseDown(e) {
-            e.preventDefault();
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            document.onmousemove = elementDrag;
-        }
-        function elementDrag(e) {
-            e.preventDefault();
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            el.style.top = (el.offsetTop - pos2) + "px";
-            el.style.left = (el.offsetLeft - pos1) + "px";
-        }
-        function closeDragElement() {
-            document.onmouseup = null;
-            document.onmousemove = null;
-            saveNotes();
-        }
+        let pos1=0,pos2=0,pos3=0,pos4=0;
+        header.onmousedown = e => {
+            e.preventDefault(); pos3=e.clientX; pos4=e.clientY;
+            document.onmouseup = ()=>{document.onmouseup=null;document.onmousemove=null;saveNotes();};
+            document.onmousemove = e=>{e.preventDefault();pos1=pos3-e.clientX;pos2=pos4-e.clientY;pos3=e.clientX;pos4=e.clientY;el.style.top=(el.offsetTop-pos2)+"px";el.style.left=(el.offsetLeft-pos1)+"px";};
+        };
     }
-
     function saveNotes() {
         const notes = [];
-        document.querySelectorAll(".draggable-note").forEach(n => {
-            notes.push({
-                left: n.style.left,
-                top: n.style.top,
-                text: n.querySelector(".note-text").value
-            });
-        });
+        document.querySelectorAll(".draggable-note").forEach(n => notes.push({left:n.style.left,top:n.style.top,text:n.querySelector(".note-text").value}));
         localStorage.setItem("draggableNotes", JSON.stringify(notes));
     }
-
     function loadNotes() {
         const saved = localStorage.getItem("draggableNotes");
         if (!saved) return;
-        JSON.parse(saved).forEach((data, idx) => {
-            noteCount = idx + 1;
-            const note = document.createElement("div");
-            note.className = "draggable-note";
-            note.style.left = data.left;
-            note.style.top = data.top;
-            note.innerHTML = `
-                <div class="note-header">
-                    Quick Note ${noteCount}
-                    <button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button>
-                </div>
-                <textarea class="note-text">${data.text}</textarea>
-            `;
-            document.body.appendChild(note);
-            makeDraggable(note);
-            note.querySelector(".note-text").addEventListener("input", saveNotes);
+        JSON.parse(saved).forEach((d,i)=>{
+            noteCount=i+1;
+            const n = document.createElement("div");
+            n.className="draggable-note"; n.style.left=d.left; n.style.top=d.top;
+            n.innerHTML=`<div class="note-header">Quick Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text">${d.text}</textarea>`;
+            document.body.appendChild(n); makeDraggable(n);
+            n.querySelector(".note-text").addEventListener("input", saveNotes);
         });
+    }
+
+    // === QUESTION STATUS MARKING ===
+    function markAnswered(q) {
+        const el = document.querySelector(`.q-indicator[href="#q${q}"]`);
+        if (el) el.classList.add('answered');
+    }
+    function unmarkAnswered(q) {
+        const el = document.querySelector(`.q-indicator[href="#q${q}"]`);
+        if (el) el.classList.remove('answered');
     }
    </script>
 </head>
 <body>
 
-    <!-- Tabs / Navigation -->
+    <!-- Right-Click Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div onclick="highlightSelection()">🖍️ Highlight</div>
+        <div onclick="removeNearestHighlight()">❌ Remove This Highlight</div>
+        <div onclick="removeAllHighlights()">🧹 Remove All Highlights</div>
+    </div>
+
+    <!-- Tabs -->
     <div class="tabs">
         <a class="tab-link active" href="listening-part1.html">Listening Part 1</a>
         <a class="tab-link" href="listening-part2.html">Listening Part 2</a>
@@ -371,106 +415,113 @@
         <a class="tab-link" href="writing.html">Writing</a>
     </div>
 
-  <div class="header-bar">
-    <img src="ielts-logo.png" alt="IELTS Logo" style="height: 150px; margin-right: 15px; object-fit: contain;">
-    <h2>IELTS Listening Test - Part 1</h2>
-    <div class="timer" style="background-color: #ffffff; padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; font-size: 18px; font-weight: bold; color: #333;">
-        Time Remaining: <span id="countdown">30:00</span>
-    </div>
-</div>
-
-    <!-- NEW: HIGHLIGHT TOOLBAR -->
-    <div class="highlight-tools">
-        <strong>Tools:</strong>
-        <button class="btn" style="padding:5px 10px;" onclick="highlightSelection()">🖍️ Highlight Selected</button>
-        <button class="btn" style="padding:5px 10px;background:#6c757d;" onclick="removeAllHighlights()">❌ Remove All Highlights</button>
-    </div>
-
-    <!-- NEW: QUESTION NAVIGATION -->
-    <div class="q-nav">
-        <strong>Go to Question:</strong>
-        <a href="#q1">1</a>
-        <a href="#q2">2</a>
-        <a href="#q3">3</a>
-        <a href="#q4">4</a>
-        <a href="#q5">5</a>
-        <a href="#q6">6</a>
-        <a href="#q7">7</a>
-        <a href="#q8">8</a>
-        <a href="#q9">9</a>
-        <a href="#q10">10</a>
+    <div class="header-bar">
+        <img src="ielts-logo.png" alt="IELTS Logo" style="height: 150px; margin-right: 15px; object-fit: contain;">
+        <h2>IELTS Listening Test - Part 1</h2>
+        <div class="timer" style="background: #fff; padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; font-size: 18px; font-weight: bold;">
+            Time Remaining: <span id="countdown">30:00</span>
+        </div>
     </div>
 
     <div class="container">
         <div>
-            <!-- AUDIO PLAYER -->
+            <!-- Audio Player -->
             <div class="audio-player">
                 <h4>Listening Test</h4>
-                <p class="audio-note">⚠️ Click Play once to start. Audio will continue automatically through all parts. It will NOT switch pages — move when ready.</p>
+                <p class="audio-note">⚠️ Click Play once to start. Audio continues automatically through all parts.</p>
                 <audio id="listeningAudio" controls preload="metadata">
                     <source src="part1.mp3" type="audio/mpeg">
                     Your browser does not support audio playback.
                 
-                <p style="font-size: 14px; color: #555;">Audio plays once only, just like the real test.</p>
+                <p style="font-size:14px;color:#555;">Select text → Right‑click to highlight or add notes.</p>
             </div>
 
             <h3>Questions 1–10</h3>
-            <p><strong>Complete the notes below.</strong><br>
-            Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
+            <p><strong>Complete the notes below.</strong><br>Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
 
             <div class="notes-box">
-                <p><strong>Copying photos to digital format</strong><br>
-                Name of company: Picturerep</p>
-
-                <p><strong>Requirements</strong><br>
-                • Maximum size of photos is 30 cm, minimum size 4 cm.<br>
-                • Photos must not be in a
-                <span class="note-row"><strong id="q1">1</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q1', this.value)"></span>
-                or an album.</p>
-
-                <p><strong>Cost</strong><br>
-                • The cost for 360 photos is
-                <span class="note-row"><strong id="q2">2 £</strong> <input type="text" placeholder="NUMBER" oninput="saveAnswer('listening_q2', this.value)"></span>
-                (including one disk).<br>
-                • Before the completed order is sent,
-                <span class="note-row"><strong id="q3">3</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q3', this.value)"></span>
-                is required.</p>
-
-                <p><strong>Services included in the price</strong><br>
-                • Photos can be placed in a folder, e.g. with the name
-                <span class="note-row"><strong id="q4">4</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q4', this.value)"></span>.<br>
-                • The
-                <span class="note-row"><strong id="q5">5</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q5', this.value)"></span>
-                and contrast can be improved if necessary.<br>
-                • Photos which are very fragile will be scanned by
+                <p><strong>Copying photos to digital format</strong><br>Name of company: Picturerep</p>
+                <p><strong>Requirements</strong><br>• Maximum size of photos is 30 cm, minimum size 4 cm.<br>• Photos must not be in a
+                <span class="note-row"><strong id="q1">1</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q1', this.value)"></span> or an album.</p>
+                <p><strong>Cost</strong><br>• The cost for 360 photos is
+                <span class="note-row"><strong id="q2">2 £</strong> <input type="text" placeholder="NUMBER" oninput="saveAnswer('listening_q2', this.value)"></span> (including one disk).<br>• Before the completed order is sent,
+                <span class="note-row"><strong id="q3">3</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q3', this.value)"></span> is required.</p>
+                <p><strong>Services included in the price</strong><br>• Photos can be placed in a folder, e.g. with the name
+                <span class="note-row"><strong id="q4">4</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q4', this.value)"></span>.<br>• The
+                <span class="note-row"><strong id="q5">5</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q5', this.value)"></span> and contrast can be improved if necessary.<br>• Photos which are very fragile will be scanned by
                 <span class="note-row"><strong id="q6">6</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q6', this.value)"></span>.</p>
-
-                <p><strong>Special restore service (costs extra)</strong><br>
-                • It may be possible to remove an object from a photo, or change the
-                <span class="note-row"><strong id="q7">7</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q7', this.value)"></span>.<br>
-                • A photo which is not correctly in
-                <span class="note-row"><strong id="q8">8</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q8', this.value)"></span>
-                cannot be fixed.</p>
-
-                <p><strong>Other information</strong><br>
-                • Orders are completed within
-                <span class="note-row"><strong id="q9">9</strong> <input type="text" placeholder="ONE WORD/NUMBER" oninput="saveAnswer('listening_q9', this.value)"></span>.<br>
-                • Send the photos in a box (not
+                <p><strong>Special restore service (costs extra)</strong><br>• It may be possible to remove an object from a photo, or change the
+                <span class="note-row"><strong id="q7">7</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q7', this.value)"></span>.<br>• A photo which is not correctly in
+                <span class="note-row"><strong id="q8">8</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q8', this.value)"></span> cannot be fixed.</p>
+                <p><strong>Other information</strong><br>• Orders are completed within
+                <span class="note-row"><strong id="q9">9</strong> <input type="text" placeholder="ONE WORD/NUMBER" oninput="saveAnswer('listening_q9', this.value)"></span>.<br>• Send the photos in a box (not
                 <span class="note-row"><strong id="q10">10</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q10', this.value)"></span>).</p>
+            </div>
+
+            <!-- Question Status Bar (Bottom, 1–40) -->
+            <div class="question-status">
+                <span class="part-label">Part 1</span>
+                <a href="#q1" class="q-indicator">1</a>
+                <a href="#q2" class="q-indicator">2</a>
+                <a href="#q3" class="q-indicator">3</a>
+                <a href="#q4" class="q-indicator">4</a>
+                <a href="#q5" class="q-indicator">5</a>
+                <a href="#q6" class="q-indicator">6</a>
+                <a href="#q7" class="q-indicator">7</a>
+                <a href="#q8" class="q-indicator">8</a>
+                <a href="#q9" class="q-indicator">9</a>
+                <a href="#q10" class="q-indicator">10</a>
+
+                <div class="part-separator"></div>
+                <span class="part-label">Part 2</span>
+                <a href="#" class="q-indicator">11</a>
+                <a href="#" class="q-indicator">12</a>
+                <a href="#" class="q-indicator">13</a>
+                <a href="#" class="q-indicator">14</a>
+                <a href="#" class="q-indicator">15</a>
+                <a href="#" class="q-indicator">16</a>
+                <a href="#" class="q-indicator">17</a>
+                <a href="#" class="q-indicator">18</a>
+                <a href="#" class="q-indicator">19</a>
+                <a href="#" class="q-indicator">20</a>
+
+                <div class="part-separator"></div>
+                <span class="part-label">Part 3</span>
+                <a href="#" class="q-indicator">21</a>
+                <a href="#" class="q-indicator">22</a>
+                <a href="#" class="q-indicator">23</a>
+                <a href="#" class="q-indicator">24</a>
+                <a href="#" class="q-indicator">25</a>
+                <a href="#" class="q-indicator">26</a>
+                <a href="#" class="q-indicator">27</a>
+                <a href="#" class="q-indicator">28</a>
+                <a href="#" class="q-indicator">29</a>
+                <a href="#" class="q-indicator">30</a>
+
+                <div class="part-separator"></div>
+                <span class="part-label">Part 4</span>
+                <a href="#" class="q-indicator">31</a>
+                <a href="#" class="q-indicator">32</a>
+                <a href="#" class="q-indicator">33</a>
+                <a href="#" class="q-indicator">34</a>
+                <a href="#" class="q-indicator">35</a>
+                <a href="#" class="q-indicator">36</a>
+                <a href="#" class="q-indicator">37</a>
+                <a href="#" class="q-indicator">38</a>
+                <a href="#" class="q-indicator">39</a>
+                <a href="#" class="q-indicator">40</a>
             </div>
 
             <!-- Buttons -->
             <div class="nav-buttons">
-                <button class="btn" onclick="showAnswers()">Show My Answers</button>
+                <button class="btn" onclick="showAnswers()">Show / Hide Answers</button>
                 <a href="listening-part2.html" class="btn">Next → Part 2</a>
             </div>
 
-            <!-- Answer display area -->
             <div id="answerBox" class="answer-output"></div>
         </div>
     </div>
 
-    <!-- NEW: ADD NOTE BUTTON -->
     <button class="btn add-note-btn" onclick="createNote()">📝 Add Note</button>
 
 </body>
