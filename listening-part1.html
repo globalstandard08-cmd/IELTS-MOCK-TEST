@@ -115,7 +115,7 @@
             border-radius: 2px;
         }
 
-        /* RIGHT-CLICK MENU — FIXED POSITION & Z-INDEX */
+        /* RIGHT-CLICK MENU */
         .context-menu {
             position: absolute;
             background: #ffffff;
@@ -168,14 +168,8 @@
             font-size: 14px;
             outline: none;
         }
-        .add-note-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 998;
-        }
 
-        /* Question Status Bar (Bottom) */
+        /* Question Status Bar */
         .question-status {
             display: flex;
             flex-wrap: wrap;
@@ -225,194 +219,202 @@
             border-color: #10b981;
         }
     </style>
-   <script>
-    // Auto-save answers
-    function saveAnswer(key, value) {
-        const val = value.trim();
-        localStorage.setItem(key, val);
-        const qNum = key.replace('listening_q','');
-        const input = document.getElementById(`q${qNum}`);
-        if (val) {
-            input.classList.add('filled');
-            markAnswered(qNum);
-        } else {
-            input.classList.remove('filled');
-            unmarkAnswered(qNum);
-        }
-    }
-
-    // Load saved answers & notes
-    window.addEventListener('load', function() {
-        for (let i = 1; i <= 10; i++) {
-            const saved = localStorage.getItem(`listening_q${i}`);
-            if (saved) {
-                document.getElementById(`q${i}`).value = saved;
-                document.getElementById(`q${i}`).classList.add('filled');
-                markAnswered(i);
-            }
-        }
-        loadNotes();
-    });
-
-    function showAnswers() {
-        let answers = "--- YOUR ANSWERS ---\n\n";
-        for (let i = 1; i <= 10; i++) {
-            let val = document.getElementById('q'+i).value.trim();
-            answers += "Question " + i + ": " + (val || "(not answered)") + "\n";
-        }
-        let box = document.getElementById('answerBox');
-        box.textContent = answers;
-        box.style.display = box.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Audio Playback
-    const audioFiles = ["part1.mp3", "part2.mp3", "part3.mp3", "part4.mp3"];
-    let userStarted = false;
-    window.addEventListener('load', function() {
-        const audioPlayer = document.getElementById('listeningAudio');
-        audioPlayer.addEventListener('play', () => userStarted = true);
-        audioPlayer.addEventListener('ended', function() {
-            if (!userStarted) return;
-            const currentSrc = audioPlayer.src.split('/').pop().split('?')[0];
-            const currentIndex = audioFiles.indexOf(currentSrc);
-            if (currentIndex !== -1 && currentIndex + 1 < audioFiles.length) {
-                audioPlayer.src = audioFiles[currentIndex + 1];
-                audioPlayer.load();
-                audioPlayer.play().catch(() => alert("Next part ready — click Play to continue"));
-            }
-        });
-    });
-
-    // Timer
-    window.addEventListener('load', function() {
-        if (!localStorage.getItem('listeningTestStarted')) {
-            localStorage.setItem('listeningTestStarted', 'true');
-            localStorage.setItem('listeningTimeLeft', 30 * 60);
-        }
-        let timeLeft = parseInt(localStorage.getItem('listeningTimeLeft')) || 30 * 60;
-        const countdownEl = document.getElementById('countdown');
-        function updateTimer() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            if (timeLeft > 0) {
-                timeLeft--;
-                localStorage.setItem('listeningTimeLeft', timeLeft);
+    <script>
+        // Auto-save answers
+        function saveAnswer(key, value) {
+            const val = value.trim();
+            localStorage.setItem(key, val);
+            const qNum = key.replace('listening_q','');
+            const input = document.getElementById(`q${qNum}`);
+            if (val) {
+                input.classList.add('filled');
+                markAnswered(qNum);
             } else {
-                clearInterval(timerInterval);
-                alert("Time is up! You may still review your answers.");
+                input.classList.remove('filled');
+                unmarkAnswered(qNum);
             }
         }
-        const timerInterval = setInterval(updateTimer, 1000);
-    });
 
-    // === RIGHT-CLICK HIGHLIGHT — FULLY FIXED ===
-    let lastSelection = null;
-    document.addEventListener('contextmenu', function(e) {
-        const sel = window.getSelection();
-        const menu = document.getElementById('contextMenu');
-        if (sel.toString().trim() !== '') {
-            e.preventDefault();
-            lastSelection = sel.getRangeAt(0);
-            menu.style.left = e.pageX + "px";
-            menu.style.top = e.pageY + "px";
-            menu.style.display = "block";
-        } else {
-            menu.style.display = "none";
-            lastSelection = null;
-        }
-    });
-    document.addEventListener('click', () => {
-        document.getElementById('contextMenu').style.display = 'none';
-    });
-
-    function highlightSelection() {
-        if (!lastSelection) return;
-        const span = document.createElement("span");
-        span.className = "highlight";
-        lastSelection.surroundContents(span);
-        window.getSelection().removeAllRanges();
-        document.getElementById('contextMenu').style.display = 'none';
-    }
-    function removeNearestHighlight() {
-        if (!lastSelection || !lastSelection.commonAncestorContainer) return;
-        let el = lastSelection.commonAncestorContainer;
-        if (el.nodeType === Node.TEXT_NODE) el = el.parentElement;
-        if (el && el.classList.contains('highlight')) {
-            el.outerHTML = el.textContent;
-        }
-        window.getSelection().removeAllRanges();
-        document.getElementById('contextMenu').style.display = 'none';
-    }
-    function removeAllHighlights() {
-        document.querySelectorAll(".highlight").forEach(el => {
-            el.outerHTML = el.textContent;
+        // Load saved answers & notes
+        window.addEventListener('load', function() {
+            for (let i = 1; i <= 10; i++) {
+                const saved = localStorage.getItem(`listening_q${i}`);
+                if (saved) {
+                    document.getElementById(`q${i}`).value = saved;
+                    document.getElementById(`q${i}`).classList.add('filled');
+                    markAnswered(i);
+                }
+            }
+            loadNotes();
         });
-        document.getElementById('contextMenu').style.display = 'none';
-    }
 
-    // === DRAGGABLE NOTES ===
-    let noteCount = 0;
-    function createNote() {
-        noteCount++;
-        const note = document.createElement("div");
-        note.className = "draggable-note";
-        note.style.left = (100 + (noteCount * 30)) + "px";
-        note.style.top = (150 + (noteCount * 30)) + "px";
-        note.innerHTML = `
-            <div class="note-header">Quick Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div>
-            <textarea class="note-text" placeholder="Write your notes here..."></textarea>
-        `;
-        document.body.appendChild(note);
-        makeDraggable(note);
-        note.querySelector(".note-text").addEventListener("input", saveNotes);
-        saveNotes();
-    }
-    function makeDraggable(el) {
-        const header = el.querySelector(".note-header");
-        let pos1=0,pos2=0,pos3=0,pos4=0;
-        header.onmousedown = e => {
-            e.preventDefault(); pos3=e.clientX; pos4=e.clientY;
-            document.onmouseup = ()=>{document.onmouseup=null;document.onmousemove=null;saveNotes();};
-            document.onmousemove = e=>{e.preventDefault();pos1=pos3-e.clientX;pos2=pos4-e.clientY;pos3=e.clientX;pos4=e.clientY;el.style.top=(el.offsetTop-pos2)+"px";el.style.left=(el.offsetLeft-pos1)+"px";};
-        };
-    }
-    function saveNotes() {
-        const notes = [];
-        document.querySelectorAll(".draggable-note").forEach(n => notes.push({left:n.style.left,top:n.style.top,text:n.querySelector(".note-text").value}));
-        localStorage.setItem("draggableNotes", JSON.stringify(notes));
-    }
-    function loadNotes() {
-        const saved = localStorage.getItem("draggableNotes");
-        if (!saved) return;
-        JSON.parse(saved).forEach((d,i)=>{
-            noteCount=i+1;
-            const n = document.createElement("div");
-            n.className="draggable-note"; n.style.left=d.left; n.style.top=d.top;
-            n.innerHTML=`<div class="note-header">Quick Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text">${d.text}</textarea>`;
-            document.body.appendChild(n); makeDraggable(n);
-            n.querySelector(".note-text").addEventListener("input", saveNotes);
+        function showAnswers() {
+            let answers = "--- YOUR ANSWERS ---\n\n";
+            for (let i = 1; i <= 10; i++) {
+                let val = document.getElementById('q'+i).value.trim();
+                answers += "Question " + i + ": " + (val || "(not answered)") + "\n";
+            }
+            let box = document.getElementById('answerBox');
+            box.textContent = answers;
+            box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Audio Playback
+        const audioFiles = ["part1.mp3", "part2.mp3", "part3.mp3", "part4.mp3"];
+        let userStarted = false;
+        window.addEventListener('load', function() {
+            const audioPlayer = document.getElementById('listeningAudio');
+            audioPlayer.addEventListener('play', () => userStarted = true);
+            audioPlayer.addEventListener('ended', function() {
+                if (!userStarted) return;
+                const currentSrc = audioPlayer.src.split('/').pop().split('?')[0];
+                const currentIndex = audioFiles.indexOf(currentSrc);
+                if (currentIndex !== -1 && currentIndex + 1 < audioFiles.length) {
+                    audioPlayer.src = audioFiles[currentIndex + 1];
+                    audioPlayer.load();
+                    audioPlayer.play().catch(() => alert("Next part ready — click Play to continue"));
+                }
+            });
         });
-    }
 
-    // === QUESTION STATUS MARKING ===
-    function markAnswered(q) {
-        const el = document.querySelector(`.q-indicator[href="#q${q}"]`);
-        if (el) el.classList.add('answered');
-    }
-    function unmarkAnswered(q) {
-        const el = document.querySelector(`.q-indicator[href="#q${q}"]`);
-        if (el) el.classList.remove('answered');
-    }
-   </script>
+        // Timer
+        window.addEventListener('load', function() {
+            if (!localStorage.getItem('listeningTestStarted')) {
+                localStorage.setItem('listeningTestStarted', 'true');
+                localStorage.setItem('listeningTimeLeft', 30 * 60);
+            }
+            let timeLeft = parseInt(localStorage.getItem('listeningTimeLeft')) || 30 * 60;
+            const countdownEl = document.getElementById('countdown');
+            function updateTimer() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    localStorage.setItem('listeningTimeLeft', timeLeft);
+                } else {
+                    clearInterval(timerInterval);
+                    alert("Time is up! You may still review your answers.");
+                }
+            }
+            const timerInterval = setInterval(updateTimer, 1000);
+        });
+
+        // === RIGHT-CLICK MENU WITH ALL OPTIONS ===
+        let lastSelection = null;
+        document.addEventListener('contextmenu', function(e) {
+            const sel = window.getSelection();
+            const menu = document.getElementById('contextMenu');
+            if (sel.toString().trim() !== '') {
+                e.preventDefault();
+                lastSelection = sel.getRangeAt(0);
+                menu.style.left = e.pageX + "px";
+                menu.style.top = e.pageY + "px";
+                menu.style.display = "block";
+            } else {
+                menu.style.display = "none";
+                lastSelection = null;
+            }
+        });
+        document.addEventListener('click', () => {
+            document.getElementById('contextMenu').style.display = 'none';
+        });
+
+        function highlightSelection() {
+            if (!lastSelection) return;
+            const span = document.createElement("span");
+            span.className = "highlight";
+            lastSelection.surroundContents(span);
+            window.getSelection().removeAllRanges();
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+        function removeNearestHighlight() {
+            if (!lastSelection || !lastSelection.commonAncestorContainer) return;
+            let el = lastSelection.commonAncestorContainer;
+            if (el.nodeType === Node.TEXT_NODE) el = el.parentElement;
+            if (el && el.classList.contains('highlight')) {
+                el.outerHTML = el.textContent;
+            }
+            window.getSelection().removeAllRanges();
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+        function removeAllHighlights() {
+            document.querySelectorAll(".highlight").forEach(el => {
+                el.outerHTML = el.textContent;
+            });
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+        function addNoteHere() {
+            if (!lastSelection) return;
+            const rect = lastSelection.getBoundingClientRect();
+            createNote(rect.right + 15, rect.top);
+            window.getSelection().removeAllRanges();
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+
+        // === DRAGGABLE NOTES ===
+        let noteCount = 0;
+        function createNote(posX = 120, posY = 180) {
+            noteCount++;
+            const note = document.createElement("div");
+            note.className = "draggable-note";
+            note.style.left = posX + "px";
+            note.style.top = posY + "px";
+            note.innerHTML = `
+                <div class="note-header">Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div>
+                <textarea class="note-text" placeholder="Write your notes here..."></textarea>
+            `;
+            document.body.appendChild(note);
+            makeDraggable(note);
+            note.querySelector(".note-text").addEventListener("input", saveNotes);
+            saveNotes();
+        }
+        function makeDraggable(el) {
+            const header = el.querySelector(".note-header");
+            let pos1=0,pos2=0,pos3=0,pos4=0;
+            header.onmousedown = e => {
+                e.preventDefault(); pos3=e.clientX; pos4=e.clientY;
+                document.onmouseup = ()=>{document.onmouseup=null;document.onmousemove=null;saveNotes();};
+                document.onmousemove = e=>{e.preventDefault();pos1=pos3-e.clientX;pos2=pos4-e.clientY;pos3=e.clientX;pos4=e.clientY;el.style.top=(el.offsetTop-pos2)+"px";el.style.left=(el.offsetLeft-pos1)+"px";};
+            };
+        }
+        function saveNotes() {
+            const notes = [];
+            document.querySelectorAll(".draggable-note").forEach(n => notes.push({left:n.style.left,top:n.style.top,text:n.querySelector(".note-text").value}));
+            localStorage.setItem("draggableNotes", JSON.stringify(notes));
+        }
+        function loadNotes() {
+            const saved = localStorage.getItem("draggableNotes");
+            if (!saved) return;
+            JSON.parse(saved).forEach((d,i)=>{
+                noteCount=i+1;
+                const n = document.createElement("div");
+                n.className="draggable-note"; n.style.left=d.left; n.style.top=d.top;
+                n.innerHTML=`<div class="note-header">Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text">${d.text}</textarea>`;
+                document.body.appendChild(n); makeDraggable(n);
+                n.querySelector(".note-text").addEventListener("input", saveNotes);
+            });
+        }
+
+        // === QUESTION STATUS MARKING ===
+        function markAnswered(q) {
+            const el = document.querySelector(`.q-indicator[href="#q${q}"]`);
+            if (el) el.classList.add('answered');
+        }
+        function unmarkAnswered(q) {
+            const el = document.querySelector(`.q-indicator[href="#q${q}"]`);
+            if (el) el.classList.remove('answered');
+        }
+    </script>
 </head>
 <body>
 
-    <!-- RIGHT-CLICK MENU — PLACED FIRST SO IT ALWAYS SHOWS -->
+    <!-- RIGHT-CLICK MENU -->
     <div id="contextMenu" class="context-menu">
         <div onclick="highlightSelection()">🖍️ Highlight</div>
         <div onclick="removeNearestHighlight()">❌ Remove This Highlight</div>
         <div onclick="removeAllHighlights()">🧹 Remove All Highlights</div>
+        <div onclick="addNoteHere()">📝 Add Note</div>
     </div>
 
     <!-- Tabs -->
@@ -443,7 +445,7 @@
                     <source src="part1.mp3" type="audio/mpeg">
                     Your browser does not support audio playback.
                 
-                <p style="font-size:14px;color:#555;">✅ Select any text → Right‑click → Highlight / Remove</p>
+                <p style="font-size:14px;color:#555;">✅ Select any text → Right‑click → Highlight / Remove / Add Note</p>
             </div>
 
             <h3>Questions 1–10</h3>
@@ -468,7 +470,7 @@
                 <span class="note-row"><strong id="q10">10</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q10', this.value)"></span>).</p>
             </div>
 
-            <!-- Question Status Bar (Bottom, 1–40) -->
+            <!-- Question Status Bar -->
             <div class="question-status">
                 <span class="part-label">Part 1</span>
                 <a href="#q1" class="q-indicator">1</a>
@@ -531,8 +533,6 @@
             <div id="answerBox" class="answer-output"></div>
         </div>
     </div>
-
-    <button class="btn add-note-btn" onclick="createNote()">📝 Add Note</button>
 
 </body>
 </html>
