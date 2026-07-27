@@ -5,250 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cambridge IELTS Practice - Cover</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-        }
-
-        body {
-            background-color: #fef2f2;
-            color: #1a1a1a;
-            line-height: 1.7;
-        }
-
-        /* === HEADER AREA === */
-        .header {
-            width: 100%;
-            background: #ffffff;
-            border-bottom: 2px solid #dc2626;
-            padding: 15px 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.12);
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Top Left: Logo */
-        .logo {
-            width: 280px;
-            height: auto;
-        }
-
-        /* Top Right: FLAG — NOW BIGGER */
-        .flag {
-            width: 160px; /* Increased from 120px */
-            height: auto;
-            border-radius: 4px;
-            border: 1px solid #fecaca;
-        }
-
-        /* === MAIN COVER === */
-        .cover-container {
-            max-width: 1100px;
-            margin: 20px auto;
-            padding: 25px 30px;
-            background: #ffffff;
-            border-radius: 12px;
-            border: 1px solid #fecaca;
-            box-shadow: 0 3px 12px rgba(220, 38, 38, 0.07);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cover-container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('background1.png') center / cover no-repeat;
-            opacity: 0.12;
-            z-index: 1;
-        }
-
-        .cover-content {
-            position: relative;
-            z-index: 2;
-            padding: 10px 20px;
-        }
-
-        h1 {
-            color: #dc2626;
-            font-size: 34px;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        h2 {
-            color: #991b1b;
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-
-        .subtitle {
-            font-size: 17px;
-            color: #444;
-            max-width: 750px;
-            margin: 0 auto 20px;
-        }
-
-        .enter-btn {
-            display: inline-block;
-            padding: 10px 28px;
-            background: #dc2626;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 17px;
-            font-weight: 600;
-            transition: background 0.2s ease;
-            margin-bottom: 25px;
-        }
-
-        .enter-btn:hover {
-            background: #b91c1c;
-        }
-
-        /* === IMAGES LAYOUT === */
-        .images-layout {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 25px;
-            flex-wrap: wrap;
-            margin-top: 0;
-        }
-
-        .images-left, .images-right {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            flex: 1;
-            min-width: 220px;
-        }
-
-        .images-right {
-            align-items: flex-end;
-        }
-
-        .brochure-img {
-            width: 260px;
-            height: 165px;
-            border-radius: 8px;
-            border: 2px solid #fecaca;
-            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.12);
-            object-fit: cover;
-            background-color: #fef2f2;
-            transition: transform 0.2s ease;
-        }
-
-        .brochure-img:hover {
-            transform: scale(1.03);
-        }
-
-        /* === DISCLAIMER === */
-        .disclaimer {
-            max-width: 1100px;
-            margin: 20px auto;
-            padding: 15px 20px;
-            background: #ffffff;
-            border-radius: 12px;
-            border: 1px solid #fecaca;
-            box-shadow: 0 3px 12px rgba(220, 38, 38, 0.07);
-            font-size: 12.5px;
-            color: #555;
-            text-align: justify;
-        }
-
-        .disclaimer h3 {
-            color: #dc2626;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        /* === RESPONSIVE === */
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            .flag {
-                width: 120px; /* Still smaller on mobile so it fits */
-            }
-            h1 {
-                font-size: 28px;
-            }
-            h2 {
-                font-size: 19px;
-            }
-            .images-layout {
-                flex-direction: column;
-                align-items: center;
-            }
-            .images-left, .images-right {
-                align-items: center;
-            }
-            .brochure-img {
-                width: 230px;
-                height: 145px;
-            }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #fef2f2; color: #1a1a1a; line-height: 1.7; }
+        .header { width: 100%; background: #fff; border-bottom: 2px solid #dc2626; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap:15px; }
+        .logo { width: 280px; height: auto; }
+        .flag { width: 160px; height: auto; border-radius: 4px; border: 1px solid #fecaca; }
+        .cover-container { max-width: 1100px; margin: 20px auto; padding: 25px 30px; background: #fff; border-radius: 12px; border: 1px solid #fecaca; text-align: center; }
+        h1 { color: #dc2626; font-size: 34px; margin-bottom: 10px; }
+        h2 { color: #991b1b; font-size: 22px; margin-bottom: 15px; }
+        .subtitle { font-size: 17px; color: #444; max-width: 750px; margin: 0 auto 25px; }
+        .enter-btn { display: inline-block; padding: 12px 28px; background: #dc2626; color: white; text-decoration: none; border-radius: 8px; font-size: 17px; font-weight: 600; margin: 5px; transition: background 0.2s; }
+        .enter-btn:hover { background: #b91c1c; }
+        .disclaimer { max-width: 1100px; margin: 20px auto; padding: 15px 20px; background: #fff; border-radius: 12px; border: 1px solid #fecaca; font-size: 12.5px; color: #555; text-align: justify; }
+        .disclaimer h3 { color: #dc2626; margin-bottom: 8px; font-size: 14px; }
+        @media (max-width:768px) {
+            .header { flex-direction: column; text-align: center; }
+            h1 { font-size: 28px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- Header: Logo (Left) + Flag (Right, bigger size) -->
     <div class="header">
-        <img src="ielts-logo.png" alt="Global Standard English Learning Center" class="logo">
+        <img src="ielts-logo.png" alt="IELTS Logo" class="logo">
         <img src="flag.jpg" alt="Flag" class="flag">
     </div>
 
-    <!-- Main Cover Content -->
     <div class="cover-container">
-        <div class="cover-content">
-            <h1>CAMBRIDGE IELTS PRACTICE MATERIALS</h1>
-            <h2>Academic & General Training</h2>
-            <p class="subtitle">
-                Prepare effectively with authentic practice tests based on the official Cambridge IELTS format.
-                Improve your reading, listening, writing, and speaking skills to achieve your target band score.
-            </p>
+        <h1>CAMBRIDGE IELTS PRACTICE MATERIALS</h1>
+        <h2>Academic & General Training</h2>
+        <p class="subtitle">Prepare effectively with authentic practice tests based on the official Cambridge IELTS format.</p>
 
-            <a href="library.html" class="enter-btn">Enter Practice Library</a>
-
-            <!-- Images: 3 left, 3 right, no labels -->
-            <div class="images-layout">
-                <div class="images-left">
-                    <img src="T1.jpg" alt="" class="brochure-img">
-                    <img src="T2.jpg" alt="" class="brochure-img">
-                    <img src="T3.jpg" alt="" class="brochure-img">
-                </div>
-                <div class="images-right">
-                    <img src="T4.jpg" alt="" class="brochure-img">
-                    <img src="T5.jpg" alt="" class="brochure-img">
-                    <img src="T6.jpg" alt="" class="brochure-img">
-                </div>
-            </div>
-        </div>
+        <a href="listening-intro.html" class="enter-btn">🎧 LISTENING TEST</a>
+        <a href="reading/reading1.html" class="enter-btn">📖 READING TEST</a>
+        <a href="writing.html" class="enter-btn">✍️ WRITING TEST</a>
     </div>
 
-    <!-- Disclaimer -->
     <div class="disclaimer">
         <h3>Disclaimer</h3>
-        <p>
-            This platform uses content based on Cambridge IELTS publications for educational and self‑study purposes only.
-            All intellectual property rights, including copyrights and trademarks, remain the exclusive property of
-            <strong>Cambridge University Press & Assessment English</strong>. This is not an official Cambridge product,
-            and no part of the content is intended for commercial use, reproduction, or distribution. All materials are
-            provided solely to help learners prepare for the IELTS examination in a structured and accessible format.
-        </p>
+        <p>No copyright infringement intended. All materials are for personal educational and self‑study purposes only. Original rights belong to Cambridge University Press & Assessment English. This is not an official product.</p>
     </div>
-
 </body>
 </html>
