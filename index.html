@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listening Test - Instructions</title>
+    <title>Cambridge IELTS Practice</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
+            max-width: 900px;
             margin: 40px auto;
             padding: 20px;
             line-height: 1.7;
@@ -19,29 +19,27 @@
             padding: 30px;
             border-radius: 8px;
             border: 1px solid #ddd;
+            text-align: center;
         }
-        h1 { color: #222; margin-bottom: 15px; text-align: center; }
+        h1 { color: #222; margin-bottom: 20px; font-size: 28px; }
         .disclaimer {
             font-size: 13px;
             color: #555;
             text-align: justify;
-            margin-bottom: 20px;
-            padding: 10px;
+            margin-bottom: 30px;
+            padding: 12px;
             background: #fff;
             border-left: 3px solid #c0392b;
         }
-        .instructions {
-            background: #fff;
-            padding: 18px;
-            border-radius: 6px;
-            margin-bottom: 25px;
-            line-height: 2;
-        }
-        .start-btn {
-            display: block;
-            width: fit-content;
+        .section-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
             margin: 0 auto;
-            padding: 12px 35px;
+        }
+        .btn {
+            padding: 12px 25px;
             background: #c0392b;
             color: white;
             text-decoration: none;
@@ -49,28 +47,22 @@
             border-radius: 6px;
             transition: background 0.2s;
         }
-        .start-btn:hover { background: #a93226; }
+        .btn:hover { background: #a93226; }
     </style>
 </head>
 <body>
     <div class="box">
-        <h1>IELTS LISTENING TEST</h1>
+        <h1>CAMBRIDGE IELTS PRACTICE TESTS</h1>
 
         <div class="disclaimer">
-            <strong>Disclaimer:</strong> For personal practice only. All rights belong to their respective owners.
+            <strong>Disclaimer:</strong> No copyright infringement intended. All materials are for personal educational and self‑study purposes only. Original content, recordings, and rights belong to Cambridge University Press & Assessment English. This is not an official Cambridge platform.
         </div>
 
-        <div class="instructions">
-            <strong>INSTRUCTIONS:</strong><br>
-            • The test takes about 30 minutes.<br>
-            • There are four parts — each recording is played ONCE only.<br>
-            • Write your answers while you listen.<br>
-            • A timer will start when you begin Part 1.<br>
-            • You may check your answers at the end.<br>
-            • Click below only when you are fully ready.
+        <div class="section-links">
+            <a href="listening-intro.html" class="btn">🎧 LISTENING TEST</a>
+            <a href="reading/reading1.html" class="btn">📖 READING TEST</a>
+            <a href="writing.html" class="btn">✍️ WRITING TEST</a>
         </div>
-
-        <a href="listening-part1.html" class="start-btn">START LISTENING PART 1</a>
     </div>
 </body>
 </html>
