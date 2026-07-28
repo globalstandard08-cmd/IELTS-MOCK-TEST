@@ -32,9 +32,20 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .audio-player {
             margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .audio-note {
+            color: #c0392b;
+            font-weight: bold;
+            margin: 10px 0;
         }
         .container {
             display: grid;
@@ -45,8 +56,11 @@
             font-weight: bold;
         }
         .nav-buttons {
-            margin-top: 30px;
-            text-align: right;
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .btn {
             padding: 10px 20px;
@@ -56,7 +70,6 @@
             text-decoration: none;
             font-weight: bold;
             border-radius: 4px;
-            margin-left: 10px;
             cursor: pointer;
         }
         .btn:hover {
@@ -76,195 +89,439 @@
             margin: 15px 0;
             background-color: #f9f9f9;
             line-height: 1.8;
+            border-radius: 4px;
         }
         .flow-row {
             margin: 10px 0;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
+            gap: 8px;
         }
         .flow-q-num {
             font-weight: bold;
-            margin-right: 8px;
         }
         .flow-input {
-            padding: 4px 8px;
+            padding: 5px 8px;
             border: 1px solid #999;
-            width: 160px;
+            width: 180px;
             text-transform: uppercase;
-            margin: 0 8px;
+            border-radius: 3px;
+            font-size: 15px;
         }
-        .answer-output {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e9ecef;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            white-space: pre-line;
+        .highlight {
+            background-color: #ffeb3b;
+            color: #000;
+            padding: 1px 3px;
+            border-radius: 2px;
+        }
+        .context-menu {
+            position: absolute;
+            background: #ffffff;
+            border: 1px solid #999;
+            border-radius: 3px;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+            z-index: 99999 !important;
             display: none;
+            min-width: 160px;
+        }
+        .context-menu div {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .context-menu div:hover {
+            background: #e7f3ff;
+        }
+        .draggable-note {
+            position: fixed;
+            width: 220px;
+            min-height: 100px;
+            background: #fff9c4;
+            border: 1px solid #fbc02d;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            padding: 8px;
+            z-index: 999;
+            cursor: move;
+        }
+        .note-header {
+            background: #fbc02d;
+            margin: -8px -8px 8px -8px;
+            padding: 6px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .note-text {
+            width: 100%;
+            min-height: 70px;
+            border: none;
+            background: transparent;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+        .question-status {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 6px;
+            margin: 25px 0 15px;
+            padding: 12px 15px;
+            background: #f0f2f5;
+            border-radius: 4px;
+            border: 1px solid #d0d5dd;
+            font-size: 12px;
+        }
+        .part-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #444;
+            margin-right: 4px;
+            margin-left: 8px;
+        }
+        .part-separator {
+            width: 12px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .q-indicator {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: normal;
+            border-radius: 2px;
+            border: 1px solid #d1d5db;
+            background: #e5e7eb;
+            color: #333;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .q-indicator:hover {
+            border-color: #007bff;
+        }
+        .q-indicator.answered {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
         }
     </style>
-   <script>
-    function showAnswers() {
-        let answers = "--- YOUR ANSWERS ---\n\n";
-        for (let i = 1; i <= 10; i++) {
-            let val = document.getElementById('q'+i).value.trim();
-            answers += "Question " + i + ": " + (val || "(not answered)") + "\n";
-        }
-        let box = document.getElementById('answerBox');
-        box.textContent = answers;
-        box.style.display = 'block';
+    <script>
+    function saveAnswer(key, value) {
+        const val = value.trim();
+        localStorage.setItem(key, val);
+        const qNum = key.replace('listening_q','');
+        if (val) markAnswered(qNum);
+        else unmarkAnswered(qNum);
     }
 
-    // Timer code
-    window.addEventListener('load', function() {
-        let timeLeft = 30 * 60; // 30 minutes total
-        const countdownEl = document.getElementById('countdown');
+    function markAnswered(q) {
+        const el = document.querySelector(`.q-indicator[href="#q${q}"]`);
+        if (el) el.classList.add('answered');
+    }
+    function unmarkAnswered(q) {
+        const el = document.querySelector(`.q-indicator[href="#q${q}"]`);
+        if (el) el.classList.remove('answered');
+    }
 
-        function updateTimer() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            countdownEl.textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            if (timeLeft > 0) {
-                timeLeft--;
-            } else {
-                clearInterval(timerInterval);
-                alert("Time is up!");
+    window.addEventListener('load', function() {
+        // Q21-Q24 Radio
+        for (let i = 21; i <= 24; i++) {
+            const saved = localStorage.getItem(`listening_q${i}`);
+            if (saved) {
+                const radio = document.querySelector(`input[name="q${i}"][value="${saved}"]`);
+                if (radio) radio.checked = true;
+                markAnswered(i);
             }
         }
+        // Q25-Q30 Text
+        for (let i = 25; i <= 30; i++) {
+            const saved = localStorage.getItem(`listening_q${i}`);
+            if (saved) {
+                document.getElementById(`q${i}`).value = saved;
+                markAnswered(i);
+            }
+        }
+        loadNotes();
+    });
 
+    const audioFiles = ["part1.mp3", "16test1sec2.mp3", "16test1sec3.mp3", "part4.mp3"];
+    let userStarted = false;
+    window.addEventListener('load', function() {
+        const audioPlayer = document.getElementById('listeningAudio');
+        audioPlayer.addEventListener('play', () => userStarted = true);
+        audioPlayer.addEventListener('ended', function() {
+            if (!userStarted) return;
+            const currentSrc = audioPlayer.src.split('/').pop().split('?')[0];
+            const currentIndex = audioFiles.indexOf(currentSrc);
+            if (currentIndex !== -1 && currentIndex + 1 < audioFiles.length) {
+                audioPlayer.src = audioFiles[currentIndex + 1];
+                audioPlayer.load();
+                audioPlayer.play().catch(() => alert("Next part ready — click Play"));
+            }
+        });
+    });
+
+    window.addEventListener('load', function() {
+        if (!localStorage.getItem('listeningTestStarted')) {
+            localStorage.setItem('listeningTestStarted', 'true');
+            localStorage.setItem('listeningTimeLeft', 30 * 60);
+        }
+        let timeLeft = parseInt(localStorage.getItem('listeningTimeLeft')) || 30 * 60;
+        const countdownEl = document.getElementById('countdown');
+        function updateTimer() {
+            const m = Math.floor(timeLeft / 60);
+            const s = timeLeft % 60;
+            countdownEl.textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            if (timeLeft > 0) {
+                timeLeft--;
+                localStorage.setItem('listeningTimeLeft', timeLeft);
+            } else {
+                clearInterval(timerInterval);
+                alert("Time is up! Review your answers.");
+            }
+        }
         const timerInterval = setInterval(updateTimer, 1000);
     });
-</script>
+
+    let lastSelection = null;
+    document.addEventListener('contextmenu', function(e) {
+        const sel = window.getSelection();
+        const menu = document.getElementById('contextMenu');
+        if (sel.toString().trim() !== '') {
+            e.preventDefault();
+            lastSelection = sel.getRangeAt(0);
+            menu.style.left = e.pageX + 'px';
+            menu.style.top = e.pageY + 'px';
+            menu.style.display = 'block';
+        } else {
+            menu.style.display = 'none';
+            lastSelection = null;
+        }
+    });
+    document.addEventListener('click', () => {
+        document.getElementById('contextMenu').style.display = 'none';
+    });
+
+    function highlightSelection() {
+        if (!lastSelection) return;
+        const span = document.createElement('span');
+        span.className = 'highlight';
+        lastSelection.surroundContents(span);
+        window.getSelection().removeAllRanges();
+        document.getElementById('contextMenu').style.display = 'none';
+        saveNotes();
+    }
+    function removeNearestHighlight() {
+        if (!lastSelection) return;
+        let el = lastSelection.commonAncestorContainer;
+        if (el.nodeType === 3) el = el.parentElement;
+        if (el && el.classList.contains('highlight')) el.outerHTML = el.innerHTML;
+        document.getElementById('contextMenu').style.display = 'none';
+        saveNotes();
+    }
+    function removeAllHighlights() {
+        document.querySelectorAll('.highlight').forEach(el => el.outerHTML = el.innerHTML);
+        document.getElementById('contextMenu').style.display = 'none';
+        saveNotes();
+    }
+    function addNoteHere() {
+        if (!lastSelection) return;
+        const rect = lastSelection.getBoundingClientRect();
+        createNote(rect.right + 15, rect.top);
+        window.getSelection().removeAllRanges();
+        document.getElementById('contextMenu').style.display = 'none';
+    }
+
+    let noteCount = 0;
+    function createNote(x, y) {
+        noteCount++;
+        const note = document.createElement('div');
+        note.className = 'draggable-note';
+        note.style.left = x + 'px';
+        note.style.top = y + 'px';
+        note.innerHTML = `<div class="note-header">Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text" placeholder="Write your note..."></textarea>`;
+        document.body.appendChild(note);
+        makeDraggable(note);
+        note.querySelector('.note-text').addEventListener('input', saveNotes);
+        saveNotes();
+    }
+    function makeDraggable(el) {
+        const h = el.querySelector('.note-header');
+        let px, py, ox, oy;
+        h.onmousedown = e => {
+            e.preventDefault();
+            px = e.clientX; py = e.clientY;
+            ox = el.offsetLeft; oy = el.offsetTop;
+            document.onmousemove = e => {
+                el.style.left = (ox + e.clientX - px) + 'px';
+                el.style.top = (oy + e.clientY - py) + 'px';
+            };
+            document.onmouseup = () => {
+                document.onmousemove = null;
+                saveNotes();
+            };
+        };
+    }
+    function saveNotes() {
+        const arr = [];
+        document.querySelectorAll('.draggable-note').forEach(n => {
+            arr.push({l:n.style.left,t:n.style.top,txt:n.querySelector('.note-text').value});
+        });
+        localStorage.setItem('examNotes', JSON.stringify(arr));
+    }
+    function loadNotes() {
+        const s = localStorage.getItem('examNotes');
+        if (!s) return;
+        JSON.parse(s).forEach(d => {
+            const n = document.createElement('div');
+            n.className = 'draggable-note';
+            n.style.left = d.l; n.style.top = d.t;
+            n.innerHTML = `<div class="note-header">Note ${++noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text">${d.txt}</textarea>`;
+            document.body.appendChild(n);
+            makeDraggable(n);
+            n.querySelector('.note-text').addEventListener('input', saveNotes);
+        });
+    }
+    </script>
 </head>
 <body>
+    <div id="contextMenu" class="context-menu">
+        <div onclick="highlightSelection()">🖍️ Highlight</div>
+        <div onclick="removeNearestHighlight()">❌ Remove This Highlight</div>
+        <div onclick="removeAllHighlights()">🧹 Remove All Highlights</div>
+        <div onclick="addNoteHere()">📝 Add Note</div>
+    </div>
 
     <div class="tabs">
         <a class="tab-link" href="listening-part1.html">Part 1</a>
         <a class="tab-link" href="listening-part2.html">Part 2</a>
         <a class="tab-link active" href="listening-part3.html">Part 3</a>
         <a class="tab-link" href="listening-part4.html">Part 4</a>
+        <a class="tab-link" href="../reading/reading1.html">Reading</a>
+        <a class="tab-link" href="../writing.html">Writing</a>
     </div>
 
-   <div class="header-bar">
-    <img src="ielts-logo.png.png" alt="IELTS Logo" style="height: 150px; margin-right: 15px; object-fit: contain;">
-    <h2>IELTS Listening Test - Part 2</h2>
-    <div class="timer" style="background-color: #ffffff; padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; font-size: 18px; font-weight: bold; color: #333;">
-        Time Remaining: <span id="countdown">30:00</span>
+    <div class="header-bar">
+        <img src="ielts-logo.png" alt="IELTS Logo" style="height: 90px; margin-right: 15px; object-fit: contain;">
+        <h2>IELTS Listening Test - Part 3</h2>
+        <div class="timer" style="background: #fff; padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; font-size: 18px; font-weight: bold;">
+            Time Remaining: <span id="countdown">30:00</span>
+        </div>
     </div>
-</div>
 
     <div class="container">
         <div>
             <div class="audio-player">
-                <audio controls>
-                   <source src="16test1sec3.mp3.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
+                <p class="audio-note">⚠️ Click Play once — audio continues automatically. Move between parts when ready.</p>
+                <audio id="listeningAudio" controls>
+                    <source src="16test1sec3.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
                 
+                <p style="font-size:14px;color:#555;margin-top:8px;">✅ Select text → Right‑click to Highlight / Add Note</p>
             </div>
 
             <h3>Questions 21–30</h3>
 
-            <p><strong>Questions 21–24</strong><br>
-            Choose the correct letter, A, B or C.<br>
-            <em>Assignment on sleep and dreams</em></p>
+            <p><strong>Questions 21–24</strong><br>Choose the correct letter, A, B or C.<br><em>Assignment on sleep and dreams</em></p>
 
             <p><strong>21</strong> Luke read that one reason why we often forget dreams is that<br>
-            <div class="option-line"><input type="radio" name="q21" id="q21a"><label for="q21a">A our memories cannot cope with too much information.</label></div>
-            <div class="option-line"><input type="radio" name="q21" id="q21b"><label for="q21b">B we might otherwise be confused about what is real.</label></div>
-            <div class="option-line"><input type="radio" name="q21" id="q21c"><label for="q21c">C we do not think they are important.</label></div>
-            </p>
+            <div class="option-line"><input type="radio" name="q21" value="A" onchange="saveAnswer('listening_q21', this.value)"><label>A our memories cannot cope with too much information.</label></div>
+            <div class="option-line"><input type="radio" name="q21" value="B" onchange="saveAnswer('listening_q21', this.value)"><label>B we might otherwise be confused about what is real.</label></div>
+            <div class="option-line"><input type="radio" name="q21" value="C" onchange="saveAnswer('listening_q21', this.value)"><label>C we do not think they are important.</label></div></p>
 
             <p><strong>22</strong> What do Luke and Susie agree about dreams predicting the future?<br>
-            <div class="option-line"><input type="radio" name="q22" id="q22a"><label for="q22a">A It may just be due to chance.</label></div>
-            <div class="option-line"><input type="radio" name="q22" id="q22b"><label for="q22b">B It only happens with certain types of event.</label></div>
-            <div class="option-line"><input type="radio" name="q22" id="q22c"><label for="q22c">C It happens more often than some people think.</label></div>
-            </p>
+            <div class="option-line"><input type="radio" name="q22" value="A" onchange="saveAnswer('listening_q22', this.value)"><label>A It may just be due to chance.</label></div>
+            <div class="option-line"><input type="radio" name="q22" value="B" onchange="saveAnswer('listening_q22', this.value)"><label>B It only happens with certain types of event.</label></div>
+            <div class="option-line"><input type="radio" name="q22" value="C" onchange="saveAnswer('listening_q22', this.value)"><label>C It happens more often than some people think.</label></div></p>
 
-            <p><strong>23</strong> Susie says that a study on pre-school children having a short nap in the day<br>
-            <div class="option-line"><input type="radio" name="q23" id="q23a"><label for="q23a">A had controversial results.</label></div>
-            <div class="option-line"><input type="radio" name="q23" id="q23b"><label for="q23b">B used faulty research methodology.</label></div>
-            <div class="option-line"><input type="radio" name="q23" id="q23c"><label for="q23c">C failed to reach any clear conclusions.</label></div>
-            </p>
+            <p><strong>23</strong> Susie says that a study on pre‑school children having a short nap in the day<br>
+            <div class="option-line"><input type="radio" name="q23" value="A" onchange="saveAnswer('listening_q23', this.value)"><label>A had controversial results.</label></div>
+            <div class="option-line"><input type="radio" name="q23" value="B" onchange="saveAnswer('listening_q23', this.value)"><label>B used faulty research methodology.</label></div>
+            <div class="option-line"><input type="radio" name="q23" value="C" onchange="saveAnswer('listening_q23', this.value)"><label>C failed to reach any clear conclusions.</label></div></p>
 
             <p><strong>24</strong> In their last assignment, both students had problems with<br>
-            <div class="option-line"><input type="radio" name="q24" id="q24a"><label for="q24a">A statistical analysis.</label></div>
-            <div class="option-line"><input type="radio" name="q24" id="q24b"><label for="q24b">B making an action plan.</label></div>
-            <div class="option-line"><input type="radio" name="q24" id="q24c"><label for="q24c">C self-assessment.</label></div>
-            </p>
+            <div class="option-line"><input type="radio" name="q24" value="A" onchange="saveAnswer('listening_q24', this.value)"><label>A statistical analysis.</label></div>
+            <div class="option-line"><input type="radio" name="q24" value="B" onchange="saveAnswer('listening_q24', this.value)"><label>B making an action plan.</label></div>
+            <div class="option-line"><input type="radio" name="q24" value="C" onchange="saveAnswer('listening_q24', this.value)"><label>C self‑assessment.</label></div></p>
 
-
-            <p><strong>Questions 25–30</strong><br>
-            Complete the flow chart below.<br>
-            Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+            <p><strong>Questions 25–30</strong><br>Complete the flow chart below.<br>Write <strong>ONE WORD ONLY</strong> for each answer.</p>
 
             <div class="flow-chart">
                 <p><strong>Assignment plan</strong></p>
-
-                <div class="flow-row">
-                    Decide on research question:<br>
-                    Is there a relationship between hours of sleep and number of dreams?
-                </div>
-
-                <div class="flow-row">
-                    Decide on sample:<br>
-                    Twelve students from the
-                    <span class="flow-q-num">25</span>
-                    <input type="text" id="q25" class="flow-input" placeholder="ONE WORD">
-                    department
-                </div>
-
-                <div class="flow-row">
-                    Decide on methodology:<br>
-                    Self-reporting
-                </div>
-
-                <div class="flow-row">
-                    Decide on procedure:<br>
-                    Answers on
-                    <span class="flow-q-num">26</span>
-                    <input type="text" id="q26" class="flow-input" placeholder="ONE WORD">
-                </div>
-
-                <div class="flow-row">
-                    Check ethical guidelines for working with
-                    <span class="flow-q-num">27</span>
-                    <input type="text" id="q27" class="flow-input" placeholder="ONE WORD">
-                </div>
-
-                <div class="flow-row">
-                    Ensure that risk is assessed and
-                    <span class="flow-q-num">28</span>
-                    <input type="text" id="q28" class="flow-input" placeholder="ONE WORD">
-                    is kept to a minimum
-                </div>
-
-                <div class="flow-row">
-                    Analyse the results:<br>
-                    Calculate the correlation and make a
-                    <span class="flow-q-num">29</span>
-                    <input type="text" id="q29" class="flow-input" placeholder="ONE WORD">
-                </div>
-
-                <div class="flow-row">
-                    <span class="flow-q-num">30</span>
-                    <input type="text" id="q30" class="flow-input" placeholder="ONE WORD">
-                    the research
-                </div>
+                <div class="flow-row">Decide on research question:<br>Is there a relationship between hours of sleep and number of dreams?</div>
+                <div class="flow-row">Decide on sample:<br>Twelve students from the <span class="flow-q-num">25</span><input type="text" id="q25" class="flow-input" placeholder="ONE WORD" oninput="saveAnswer('listening_q25', this.value)"> department</div>
+                <div class="flow-row">Decide on methodology:<br>Self‑reporting</div>
+                <div class="flow-row">Decide on procedure:<br>Answers on <span class="flow-q-num">26</span><input type="text" id="q26" class="flow-input" placeholder="ONE WORD" oninput="saveAnswer('listening_q26', this.value)"></div>
+                <div class="flow-row">Check ethical guidelines for working with <span class="flow-q-num">27</span><input type="text" id="q27" class="flow-input" placeholder="ONE WORD" oninput="saveAnswer('listening_q27', this.value)"></div>
+                <div class="flow-row">Ensure that risk is assessed and <span class="flow-q-num">28</span><input type="text" id="q28" class="flow-input" placeholder="ONE WORD" oninput="saveAnswer('listening_q28', this.value)"> is kept to a minimum</div>
+                <div class="flow-row">Analyse the results:<br>Calculate the correlation and make a <span class="flow-q-num">29</span><input type="text" id="q29" class="flow-input" placeholder="ONE WORD" oninput="saveAnswer('listening_q29', this.value)"></div>
+                <div class="flow-row"><span class="flow-q-num">30</span><input type="text" id="q30" class="flow-input" placeholder="ONE WORD" oninput="saveAnswer('listening_q30', this.value)"> the research</div>
             </div>
 
+            <div class="question-status">
+                <span class="part-label">Part 1</span>
+                <a href="listening-part1.html#q1" class="q-indicator">1</a>
+                <a href="listening-part1.html#q2" class="q-indicator">2</a>
+                <a href="listening-part1.html#q3" class="q-indicator">3</a>
+                <a href="listening-part1.html#q4" class="q-indicator">4</a>
+                <a href="listening-part1.html#q5" class="q-indicator">5</a>
+                <a href="listening-part1.html#q6" class="q-indicator">6</a>
+                <a href="listening-part1.html#q7" class="q-indicator">7</a>
+                <a href="listening-part1.html#q8" class="q-indicator">8</a>
+                <a href="listening-part1.html#q9" class="q-indicator">9</a>
+                <a href="listening-part1.html#q10" class="q-indicator">10</a>
+                <div class="part-separator"></div>
+                <span class="part-label">Part 2</span>
+                <a href="listening-part2.html#q11" class="q-indicator">11</a>
+                <a href="listening-part2.html#q12" class="q-indicator">12</a>
+                <a href="listening-part2.html#q13" class="q-indicator">13</a>
+                <a href="listening-part2.html#q14" class="q-indicator">14</a>
+                <a href="listening-part2.html#q15" class="q-indicator">15</a>
+                <a href="listening-part2.html#q16" class="q-indicator">16</a>
+                <a href="listening-part2.html#q17" class="q-indicator">17</a>
+                <a href="listening-part2.html#q18" class="q-indicator">18</a>
+                <a href="listening-part2.html#q19" class="q-indicator">19</a>
+                <a href="listening-part2.html#q20" class="q-indicator">20</a>
+                <div class="part-separator"></div>
+                <span class="part-label">Part 3</span>
+                <a href="#q21" class="q-indicator">21</a>
+                <a href="#q22" class="q-indicator">22</a>
+                <a href="#q23" class="q-indicator">23</a>
+                <a href="#q24" class="q-indicator">24</a>
+                <a href="#q25" class="q-indicator">25</a>
+                <a href="#q26" class="q-indicator">26</a>
+                <a href="#q27" class="q-indicator">27</a>
+                <a href="#q28" class="q-indicator">28</a>
+                <a href="#q29" class="q-indicator">29</a>
+                <a href="#q30" class="q-indicator">30</a>
+                <div class="part-separator"></div>
+                <span class="part-label">Part 4</span>
+                <a href="listening-part4.html#q31" class="q-indicator">31</a>
+                <a href="listening-part4.html#q32" class="q-indicator">32</a>
+                <a href="listening-part4.html#q33" class="q-indicator">33</a>
+                <a href="listening-part4.html#q34" class="q-indicator">34</a>
+                <a href="listening-part4.html#q35" class="q-indicator">35</a>
+                <a href="listening-part4.html#q36" class="q-indicator">36</a>
+                <a href="listening-part4.html#q37" class="q-indicator">37</a>
+                <a href="listening-part4.html#q38" class="q-indicator">38</a>
+                <a href="listening-part4.html#q39" class="q-indicator">39</a>
+                <a href="listening-part4.html#q40" class="q-indicator">40</a>
+            </div>
 
             <div class="nav-buttons">
-                <button class="btn" onclick="showAnswers()">Show My Answers</button>
-                <a href="listening-part4.html" class="btn">Next Page → Part 4</a>
+                <a href="listening-part2.html" class="btn">← Previous: Part 2</a>
+                <a href="listening-part4.html" class="btn">Next: Part 4 →</a>
             </div>
-
-            <div id="answerBox" class="answer-output"></div>
-
         </div>
     </div>
-
 </body>
 </html>
