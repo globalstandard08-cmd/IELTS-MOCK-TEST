@@ -5,279 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IELTS Reading - Passage 1</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.7;
-            color: #333;
-        }
-        .tabs {
-            background-color: #222;
-            padding: 12px 0;
-        }
-        .tab-link {
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            font-weight: bold;
-            display: inline-block;
-        }
-        .tab-link.active {
-            background-color: #007bff;
-        }
-        .header-bar {
-            background-color: #eee;
-            padding: 18px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .timer {
-            font-size: 20px;
-            font-weight: bold;
-            color: #d9534f;
-            background: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-        }
-        .scrollable {
-            overflow-y: auto;
-            scrollbar-width: auto;
-            scrollbar-color: #999 #f8f8f8;
-        }
-        .scrollable::-webkit-scrollbar {
-            width: 16px;
-        }
-        .scrollable::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 8px;
-        }
-        .scrollable::-webkit-scrollbar-thumb {
-            background: #bbb;
-            border-radius: 8px;
-            border: 4px solid #f1f1f1;
-        }
-        .scrollable::-webkit-scrollbar-thumb:hover {
-            background: #888;
-        }
-        .test-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2px;
-            height: calc(100vh - 280px);
-        }
-        .passage-section {
-            background-color: #f9f9f9;
-            padding: 25px;
-            border-right: 1px solid #ddd;
-        }
-        .passage-section h3 {
-            margin-bottom: 15px;
-            color: #222;
-            text-align: center;
-        }
-        .passage-section em {
-            display: block;
-            margin-bottom: 20px;
-            color: #555;
-            text-align: center;
-        }
-        .passage-section p {
-            margin-bottom: 18px;
-            text-align: justify;
-        }
-        .highlight {
-            background-color: #ffeb3b;
-            color: #000;
-            padding: 1px 3px;
-            border-radius: 2px;
-        }
-        .highlightable {
-            cursor: text;
-            user-select: text;
-        }
-        .questions-section {
-            background-color: #ffffff;
-            padding: 25px;
-        }
-        .questions-section h3 {
-            margin-bottom: 20px;
-            color: #222;
-        }
-        .q-group {
-            margin-bottom: 30px;
-        }
-        .q-instructions {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-        .q-row {
-            margin: 20px 0;
-            line-height: 1.8;
-        }
-        .text-input {
-            padding: 7px 12px;
-            border: 1px solid #999;
-            width: 220px;
-            text-transform: uppercase;
-            margin: 4px 10px;
-            border-radius: 3px;
-            font-size: 15px;
-        }
-        .gap-input {
-            width: 150px;
-            margin: 0 6px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.7; color: #333; height: 100vh; display: flex; flex-direction: column; }
+
+        .tabs { background: #222; padding: 12px 0; flex-shrink: 0; }
+        .tab-link { color: white; padding: 12px 20px; text-decoration: none; font-weight: bold; display: inline-block; }
+        .tab-link.active { background: #007bff; }
+
+        .header-bar { background: #eee; padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; flex-shrink: 0; }
+        .timer { font-size: 20px; font-weight: bold; color: #d9534f; background: white; padding: 8px 16px; border-radius: 4px; border: 1px solid #ddd; }
+
+        .main-wrapper { display: flex; flex: 1; overflow: hidden; }
+        .scrollable { overflow-y: auto; scrollbar-width: auto; scrollbar-color: #999 #f8f8f8; }
+        .scrollable::-webkit-scrollbar { width: 16px; }
+        .scrollable::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 8px; }
+        .scrollable::-webkit-scrollbar-thumb { background: #bbb; border-radius: 8px; border: 4px solid #f1f1f1; }
+
+        .passage-section { flex: 1; background: #f9f9f9; padding: 25px; border-right: 1px solid #ddd; }
+        .passage-section h3 { text-align: center; margin-bottom: 15px; }
+        .passage-section em { display: block; text-align: center; margin-bottom: 20px; color: #555; }
+        .passage-section p { margin-bottom: 18px; text-align: justify; }
+        .highlight { background: #ffeb3b; padding: 1px 3px; border-radius: 2px; }
+        .highlightable { cursor: text; user-select: text; }
+
+        .questions-section { flex: 1; background: #fff; padding: 25px; overflow-y: auto; }
+        .questions-section h3 { margin-bottom: 20px; }
+        .q-group { margin-bottom: 30px; }
+        .q-instructions { margin-bottom: 15px; line-height: 1.6; }
+        .q-row { margin: 20px 0; line-height: 1.8; }
+        .text-input { padding: 7px 12px; border: 1px solid #999; width: 220px; text-transform: uppercase; margin: 4px 10px; border-radius: 3px; font-size: 15px; }
+        .gap-input { width: 150px; margin: 0 6px; }
+
+        /* ✅ ALWAYS VISIBLE QUESTION NAV BAR */
         .question-status {
+            flex-shrink: 0;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            justify-content: flex-start;
             gap: 6px;
-            margin: 20px 0 15px;
             padding: 12px 15px;
             background: #f0f2f5;
-            border-radius: 4px;
-            border: 1px solid #d0d5dd;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
             font-size: 12px;
         }
-        .part-label {
-            font-size: 11px;
-            font-weight: bold;
-            color: #444;
-            margin-right: 4px;
-            margin-left: 8px;
-        }
-        .part-separator {
-            width: 12px;
-            height: 24px;
-            flex-shrink: 0;
-        }
-        .q-indicator {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: normal;
-            border-radius: 2px;
-            border: 1px solid #d1d5db;
-            background: #e5e7eb;
-            color: #333;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 13px;
-        }
-        .q-indicator:hover {
-            border-color: #007bff;
-        }
-        .q-indicator.answered {
-            background: #10b981;
-            color: white;
-            border-color: #10b981;
-        }
-        .nav-buttons {
-            margin-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .btn {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        .btn.secondary {
-            background-color: #6c757d;
-        }
-        .answer-box {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e9ecef;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            white-space: pre-line;
-            display: none;
-            font-family: monospace;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .context-menu {
-            position: absolute;
-            background: #ffffff;
-            border: 1px solid #999;
-            border-radius: 3px;
-            box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
-            z-index: 99999 !important;
-            display: none;
-            min-width: 160px;
-        }
-        .context-menu div {
-            padding: 8px 12px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .context-menu div:hover {
-            background: #e7f3ff;
-        }
-        .draggable-note {
-            position: fixed;
-            width: 220px;
-            min-height: 100px;
-            background: #fff9c4;
-            border: 1px solid #fbc02d;
-            border-radius: 6px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-            padding: 8px;
-            z-index: 999;
-            cursor: move;
-        }
-        .note-header {
-            background: #fbc02d;
-            margin: -8px -8px 8px -8px;
-            padding: 6px;
-            border-radius: 6px 6px 0 0;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .note-text {
-            width: 100%;
-            min-height: 70px;
-            border: none;
-            background: transparent;
-            resize: vertical;
-            font-family: inherit;
-            font-size: 14px;
-            outline: none;
-        }
+        .part-label { font-size: 11px; font-weight: bold; color: #444; margin: 0 4px 0 8px; }
+        .q-indicator { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 2px; border: 1px solid #d1d5db; background: #e5e7eb; color: #333; cursor: pointer; text-decoration: none; font-size: 13px; }
+        .q-indicator:hover { border-color: #007bff; }
+        .q-indicator.answered { background: #10b981; color: white; border-color: #10b981; }
+
+        .nav-buttons { padding: 15px 25px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; flex-shrink: 0; background: #fff; }
+        .btn { padding: 10px 20px; background: #007bff; color: white; border: none; text-decoration: none; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 15px; }
+        .btn:hover { background: #0056b3; }
+        .btn.secondary { background: #6c757d; }
+        .answer-box { margin: 15px 25px; padding: 15px; background: #e9ecef; border-radius: 4px; display: none; font-family: monospace; }
+
+        .context-menu { position: absolute; background: #fff; border: 1px solid #999; border-radius: 3px; box-shadow: 2px 2px 6px rgba(0,0,0,0.2); z-index: 99999; display: none; min-width: 160px; }
+        .context-menu div { padding: 8px 12px; cursor: pointer; }
+        .context-menu div:hover { background: #e7f3ff; }
+
+        .draggable-note { position: fixed; width: 220px; min-height: 100px; background: #fff9c4; border: 1px solid #fbc02d; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.15); padding: 8px; z-index: 999; cursor: move; }
+        .note-header { background: #fbc02d; margin: -8px -8px 8px; padding: 6px; border-radius: 6px 6px 0 0; font-weight: bold; display: flex; justify-content: space-between; }
+        .note-text { width: 100%; min-height: 70px; border: none; background: transparent; resize: vertical; font-family: inherit; font-size: 14px; outline: none; }
     </style>
 </head>
 <body>
 
     <div id="contextMenu" class="context-menu">
         <div onclick="highlightSelection()">🖍️ Highlight</div>
-        <div onclick="removeNearestHighlight()">❌ Remove This Highlight</div>
-        <div onclick="removeAllHighlights()">🧹 Remove All Highlights</div>
+        <div onclick="removeNearestHighlight()">❌ Remove Highlight</div>
+        <div onclick="removeAllHighlights()">🧹 Remove All</div>
         <div onclick="addNoteHere()">📝 Add Note</div>
     </div>
 
@@ -288,15 +85,15 @@
     </div>
 
     <div class="header-bar">
-        <h2>IELTS Reading Test - Passage 1</h2>
+        <h2>IELTS Reading - Passage 1</h2>
         <div class="timer">Time Left: <span id="countdown">60:00</span></div>
     </div>
 
-    <div class="test-container">
+    <div class="main-wrapper">
         <div class="passage-section scrollable">
             <h3>Reading Passage 1</h3>
-            <em>You should spend about 20 minutes on Questions 1–13, which are based on Reading Passage 1 below.</em>
-            <h4 style="text-align: center; margin-bottom: 20px;">The White Horse of Uffington</h4>
+            <em>You should spend about 20 minutes on Questions 1–13...</em>
+            <h4 style="text-align:center;margin-bottom:20px;">The White Horse of Uffington</h4>
             <div class="highlightable">
                 <!-- your full passage text stays exactly the same here -->
                 <p>The cutting of huge figures or 'geoglyphs' into the earth of English hillsides has taken place for more than 3,000 years. There are 56 hill figures scattered around England, with the vast majority on the chalk downlands of the country's southern counties. The figures include giants, horses, crosses and regimental badges. Although the majority of these geoglyphs date within the last 300 years or so, there are one or two that are much older.</p>
@@ -313,266 +110,162 @@
 
         <div class="questions-section scrollable">
             <h3>Questions 1–13</h3>
-
             <div class="q-group">
-                <div class="q-instructions">
-                    <strong>Questions 1–8</strong><br>
-                    Do the following statements agree with the information given in Reading Passage 1?<br>
-                    Write<br>
-                    <strong>TRUE</strong> if the statement agrees with the information<br>
-                    <strong>FALSE</strong> if the statement contradicts the information<br>
-                    <strong>NOT GIVEN</strong> if there is no information on this
-                </div>
-                <div class="q-row">1 Most geoglyphs in England are located in a particular area of the country.<br><input type="text" class="text-input" id="reading_q1" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q1', this.value)"></div>
-                <div class="q-row">2 There are more geoglyphs in the shape of a horse than any other creature.<br><input type="text" class="text-input" id="reading_q2" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q2', this.value)"></div>
-                <div class="q-row">3 A recent dating of the Uffington White Horse indicates that people were mistaken about its age.<br><input type="text" class="text-input" id="reading_q3" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q3', this.value)"></div>
-                <div class="q-row">4 Historians have come to an agreement about the origins of the Long Man of Wilmington.<br><input type="text" class="text-input" id="reading_q4" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q4', this.value)"></div>
-                <div class="q-row">5 Geoglyphs were created by people placing white chalk on the hillside.<br><input type="text" class="text-input" id="reading_q5" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q5', this.value)"></div>
-                <div class="q-row">6 Many geoglyphs in England are no longer visible.<br><input type="text" class="text-input" id="reading_q6" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q6', this.value)"></div>
-                <div class="q-row">7 The shape of some geoglyphs has been altered over time.<br><input type="text" class="text-input" id="reading_q7" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q7', this.value)"></div>
-                <div class="q-row">8 The fame of the Uffington White Horse is due to its size.<br><input type="text" class="text-input" id="reading_q8" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q8', this.value)"></div>
+                <div class="q-instructions"><strong>Questions 1–8</strong><br>Do the following statements agree with the information given in Reading Passage 1?<br>Write <strong>TRUE</strong> / <strong>FALSE</strong> / <strong>NOT GIVEN</strong></div>
+                <div class="q-row">1 Most geoglyphs in England are located in a particular area of the country.<br><input type="text" class="text-input" id="reading_q1" oninput="saveAnswer('reading_q1', this.value)"></div>
+                <div class="q-row">2 There are more geoglyphs in the shape of a horse than any other creature.<br><input type="text" class="text-input" id="reading_q2" oninput="saveAnswer('reading_q2', this.value)"></div>
+                <div class="q-row">3 A recent dating of the Uffington White Horse indicates that people were mistaken about its age.<br><input type="text" class="text-input" id="reading_q3" oninput="saveAnswer('reading_q3', this.value)"></div>
+                <div class="q-row">4 Historians have come to an agreement about the origins of the Long Man of Wilmington.<br><input type="text" class="text-input" id="reading_q4" oninput="saveAnswer('reading_q4', this.value)"></div>
+                <div class="q-row">5 Geoglyphs were created by people placing white chalk on the hillside.<br><input type="text" class="text-input" id="reading_q5" oninput="saveAnswer('reading_q5', this.value)"></div>
+                <div class="q-row">6 Many geoglyphs in England are no longer visible.<br><input type="text" class="text-input" id="reading_q6" oninput="saveAnswer('reading_q6', this.value)"></div>
+                <div class="q-row">7 The shape of some geoglyphs has been altered over time.<br><input type="text" class="text-input" id="reading_q7" oninput="saveAnswer('reading_q7', this.value)"></div>
+                <div class="q-row">8 The fame of the Uffington White Horse is due to its size.<br><input type="text" class="text-input" id="reading_q8" oninput="saveAnswer('reading_q8', this.value)"></div>
             </div>
-
             <div class="q-group">
-                <div class="q-instructions">
-                    <strong>Questions 9–13</strong><br>
-                    Complete the notes below.<br>
-                    Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.
-                </div>
+                <div class="q-instructions"><strong>Questions 9–13</strong><br>Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage.</div>
                 <p style="margin-bottom:15px;"><strong>The Uffington White Horse</strong></p>
-                <p style="margin-bottom:10px;">The location of the Uffington White Horse:</p>
-                <div class="q-row">• a distance of 2.5 km from Uffington village<br>• near an ancient road known as the <strong>9</strong> <input type="text" class="text-input gap-input" id="reading_q9" oninput="saveAnswer('reading_q9', this.value)"><br>• close to an ancient cemetery that has a number of burial mounds</div>
-                <p style="margin:20px 0 10px 0;">Dating the Uffington White Horse:</p>
-                <div class="q-row">• first reference to White Horse Hill appears in <strong>10</strong> <input type="text" class="text-input gap-input" id="reading_q10" oninput="saveAnswer('reading_q10', this.value)"> from the 1070s<br>• horses shown on coins from the period 100 BCE - 1 BCE are similar in appearance</div>
-                <div class="q-row">• according to analysis of the surrounding <strong>11</strong> <input type="text" class="text-input gap-input" id="reading_q11" oninput="saveAnswer('reading_q11', this.value)">, the Horse is Late Bronze Age/ Early Iron Age</div>
-                <p style="margin:20px 0 10px 0;">Possible reasons for creation of the Uffington White Horse:</p>
-                <div class="q-row">• an emblem to indicate land ownership<br>• formed part of an ancient ritual<br>• was a representation of goddess Epona - associated with protection of horses and <strong>12</strong> <input type="text" class="text-input gap-input" id="reading_q12" oninput="saveAnswer('reading_q12', this.value)"></div>
-                <div class="q-row">• was a representation of a Welsh goddess called <strong>13</strong> <input type="text" class="text-input gap-input" id="reading_q13" oninput="saveAnswer('reading_q13', this.value)"></div>
+                <div class="q-row">• near an ancient road known as the <strong>9</strong> <input type="text" class="text-input gap-input" id="reading_q9" oninput="saveAnswer('reading_q9', this.value)"></div>
+                <div class="q-row">• first reference appears in <strong>10</strong> <input type="text" class="text-input gap-input" id="reading_q10" oninput="saveAnswer('reading_q10', this.value)"> from the 1070s</div>
+                <div class="q-row">• dating from surrounding <strong>11</strong> <input type="text" class="text-input gap-input" id="reading_q11" oninput="saveAnswer('reading_q11', this.value)"></div>
+                <div class="q-row">• linked to Epona: protection of horses and <strong>12</strong> <input type="text" class="text-input gap-input" id="reading_q12" oninput="saveAnswer('reading_q12', this.value)"></div>
+                <div class="q-row">• or Welsh goddess <strong>13</strong> <input type="text" class="text-input gap-input" id="reading_q13" oninput="saveAnswer('reading_q13', this.value)"></div>
             </div>
-
-            <div class="question-status">
-                <span class="part-label">Passage 1</span>
-                <a href="#reading_q1" class="q-indicator">1</a>
-                <a href="#reading_q2" class="q-indicator">2</a>
-                <a href="#reading_q3" class="q-indicator">3</a>
-                <a href="#reading_q4" class="q-indicator">4</a>
-                <a href="#reading_q5" class="q-indicator">5</a>
-                <a href="#reading_q6" class="q-indicator">6</a>
-                <a href="#reading_q7" class="q-indicator">7</a>
-                <a href="#reading_q8" class="q-indicator">8</a>
-                <a href="#reading_q9" class="q-indicator">9</a>
-                <a href="#reading_q10" class="q-indicator">10</a>
-                <a href="#reading_q11" class="q-indicator">11</a>
-                <a href="#reading_q12" class="q-indicator">12</a>
-                <a href="#reading_q13" class="q-indicator">13</a>
-                <div class="part-separator"></div>
-                <span class="part-label">Passage 2</span>
-                <a href="reading2.html#reading_q14" class="q-indicator">14</a>
-                <a href="reading2.html#reading_q15" class="q-indicator">15</a>
-                <a href="reading2.html#reading_q16" class="q-indicator">16</a>
-                <a href="reading2.html#reading_q17" class="q-indicator">17</a>
-                <a href="reading2.html#reading_q18" class="q-indicator">18</a>
-                <a href="reading2.html#reading_q19" class="q-indicator">19</a>
-                <a href="reading2.html#reading_q20" class="q-indicator">20</a>
-                <a href="reading2.html#reading_q21" class="q-indicator">21</a>
-                <a href="reading2.html#reading_q22" class="q-indicator">22</a>
-                <a href="reading2.html#reading_q23" class="q-indicator">23</a>
-                <a href="reading2.html#reading_q24" class="q-indicator">24</a>
-                <a href="reading2.html#reading_q25" class="q-indicator">25</a>
-                <a href="reading2.html#reading_q26" class="q-indicator">26</a>
-                <div class="part-separator"></div>
-                <span class="part-label">Passage 3</span>
-                <a href="reading3.html#reading_q27" class="q-indicator">27</a>
-                <a href="reading3.html#reading_q28" class="q-indicator">28</a>
-                <a href="reading3.html#reading_q29" class="q-indicator">29</a>
-                <a href="reading3.html#reading_q30" class="q-indicator">30</a>
-                <a href="reading3.html#reading_q31" class="q-indicator">31</a>
-                <a href="reading3.html#reading_q32" class="q-indicator">32</a>
-                <a href="reading3.html#reading_q33" class="q-indicator">33</a>
-                <a href="reading3.html#reading_q34" class="q-indicator">34</a>
-                <a href="reading3.html#reading_q35" class="q-indicator">35</a>
-                <a href="reading3.html#reading_q36" class="q-indicator">36</a>
-                <a href="reading3.html#reading_q37" class="q-indicator">37</a>
-                <a href="reading3.html#reading_q38" class="q-indicator">38</a>
-                <a href="reading3.html#reading_q39" class="q-indicator">39</a>
-                <a href="reading3.html#reading_q40" class="q-indicator">40</a>
-            </div>
-
-            <div class="nav-buttons">
-                <a href="reading-intro.html" class="btn secondary">← Back to Intro</a>
-                <a href="../review-answers.html" class="btn secondary">📋 Review Answers</a>
-                <a href="reading2.html" class="btn">Next: Passage 2 →</a>
-            </div>
-
-            <button class="btn" style="margin-top: 15px;" onclick="showAnswers()">Show My Answers</button>
-            <div id="answerOutput" class="answer-box"></div>
         </div>
     </div>
 
+    <!-- ✅ NOW ALWAYS VISIBLE AT BOTTOM -->
+    <div class="question-status">
+        <span class="part-label">P1</span>
+        <a href="#reading_q1" class="q-indicator">1</a>
+        <a href="#reading_q2" class="q-indicator">2</a>
+        <a href="#reading_q3" class="q-indicator">3</a>
+        <a href="#reading_q4" class="q-indicator">4</a>
+        <a href="#reading_q5" class="q-indicator">5</a>
+        <a href="#reading_q6" class="q-indicator">6</a>
+        <a href="#reading_q7" class="q-indicator">7</a>
+        <a href="#reading_q8" class="q-indicator">8</a>
+        <a href="#reading_q9" class="q-indicator">9</a>
+        <a href="#reading_q10" class="q-indicator">10</a>
+        <a href="#reading_q11" class="q-indicator">11</a>
+        <a href="#reading_q12" class="q-indicator">12</a>
+        <a href="#reading_q13" class="q-indicator">13</a>
+        <span class="part-label">P2</span>
+        <a href="reading2.html#reading_q14" class="q-indicator">14</a>
+        <a href="reading2.html#reading_q15" class="q-indicator">15</a>
+        <a href="reading2.html#reading_q16" class="q-indicator">16</a>
+        <a href="reading2.html#reading_q17" class="q-indicator">17</a>
+        <a href="reading2.html#reading_q18" class="q-indicator">18</a>
+        <a href="reading2.html#reading_q19" class="q-indicator">19</a>
+        <a href="reading2.html#reading_q20" class="q-indicator">20</a>
+        <a href="reading2.html#reading_q21" class="q-indicator">21</a>
+        <a href="reading2.html#reading_q22" class="q-indicator">22</a>
+        <a href="reading2.html#reading_q23" class="q-indicator">23</a>
+        <a href="reading2.html#reading_q24" class="q-indicator">24</a>
+        <a href="reading2.html#reading_q25" class="q-indicator">25</a>
+        <a href="reading2.html#reading_q26" class="q-indicator">26</a>
+        <span class="part-label">P3</span>
+        <a href="reading3.html#reading_q27" class="q-indicator">27</a>
+        <a href="reading3.html#reading_q28" class="q-indicator">28</a>
+        <a href="reading3.html#reading_q29" class="q-indicator">29</a>
+        <a href="reading3.html#reading_q30" class="q-indicator">30</a>
+        <a href="reading3.html#reading_q31" class="q-indicator">31</a>
+        <a href="reading3.html#reading_q32" class="q-indicator">32</a>
+        <a href="reading3.html#reading_q33" class="q-indicator">33</a>
+        <a href="reading3.html#reading_q34" class="q-indicator">34</a>
+        <a href="reading3.html#reading_q35" class="q-indicator">35</a>
+        <a href="reading3.html#reading_q36" class="q-indicator">36</a>
+        <a href="reading3.html#reading_q37" class="q-indicator">37</a>
+        <a href="reading3.html#reading_q38" class="q-indicator">38</a>
+        <a href="reading3.html#reading_q39" class="q-indicator">39</a>
+        <a href="reading3.html#reading_q40" class="q-indicator">40</a>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="reading-intro.html" class="btn secondary">← Intro</a>
+        <a href="../review-answers.html" class="btn secondary">📋 Review</a>
+        <a href="reading2.html" class="btn">Next: Passage 2 →</a>
+    </div>
+
+    <button style="margin:0 25px 15px;" class="btn" onclick="showAnswers()">Show My Answers</button>
+    <div id="answerOutput" class="answer-box"></div>
+
 <script>
-// --- Save & Load Answers ---
+// --- Auto Save & Mark ---
 function saveAnswer(key, value) {
     const val = value.trim();
     localStorage.setItem(key, val);
-    const qNum = key.replace('reading_q','');
-    if (val) markAnswered(qNum);
-    else unmarkAnswered(qNum);
+    const q = key.replace('reading_q','');
+    val ? document.querySelector(`.q-indicator[href*="q${q}"]`)?.classList.add('answered')
+        : document.querySelector(`.q-indicator[href*="q${q}"]`)?.classList.remove('answered');
 }
-function markAnswered(q) {
-    const el = document.querySelector(`.q-indicator[href*="q${q}"]`);
-    if (el) el.classList.add('answered');
-}
-function unmarkAnswered(q) {
-    const el = document.querySelector(`.q-indicator[href*="q${q}"]`);
-    if (el) el.classList.remove('answered');
-}
-window.addEventListener('load', function() {
-    for (let i = 1; i <= 13; i++) {
-        const saved = localStorage.getItem(`reading_q${i}`);
-        if (saved) {
-            const inp = document.getElementById(`reading_q${i}`);
-            if (inp) inp.value = saved;
-            markAnswered(i);
-        }
+window.addEventListener('load', () => {
+    for(let i=1;i<=13;i++){
+        const v = localStorage.getItem(`reading_q${i}`);
+        if(v){ document.getElementById(`reading_q${i}`).value = v; saveAnswer(`reading_q${i}`,v); }
     }
     loadNotes();
 });
 
-// --- 60-Minute Timer ---
-let timeLeft = localStorage.getItem('readingTimeLeft');
-if (timeLeft === null || isNaN(timeLeft) || timeLeft <= 0) timeLeft = 60 * 60;
+// --- Timer ---
+let timeLeft = +localStorage.getItem('readingTimeLeft') || 3600;
 const countdownEl = document.getElementById('countdown');
-function updateTimer() {
-    if (timeLeft <= 0) {
-        countdownEl.textContent = "00:00";
-        alert("Time's up!");
-        localStorage.removeItem('readingTimeLeft');
-        clearInterval(timerInterval);
-        return;
-    }
-    const m = Math.floor(timeLeft / 60);
-    const s = timeLeft % 60;
-    countdownEl.textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-    localStorage.setItem('readingTimeLeft', timeLeft);
-    timeLeft--;
-}
-const timerInterval = setInterval(updateTimer, 1000);
-updateTimer();
+setInterval(()=>{
+    if(timeLeft<=0){ countdownEl.textContent='00:00'; alert("Time's up!"); return; }
+    const m=Math.floor(timeLeft/60), s=timeLeft%60;
+    countdownEl.textContent=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    localStorage.setItem('readingTimeLeft', timeLeft--);
+},1000);
 
-// --- Right-Click Menu ---
-let lastSelection = null;
-document.addEventListener('contextmenu', function(e) {
-    const sel = window.getSelection();
-    const menu = document.getElementById('contextMenu');
-    if (sel.toString().trim() !== '') {
-        e.preventDefault();
-        lastSelection = sel.getRangeAt(0);
-        menu.style.left = e.pageX + 'px';
-        menu.style.top = e.pageY + 'px';
-        menu.style.display = 'block';
-    } else {
-        menu.style.display = 'none';
-        lastSelection = null;
-    }
+// --- Right Click Menu ---
+let lastSel=null;
+document.addEventListener('contextmenu',e=>{
+    const sel=window.getSelection();
+    if(sel.toString().trim()){e.preventDefault();lastSel=sel.getRangeAt(0);document.getElementById('contextMenu').style=`display:block;left:${e.pageX}px;top:${e.pageY}px`;}
+    else document.getElementById('contextMenu').style.display='none';
 });
-document.addEventListener('click', () => {
-    document.getElementById('contextMenu').style.display = 'none';
-});
+document.addEventListener('click',()=>document.getElementById('contextMenu').style.display='none');
 
-// --- Highlight Functions ---
-function highlightSelection() {
-    if (!lastSelection) return;
-    const span = document.createElement('span');
-    span.className = 'highlight';
-    lastSelection.surroundContents(span);
-    window.getSelection().removeAllRanges();
-    document.getElementById('contextMenu').style.display = 'none';
-    saveNotes();
+// --- Highlight ---
+function highlightSelection(){
+    if(!lastSel)return;
+    const s=document.createElement('span');s.className='highlight';lastSel.surroundContents(s);window.getSelection().removeAllRanges();saveNotes();
 }
-function removeNearestHighlight() {
-    if (!lastSelection) return;
-    let el = lastSelection.commonAncestorContainer;
-    if (el.nodeType === 3) el = el.parentElement;
-    if (el && el.classList.contains('highlight')) el.outerHTML = el.innerHTML;
-    document.getElementById('contextMenu').style.display = 'none';
-    saveNotes();
+function removeNearestHighlight(){
+    if(!lastSel)return;
+    let el=lastSel.commonAncestorContainer;if(el.nodeType===3)el=el.parentElement;
+    if(el.classList.contains('highlight'))el.outerHTML=el.innerHTML;saveNotes();
 }
-function removeAllHighlights() {
-    document.querySelectorAll('.highlight').forEach(el => el.outerHTML = el.innerHTML);
-    document.getElementById('contextMenu').style.display = 'none';
-    saveNotes();
-}
+function removeAllHighlights(){document.querySelectorAll('.highlight').forEach(e=>e.outerHTML=e.innerHTML);saveNotes();}
 
 // --- Draggable Notes ---
-let noteCount = 0;
-function createNote(x, y) {
-    noteCount++;
-    const note = document.createElement('div');
-    note.className = 'draggable-note';
-    note.style.left = x + 'px';
-    note.style.top = y + 'px';
-    note.innerHTML = `<div class="note-header">Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text" placeholder="Write your note..."></textarea>`;
-    document.body.appendChild(note);
-    makeDraggable(note);
-    note.querySelector('.note-text').addEventListener('input', saveNotes);
-    saveNotes();
+let noteId=0;
+function makeDrag(el){
+    const h=el.querySelector('.note-header');
+    h.onmousedown=e=>{let px=e.clientX,py=e.clientY,ox=el.offsetLeft,oy=el.offsetTop;document.onmousemove=e=>{el.style.left=(ox+e.clientX-px)+'px';el.style.top=(oy+e.clientY-py)+'px'};document.onmouseup=()=>{document.onmousemove=null;saveNotes()}};
 }
-function addNoteHere() {
-    if (!lastSelection) return;
-    const rect = lastSelection.getBoundingClientRect();
-    createNote(rect.right + 15, rect.top);
+function addNoteHere(){
+    if(!lastSel)return;
+    const r=lastSel.getBoundingClientRect(),n=document.createElement('div');
+    n.className='draggable-note';n.style.left=(r.right+15)+'px';n.style.top=r.top+'px';
+    n.innerHTML=`<div class="note-header">Note ${++noteId}<button onclick="this.closest('.draggable-note').remove();saveNotes()">×</button></div><textarea class="note-text" placeholder="Write note..."></textarea>`;
+    document.body.appendChild(n);makeDrag(n);n.querySelector('textarea').oninput=saveNotes;
     window.getSelection().removeAllRanges();
-    document.getElementById('contextMenu').style.display = 'none';
 }
-function makeDraggable(el) {
-    const h = el.querySelector('.note-header');
-    let px, py, ox, oy;
-    h.onmousedown = e => {
-        e.preventDefault();
-        px = e.clientX; py = e.clientY;
-        ox = el.offsetLeft; oy = el.offsetTop;
-        document.onmousemove = e => {
-            el.style.left = (ox + e.clientX - px) + 'px';
-            el.style.top = (oy + e.clientY - py) + 'px';
-        };
-        document.onmouseup = () => {
-            document.onmousemove = null;
-            saveNotes();
-        };
-    };
-}
-function saveNotes() {
-    const arr = [];
-    document.querySelectorAll('.draggable-note').forEach(n => {
-        arr.push({l:n.style.left,t:n.style.top,txt:n.querySelector('.note-text').value});
-    });
-    localStorage.setItem('readingNotes', JSON.stringify(arr));
-}
-function loadNotes() {
-    const s = localStorage.getItem('readingNotes');
-    if (!s) return;
-    JSON.parse(s).forEach(d => {
-        const n = document.createElement('div');
-        n.className = 'draggable-note';
-        n.style.left = d.l; n.style.top = d.t;
-        n.innerHTML = `<div class="note-header">Note ${++noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text">${d.txt}</textarea>`;
-        document.body.appendChild(n);
-        makeDraggable(n);
-        n.querySelector('.note-text').addEventListener('input', saveNotes);
+function saveNotes(){localStorage.readingNotes=JSON.stringify([...document.querySelectorAll('.draggable-note')].map(n=>({l:n.style.left,t:n.style.top,txt:n.querySelector('.note-text').value})))}
+function loadNotes(){
+    if(!localStorage.readingNotes)return;
+    JSON.parse(localStorage.readingNotes).forEach(d=>{
+        const n=document.createElement('div');n.className='draggable-note';n.style.left=d.l;n.style.top=d.t;
+        n.innerHTML=`<div class="note-header">Note ${++noteId}<button onclick="this.closest('.draggable-note').remove();saveNotes()">×</button></div><textarea class="note-text">${d.txt}</textarea>`;
+        document.body.appendChild(n);makeDrag(n);n.querySelector('textarea').oninput=saveNotes;
     });
 }
 
 // --- Show Answers ---
-function showAnswers() {
-    let out = "--- READING PASSAGE 1 ANSWERS ---\n\n";
-    for (let i = 1; i <= 13; i++) {
-        const val = localStorage.getItem(`reading_q${i}`) || "(not answered)";
-        out += `Question ${i}: ${val}\n`;
-    }
-    const box = document.getElementById('answerOutput');
-    box.textContent = out;
-    box.style.display = 'block';
-    box.scrollIntoView({ behavior: 'smooth' });
+function showAnswers(){
+    let o="--- PASSAGE 1 ANSWERS ---\n\n";
+    for(let i=1;i<=13;i++)o+=`Q${i}: ${localStorage.getItem(`reading_q${i}`)||'not answered'}\n`;
+    const b=document.getElementById('answerBox');b.textContent=o;b.style.display='block';
 }
 </script>
 
