@@ -8,65 +8,69 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: Arial, sans-serif; line-height: 1.7; color: #333; height: 100vh; display: flex; flex-direction: column; }
 
-        .tabs { background: #222; padding: 12px 0; flex-shrink: 0; }
-        .tab-link { color: white; padding: 12px 20px; text-decoration: none; font-weight: bold; display: inline-block; }
+        /* --- COMPACT TOP AREA --- */
+        .tabs { background: #222; padding: 6px 0; flex-shrink: 0; }
+        .tab-link { color: white; padding: 6px 14px; text-decoration: none; font-weight: bold; display: inline-block; font-size: 14px; }
         .tab-link.active { background: #007bff; }
 
-        .header-bar { background: #eee; padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; flex-shrink: 0; }
-        .timer { font-size: 20px; font-weight: bold; color: #d9534f; background: white; padding: 8px 16px; border-radius: 4px; border: 1px solid #ddd; }
+        .header-bar { background: #eee; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; flex-shrink: 0; }
+        .header-bar h2 { font-size: 18px; }
+        .timer { font-size: 16px; font-weight: bold; color: #d9534f; background: white; padding: 5px 12px; border-radius: 3px; border: 1px solid #ddd; }
 
+        /* --- MAIN CONTENT: LARGER PASSAGE + QUESTIONS --- */
         .main-wrapper { display: flex; flex: 1; overflow: hidden; }
         .scrollable { overflow-y: auto; scrollbar-width: auto; scrollbar-color: #999 #f8f8f8; }
-        .scrollable::-webkit-scrollbar { width: 16px; }
-        .scrollable::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 8px; }
-        .scrollable::-webkit-scrollbar-thumb { background: #bbb; border-radius: 8px; border: 4px solid #f1f1f1; }
+        .scrollable::-webkit-scrollbar { width: 14px; }
+        .scrollable::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 7px; }
+        .scrollable::-webkit-scrollbar-thumb { background: #bbb; border-radius: 7px; border: 3px solid #f1f1f1; }
 
-        .passage-section { flex: 1; background: #f9f9f9; padding: 25px; border-right: 1px solid #ddd; }
-        .passage-section h3 { text-align: center; margin-bottom: 15px; }
-        .passage-section em { display: block; text-align: center; margin-bottom: 20px; color: #555; }
-        .passage-section p { margin-bottom: 18px; text-align: justify; }
+        .passage-section { flex: 1; background: #f9f9f9; padding: 20px; border-right: 1px solid #ddd; font-size: 16px; }
+        .passage-section h3 { text-align: center; margin-bottom: 12px; font-size: 18px; }
+        .passage-section em { display: block; text-align: center; margin-bottom: 15px; color: #555; font-size: 14px; }
+        .passage-section p { margin-bottom: 16px; text-align: justify; }
         .highlight { background: #ffeb3b; padding: 1px 3px; border-radius: 2px; }
         .highlightable { cursor: text; user-select: text; }
 
-        .questions-section { flex: 1; background: #fff; padding: 25px; overflow-y: auto; }
-        .questions-section h3 { margin-bottom: 20px; }
-        .q-group { margin-bottom: 30px; }
-        .q-instructions { margin-bottom: 15px; line-height: 1.6; }
-        .q-row { margin: 20px 0; line-height: 1.8; }
-        .text-input { padding: 7px 12px; border: 1px solid #999; width: 220px; text-transform: uppercase; margin: 4px 10px; border-radius: 3px; font-size: 15px; }
-        .gap-input { width: 150px; margin: 0 6px; }
+        .questions-section { flex: 1; background: #fff; padding: 20px; overflow-y: auto; font-size: 15px; }
+        .questions-section h3 { margin-bottom: 15px; font-size: 17px; }
+        .q-group { margin-bottom: 25px; }
+        .q-instructions { margin-bottom: 12px; line-height: 1.6; font-size: 14px; }
+        .q-row { margin: 16px 0; line-height: 1.8; }
+        .text-input { padding: 6px 10px; border: 1px solid #999; width: 200px; text-transform: uppercase; margin: 3px 8px; border-radius: 3px; font-size: 14px; }
+        .gap-input { width: 130px; margin: 0 5px; }
 
-        /* ✅ ALWAYS VISIBLE QUESTION NAV BAR */
+        /* --- COMPACT BUT CLEAR QUESTION NAV BAR --- */
         .question-status {
             flex-shrink: 0;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 6px;
-            padding: 12px 15px;
+            gap: 4px;
+            padding: 8px 15px;
             background: #f0f2f5;
             border-top: 1px solid #ddd;
             border-bottom: 1px solid #ddd;
-            font-size: 12px;
+            font-size: 11px;
         }
-        .part-label { font-size: 11px; font-weight: bold; color: #444; margin: 0 4px 0 8px; }
-        .q-indicator { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 2px; border: 1px solid #d1d5db; background: #e5e7eb; color: #333; cursor: pointer; text-decoration: none; font-size: 13px; }
+        .part-label { font-size: 10px; font-weight: bold; color: #444; margin: 0 3px 0 6px; }
+        .q-indicator { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 2px; border: 1px solid #d1d5db; background: #e5e7eb; color: #333; cursor: pointer; text-decoration: none; font-size: 12px; }
         .q-indicator:hover { border-color: #007bff; }
         .q-indicator.answered { background: #10b981; color: white; border-color: #10b981; }
 
-        .nav-buttons { padding: 15px 25px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; flex-shrink: 0; background: #fff; }
-        .btn { padding: 10px 20px; background: #007bff; color: white; border: none; text-decoration: none; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 15px; }
+        /* --- COMPACT NAV BUTTONS --- */
+        .nav-buttons { padding: 10px 20px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; flex-shrink: 0; background: #fff; }
+        .btn { padding: 7px 14px; background: #007bff; color: white; border: none; text-decoration: none; font-weight: bold; border-radius: 3px; cursor: pointer; font-size: 14px; }
         .btn:hover { background: #0056b3; }
         .btn.secondary { background: #6c757d; }
-        .answer-box { margin: 15px 25px; padding: 15px; background: #e9ecef; border-radius: 4px; display: none; font-family: monospace; }
+        .answer-box { margin: 10px 20px; padding: 12px; background: #e9ecef; border-radius: 3px; display: none; font-family: monospace; font-size: 13px; }
 
-        .context-menu { position: absolute; background: #fff; border: 1px solid #999; border-radius: 3px; box-shadow: 2px 2px 6px rgba(0,0,0,0.2); z-index: 99999; display: none; min-width: 160px; }
-        .context-menu div { padding: 8px 12px; cursor: pointer; }
+        .context-menu { position: absolute; background: #fff; border: 1px solid #999; border-radius: 3px; box-shadow: 2px 2px 6px rgba(0,0,0,0.2); z-index: 99999; display: none; min-width: 150px; font-size: 13px; }
+        .context-menu div { padding: 7px 10px; cursor: pointer; }
         .context-menu div:hover { background: #e7f3ff; }
 
-        .draggable-note { position: fixed; width: 220px; min-height: 100px; background: #fff9c4; border: 1px solid #fbc02d; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.15); padding: 8px; z-index: 999; cursor: move; }
-        .note-header { background: #fbc02d; margin: -8px -8px 8px; padding: 6px; border-radius: 6px 6px 0 0; font-weight: bold; display: flex; justify-content: space-between; }
-        .note-text { width: 100%; min-height: 70px; border: none; background: transparent; resize: vertical; font-family: inherit; font-size: 14px; outline: none; }
+        .draggable-note { position: fixed; width: 200px; min-height: 90px; background: #fff9c4; border: 1px solid #fbc02d; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); padding: 7px; z-index: 999; cursor: move; font-size: 13px; }
+        .note-header { background: #fbc02d; margin: -7px -7px 7px; padding: 5px; border-radius: 5px 5px 0 0; font-weight: bold; display: flex; justify-content: space-between; font-size: 13px; }
+        .note-text { width: 100%; min-height: 65px; border: none; background: transparent; resize: vertical; font-family: inherit; font-size: 13px; outline: none; }
     </style>
 </head>
 <body>
@@ -93,7 +97,7 @@
         <div class="passage-section scrollable">
             <h3>Reading Passage 1</h3>
             <em>You should spend about 20 minutes on Questions 1–13...</em>
-            <h4 style="text-align:center;margin-bottom:20px;">The White Horse of Uffington</h4>
+            <h4 style="text-align:center;margin-bottom:15px;">The White Horse of Uffington</h4>
             <div class="highlightable">
                 <!-- your full passage text stays exactly the same here -->
                 <p>The cutting of huge figures or 'geoglyphs' into the earth of English hillsides has taken place for more than 3,000 years. There are 56 hill figures scattered around England, with the vast majority on the chalk downlands of the country's southern counties. The figures include giants, horses, crosses and regimental badges. Although the majority of these geoglyphs date within the last 300 years or so, there are one or two that are much older.</p>
@@ -133,7 +137,6 @@
         </div>
     </div>
 
-    <!-- ✅ NOW ALWAYS VISIBLE AT BOTTOM -->
     <div class="question-status">
         <span class="part-label">P1</span>
         <a href="#reading_q1" class="q-indicator">1</a>
@@ -186,7 +189,7 @@
         <a href="reading2.html" class="btn">Next: Passage 2 →</a>
     </div>
 
-    <button style="margin:0 25px 15px;" class="btn" onclick="showAnswers()">Show My Answers</button>
+    <button style="margin:0 20px 12px;" class="btn" onclick="showAnswers()">Show My Answers</button>
     <div id="answerOutput" class="answer-box"></div>
 
 <script>
@@ -195,13 +198,13 @@ function saveAnswer(key, value) {
     const val = value.trim();
     localStorage.setItem(key, val);
     const q = key.replace('reading_q','');
-    val ? document.querySelector(`.q-indicator[href*="q${q}"]`)?.classList.add('answered')
-        : document.querySelector(`.q-indicator[href*="q${q}"]`)?.classList.remove('answered');
+    const indicator = document.querySelector(`.q-indicator[href*="q${q}"]`);
+    if (indicator) val ? indicator.classList.add('answered') : indicator.classList.remove('answered');
 }
 window.addEventListener('load', () => {
     for(let i=1;i<=13;i++){
         const v = localStorage.getItem(`reading_q${i}`);
-        if(v){ document.getElementById(`reading_q${i}`).value = v; saveAnswer(`reading_q${i}`,v); }
+        if(v){ const inp = document.getElementById(`reading_q${i}`); if(inp) inp.value = v; saveAnswer(`reading_q${i}`,v); }
     }
     loadNotes();
 });
@@ -220,7 +223,7 @@ setInterval(()=>{
 let lastSel=null;
 document.addEventListener('contextmenu',e=>{
     const sel=window.getSelection();
-    if(sel.toString().trim()){e.preventDefault();lastSel=sel.getRangeAt(0);document.getElementById('contextMenu').style=`display:block;left:${e.pageX}px;top:${e.pageY}px`;}
+    if(sel.toString().trim()){e.preventDefault();lastSel=sel.getRangeAt(0);const m=document.getElementById('contextMenu');m.style=`display:block;left:${e.pageX}px;top:${e.pageY}px`;}
     else document.getElementById('contextMenu').style.display='none';
 });
 document.addEventListener('click',()=>document.getElementById('contextMenu').style.display='none');
@@ -233,7 +236,7 @@ function highlightSelection(){
 function removeNearestHighlight(){
     if(!lastSel)return;
     let el=lastSel.commonAncestorContainer;if(el.nodeType===3)el=el.parentElement;
-    if(el.classList.contains('highlight'))el.outerHTML=el.innerHTML;saveNotes();
+    if(el && el.classList.contains('highlight'))el.outerHTML=el.innerHTML;saveNotes();
 }
 function removeAllHighlights(){document.querySelectorAll('.highlight').forEach(e=>e.outerHTML=e.innerHTML);saveNotes();}
 
@@ -265,7 +268,7 @@ function loadNotes(){
 function showAnswers(){
     let o="--- PASSAGE 1 ANSWERS ---\n\n";
     for(let i=1;i<=13;i++)o+=`Q${i}: ${localStorage.getItem(`reading_q${i}`)||'not answered'}\n`;
-    const b=document.getElementById('answerBox');b.textContent=o;b.style.display='block';
+    const b=document.getElementById('answerOutput');b.textContent=o;b.style.display='block';
 }
 </script>
 
