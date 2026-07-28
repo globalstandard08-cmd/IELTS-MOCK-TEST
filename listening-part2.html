@@ -189,7 +189,6 @@
         }
     </style>
     <script>
-    // --- AUTO-SAVE & UPDATE STATUS ---
     function saveAnswer(key, value) {
         const val = value.trim();
         localStorage.setItem(key, val);
@@ -207,9 +206,7 @@
         if (el) el.classList.remove('answered');
     }
 
-    // --- LOAD SAVED ANSWERS & STATUS ---
     window.addEventListener('load', function() {
-        // Q11-Q15 Radio
         for (let i = 11; i <= 15; i++) {
             const saved = localStorage.getItem(`listening_q${i}`);
             if (saved) {
@@ -218,7 +215,6 @@
                 markAnswered(i);
             }
         }
-        // Q16-Q18 Select
         for (let i = 16; i <= 18; i++) {
             const saved = localStorage.getItem(`listening_q${i}`);
             if (saved) {
@@ -226,7 +222,6 @@
                 markAnswered(i);
             }
         }
-        // Q19-Q20 Checkbox
         const savedCheck = localStorage.getItem('listening_q1920');
         if (savedCheck) {
             const values = savedCheck.split(',');
@@ -234,13 +229,11 @@
                 const cb = document.querySelector(`input[name="q1920"][value="${val}"]`);
                 if (cb) cb.checked = true;
             });
-            markAnswered(19);
-            markAnswered(20);
+            if (savedCheck) { markAnswered(19); markAnswered(20); }
         }
         loadNotes();
     });
 
-    // --- CONTINUOUS AUDIO ---
     const audioFiles = ["part1.mp3", "16test1sec2.mp3", "part3.mp3", "part4.mp3"];
     let userStarted = false;
     window.addEventListener('load', function() {
@@ -258,7 +251,6 @@
         });
     });
 
-    // --- CONTINUOUS TIMER ---
     window.addEventListener('load', function() {
         if (!localStorage.getItem('listeningTestStarted')) {
             localStorage.setItem('listeningTestStarted', 'true');
@@ -281,7 +273,6 @@
         const timerInterval = setInterval(updateTimer, 1000);
     });
 
-    // --- HIGHLIGHT & NOTES TOOLS ---
     let lastSelection = null;
     document.addEventListener('contextmenu', function(e) {
         const sel = window.getSelection();
@@ -453,27 +444,34 @@
             <p>16 World Adventures: <select id="q16" onchange="saveAnswer('listening_q16', this.value)"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select></p>
             <p>17 Street Life: <select id="q17" onchange="saveAnswer('listening_q17', this.value)"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select></p>
             <p>18 Speedy Italian: <select id="q18" onchange="saveAnswer('listening_q18', this.value)"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select></p>
+
             <p><strong>Questions 19 and 20</strong><br>Choose TWO letters, A–E — which TWO optional after‑school lessons are new?</p>
             <div class="option-line">
-                <input type="checkbox" name="q1920" value="A" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c => c.value).join(','))">
-                <label>A swimming</label>
+                <input type="checkbox" name="q1920" value="A" id="optA"
+                onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name=&quot;q1920&quot;]:checked')).map(cb => cb.value).join(','))">
+                <label for="optA">A swimming</label>
             </div>
             <div class="option-line">
-                <input type="checkbox" name="q1920" value="B" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c => c.value).join(','))">
-                <label>B piano</label>
+                <input type="checkbox" name="q1920" value="B" id="optB"
+                onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name=&quot;q1920&quot;]:checked')).map(cb => cb.value).join(','))">
+                <label for="optB">B piano</label>
             </div>
             <div class="option-line">
-                <input type="checkbox" name="q1920" value="C" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c => c.value).join(','))">
-                <label>C acting</label>
+                <input type="checkbox" name="q1920" value="C" id="optC"
+                onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name=&quot;q1920&quot;]:checked')).map(cb => cb.value).join(','))">
+                <label for="optC">C acting</label>
             </div>
             <div class="option-line">
-                <input type="checkbox" name="q1920" value="D" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c => c.value).join(','))">
-                <label>D cycling</label>
+                <input type="checkbox" name="q1920" value="D" id="optD"
+                onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name=&quot;q1920&quot;]:checked')).map(cb => cb.value).join(','))">
+                <label for="optD">D cycling</label>
             </div>
             <div class="option-line">
-                <input type="checkbox" name="q1920" value="E" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c => c.value).join(','))">
-                <label>E theatre sound and lighting</label>
+                <input type="checkbox" name="q1920" value="E" id="optE"
+                onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name=&quot;q1920&quot;]:checked')).map(cb => cb.value).join(','))">
+                <label for="optE">E theatre sound and lighting</label>
             </div>
+
             <div class="question-status">
                 <span class="part-label">Part 1</span>
                 <a href="listening-part1.html#q1" class="q-indicator">1</a>
