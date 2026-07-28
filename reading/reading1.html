@@ -72,7 +72,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2px;
-            height: calc(100vh - 220px);
+            height: calc(100vh - 280px);
         }
         .passage-section {
             background-color: #f9f9f9;
@@ -95,16 +95,14 @@
             text-align: justify;
         }
         .highlight {
-            background-color: #fff350;
-            padding: 2px 0;
+            background-color: #ffeb3b;
+            color: #000;
+            padding: 1px 3px;
             border-radius: 2px;
         }
         .highlightable {
             cursor: text;
             user-select: text;
-        }
-        .highlightable ::selection {
-            background: #ffe566;
         }
         .questions-section {
             background-color: #ffffff;
@@ -138,15 +136,63 @@
             width: 150px;
             margin: 0 6px;
         }
-        .nav-buttons {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
+        .question-status {
             display: flex;
-            justify-content: flex-end;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 6px;
+            margin: 20px 0 15px;
+            padding: 12px 15px;
+            background: #f0f2f5;
+            border-radius: 4px;
+            border: 1px solid #d0d5dd;
+            font-size: 12px;
+        }
+        .part-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #444;
+            margin-right: 4px;
+            margin-left: 8px;
+        }
+        .part-separator {
+            width: 12px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .q-indicator {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: normal;
+            border-radius: 2px;
+            border: 1px solid #d1d5db;
+            background: #e5e7eb;
+            color: #333;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .q-indicator:hover {
+            border-color: #007bff;
+        }
+        .q-indicator.answered {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        .nav-buttons {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .btn {
-            padding: 12px 24px;
+            padding: 10px 20px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -154,68 +200,117 @@
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
         }
         .btn:hover {
             background-color: #0056b3;
         }
+        .btn.secondary {
+            background-color: #6c757d;
+        }
         .answer-box {
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: 20px;
+            padding: 15px;
             background-color: #e9ecef;
             border: 1px solid #ccc;
             border-radius: 4px;
             white-space: pre-line;
             display: none;
             font-family: monospace;
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.6;
+        }
+        .context-menu {
+            position: absolute;
+            background: #ffffff;
+            border: 1px solid #999;
+            border-radius: 3px;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+            z-index: 99999 !important;
+            display: none;
+            min-width: 160px;
+        }
+        .context-menu div {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .context-menu div:hover {
+            background: #e7f3ff;
+        }
+        .draggable-note {
+            position: fixed;
+            width: 220px;
+            min-height: 100px;
+            background: #fff9c4;
+            border: 1px solid #fbc02d;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            padding: 8px;
+            z-index: 999;
+            cursor: move;
+        }
+        .note-header {
+            background: #fbc02d;
+            margin: -8px -8px 8px -8px;
+            padding: 6px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .note-text {
+            width: 100%;
+            min-height: 70px;
+            border: none;
+            background: transparent;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
         }
     </style>
 </head>
 <body>
 
+    <div id="contextMenu" class="context-menu">
+        <div onclick="highlightSelection()">🖍️ Highlight</div>
+        <div onclick="removeNearestHighlight()">❌ Remove This Highlight</div>
+        <div onclick="removeAllHighlights()">🧹 Remove All Highlights</div>
+        <div onclick="addNoteHere()">📝 Add Note</div>
+    </div>
+
     <div class="tabs">
         <a class="tab-link active" href="reading1.html">Passage 1</a>
         <a class="tab-link" href="reading2.html">Passage 2</a>
-        <a class="tab-link" href="reading3.html">Passage 3 →</a>
+        <a class="tab-link" href="reading3.html">Passage 3</a>
     </div>
 
     <div class="header-bar">
-        <h2>IELTS Reading Test</h2>
+        <h2>IELTS Reading Test - Passage 1</h2>
         <div class="timer">Time Left: <span id="countdown">60:00</span></div>
     </div>
 
     <div class="test-container">
-        <!-- LEFT: READING PASSAGE 1 -->
         <div class="passage-section scrollable">
             <h3>Reading Passage 1</h3>
             <em>You should spend about 20 minutes on Questions 1–13, which are based on Reading Passage 1 below.</em>
-
             <h4 style="text-align: center; margin-bottom: 20px;">The White Horse of Uffington</h4>
-
             <div class="highlightable">
+                <!-- your full passage text stays exactly the same here -->
                 <p>The cutting of huge figures or 'geoglyphs' into the earth of English hillsides has taken place for more than 3,000 years. There are 56 hill figures scattered around England, with the vast majority on the chalk downlands of the country's southern counties. The figures include giants, horses, crosses and regimental badges. Although the majority of these geoglyphs date within the last 300 years or so, there are one or two that are much older.</p>
-
                 <p>The most famous of these figures is perhaps also the most mysterious - the Uffington White Horse in Oxfordshire. The White Horse has recently been re-dated and shown to be even older than its previously assigned ancient pre-Roman Iron Age date. More controversial is the date of the enigmatic Long Man of Wilmington in Sussex. While many historians are convinced the figure is prehistoric, others believe that it was the work of an artistic monk from a nearby priory and was created between the 11th and 15th centuries.</p>
-
                 <p>The method of cutting these huge figures was simply to remove the overlying grass to reveal the gleaming white chalk below. However, the grass would soon grow over the geoglyph again unless it was regularly cleaned or scoured by a fairly large team of people. One reason that the vast majority of hill figures have disappeared is that when the traditions associated with the figures faded, people no longer bothered or remembered to clear away the grass to expose the chalk outline. Furthermore, over hundreds of years the outlines would sometimes change due to people not always cutting in exactly the same place, thus creating a different shape to the original geoglyph. The fact that any ancient hill figures survive at all in England today is testament to the strength and continuity of local customs and beliefs which, in one case at least, must stretch back over millennia.</p>
-
                 <p>The Uffington White Horse is a unique, stylised representation of a horse consisting of a long, sleek back, thin disjointed legs, a streaming tail, and a bird-like beaked head. The elegant creature almost melts into the landscape. The horse is situated 2.5 km from Uffington village on a steep slope close to the Late Bronze Age (c. 7th century BCE) hillfort of Uffington Castle and below the Ridgeway, a long-distance Neolithic track.</p>
-
                 <p>The Uffington Horse is also surrounded by Bronze Age burial mounds. It is not far from the Bronze Age cemetery of Lambourn Seven Barrows, which consists of more than 30 well-preserved burial mounds. The carving has been placed in such a way as to make it extremely difficult to see from close quarters, and like many geoglyphs is best appreciated from the air. Nevertheless, there are certain areas of the Vale of the White Horse, the valley containing and named after the enigmatic creature, from which an adequate impression may be gained. Indeed on a clear day the carving can be seen from up to 30 km away.</p>
-
                 <p>The earliest evidence of a horse at Uffington is from the 1070s CE when 'White Horse Hill' is mentioned in documents from the nearby Abbey of Abingdon, and the first reference to the horse itself is soon after, in 1190 CE. However, the carving is believed to date back much further than that. Due to the similarity of the Uffington White Horse to the stylised depictions of horses on 1st century BCE coins, it had been thought that the creature must also date to that period.</p>
-
                 <p>However, in 1995 Optically Stimulated Luminescence (OSL) testing was carried out by the Oxford Archaeological Unit on soil from two of the lower layers of the horse's body, and from another cut near the base. The result was a date for the horse's construction somewhere between 1400 and 600 BCE - in other words, it had a Late Bronze Age or Early Iron Age origin.</p>
-
                 <p>The latter end of this date range would tie the carving of the horse in with occupation of the nearby Uffington hillfort, indicating that it may represent a tribal emblem marking the land of the inhabitants of the hillfort. Alternatively, the carving may have been carried out during a Bronze or Iron Age ritual. Some researchers see the horse as representing the Celtic horse goddess Epona, who was worshipped as a protector of horses, and for her associations with fertility. However, the cult of Epona was not imported from Gaul (France) until around the first century CE. This date is at least six centuries after the Uffington Horse was probably carved. Nevertheless, the horse had great ritual and economic significance during the Bronze and Iron Ages, as attested by its depictions on jewellery and other metal objects. It is possible that the carving represents a goddess in native mythology, such as Rhiannon, described in later Welsh mythology as a beautiful woman dressed in gold and riding a white horse.</p>
-
                 <p>The fact that geoglyphs can disappear easily, along with their associated rituals and meaning, indicates that they were never intended to be anything more than temporary gestures. But this does not lessen their importance. These giant carvings are a fascinating glimpse into the minds of their creators and how they viewed the landscape in which they lived.</p>
             </div>
         </div>
 
-        <!-- RIGHT: QUESTIONS -->
         <div class="questions-section scrollable">
             <h3>Questions 1–13</h3>
 
@@ -228,46 +323,14 @@
                     <strong>FALSE</strong> if the statement contradicts the information<br>
                     <strong>NOT GIVEN</strong> if there is no information on this
                 </div>
-
-                <div class="q-row">
-                    1 Most geoglyphs in England are located in a particular area of the country.<br>
-                    <input type="text" class="text-input" id="r1q1" placeholder="TRUE / FALSE / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    2 There are more geoglyphs in the shape of a horse than any other creature.<br>
-                    <input type="text" class="text-input" id="r1q2" placeholder="TRUE / FALSE / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    3 A recent dating of the Uffington White Horse indicates that people were mistaken about its age.<br>
-                    <input type="text" class="text-input" id="r1q3" placeholder="TRUE / FALSE / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    4 Historians have come to an agreement about the origins of the Long Man of Wilmington.<br>
-                    <input type="text" class="text-input" id="r1q4" placeholder="TRUE / FALSE / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    5 Geoglyphs were created by people placing white chalk on the hillside.<br>
-                    <input type="text" class="text-input" id="r1q5" placeholder="TRUE / FALSE / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    6 Many geoglyphs in England are no longer visible.<br>
-                    <input type="text" class="text-input" id="r1q6" placeholder="TRUE / FALSE / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    7 The shape of some geoglyphs has been altered over time.<br>
-                    <input type="text" class="text-input" id="r1q7" placeholder="TRUE / FALSE / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    8 The fame of the Uffington White Horse is due to its size.<br>
-                    <input type="text" class="text-input" id="r1q8" placeholder="TRUE / FALSE / NOT GIVEN">
-                </div>
+                <div class="q-row">1 Most geoglyphs in England are located in a particular area of the country.<br><input type="text" class="text-input" id="reading_q1" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q1', this.value)"></div>
+                <div class="q-row">2 There are more geoglyphs in the shape of a horse than any other creature.<br><input type="text" class="text-input" id="reading_q2" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q2', this.value)"></div>
+                <div class="q-row">3 A recent dating of the Uffington White Horse indicates that people were mistaken about its age.<br><input type="text" class="text-input" id="reading_q3" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q3', this.value)"></div>
+                <div class="q-row">4 Historians have come to an agreement about the origins of the Long Man of Wilmington.<br><input type="text" class="text-input" id="reading_q4" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q4', this.value)"></div>
+                <div class="q-row">5 Geoglyphs were created by people placing white chalk on the hillside.<br><input type="text" class="text-input" id="reading_q5" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q5', this.value)"></div>
+                <div class="q-row">6 Many geoglyphs in England are no longer visible.<br><input type="text" class="text-input" id="reading_q6" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q6', this.value)"></div>
+                <div class="q-row">7 The shape of some geoglyphs has been altered over time.<br><input type="text" class="text-input" id="reading_q7" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q7', this.value)"></div>
+                <div class="q-row">8 The fame of the Uffington White Horse is due to its size.<br><input type="text" class="text-input" id="reading_q8" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('reading_q8', this.value)"></div>
             </div>
 
             <div class="q-group">
@@ -276,121 +339,242 @@
                     Complete the notes below.<br>
                     Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.
                 </div>
-
                 <p style="margin-bottom:15px;"><strong>The Uffington White Horse</strong></p>
                 <p style="margin-bottom:10px;">The location of the Uffington White Horse:</p>
-                <div class="q-row">
-                    • a distance of 2.5 km from Uffington village<br>
-                    • near an ancient road known as the <strong>9</strong> <input type="text" class="text-input gap-input" id="r1q9"><br>
-                    • close to an ancient cemetery that has a number of burial mounds
-                </div>
-
+                <div class="q-row">• a distance of 2.5 km from Uffington village<br>• near an ancient road known as the <strong>9</strong> <input type="text" class="text-input gap-input" id="reading_q9" oninput="saveAnswer('reading_q9', this.value)"><br>• close to an ancient cemetery that has a number of burial mounds</div>
                 <p style="margin:20px 0 10px 0;">Dating the Uffington White Horse:</p>
-                <div class="q-row">
-                    • first reference to White Horse Hill appears in <strong>10</strong> <input type="text" class="text-input gap-input" id="r1q10"> from the 1070s<br>
-                    • horses shown on coins from the period 100 BCE - 1 BCE are similar in appearance
-                </div>
-                <div class="q-row">
-                    • according to analysis of the surrounding <strong>11</strong> <input type="text" class="text-input gap-input" id="r1q11">, the Horse is Late Bronze Age/ Early Iron Age
-                </div>
-
+                <div class="q-row">• first reference to White Horse Hill appears in <strong>10</strong> <input type="text" class="text-input gap-input" id="reading_q10" oninput="saveAnswer('reading_q10', this.value)"> from the 1070s<br>• horses shown on coins from the period 100 BCE - 1 BCE are similar in appearance</div>
+                <div class="q-row">• according to analysis of the surrounding <strong>11</strong> <input type="text" class="text-input gap-input" id="reading_q11" oninput="saveAnswer('reading_q11', this.value)">, the Horse is Late Bronze Age/ Early Iron Age</div>
                 <p style="margin:20px 0 10px 0;">Possible reasons for creation of the Uffington White Horse:</p>
-                <div class="q-row">
-                    • an emblem to indicate land ownership<br>
-                    • formed part of an ancient ritual<br>
-                    • was a representation of goddess Epona - associated with protection of horses and <strong>12</strong> <input type="text" class="text-input gap-input" id="r1q12">
-                </div>
-                <div class="q-row">
-                    • was a representation of a Welsh goddess called <strong>13</strong> <input type="text" class="text-input gap-input" id="r1q13">
-                </div>
+                <div class="q-row">• an emblem to indicate land ownership<br>• formed part of an ancient ritual<br>• was a representation of goddess Epona - associated with protection of horses and <strong>12</strong> <input type="text" class="text-input gap-input" id="reading_q12" oninput="saveAnswer('reading_q12', this.value)"></div>
+                <div class="q-row">• was a representation of a Welsh goddess called <strong>13</strong> <input type="text" class="text-input gap-input" id="reading_q13" oninput="saveAnswer('reading_q13', this.value)"></div>
+            </div>
+
+            <div class="question-status">
+                <span class="part-label">Passage 1</span>
+                <a href="#reading_q1" class="q-indicator">1</a>
+                <a href="#reading_q2" class="q-indicator">2</a>
+                <a href="#reading_q3" class="q-indicator">3</a>
+                <a href="#reading_q4" class="q-indicator">4</a>
+                <a href="#reading_q5" class="q-indicator">5</a>
+                <a href="#reading_q6" class="q-indicator">6</a>
+                <a href="#reading_q7" class="q-indicator">7</a>
+                <a href="#reading_q8" class="q-indicator">8</a>
+                <a href="#reading_q9" class="q-indicator">9</a>
+                <a href="#reading_q10" class="q-indicator">10</a>
+                <a href="#reading_q11" class="q-indicator">11</a>
+                <a href="#reading_q12" class="q-indicator">12</a>
+                <a href="#reading_q13" class="q-indicator">13</a>
+                <div class="part-separator"></div>
+                <span class="part-label">Passage 2</span>
+                <a href="reading2.html#reading_q14" class="q-indicator">14</a>
+                <a href="reading2.html#reading_q15" class="q-indicator">15</a>
+                <a href="reading2.html#reading_q16" class="q-indicator">16</a>
+                <a href="reading2.html#reading_q17" class="q-indicator">17</a>
+                <a href="reading2.html#reading_q18" class="q-indicator">18</a>
+                <a href="reading2.html#reading_q19" class="q-indicator">19</a>
+                <a href="reading2.html#reading_q20" class="q-indicator">20</a>
+                <a href="reading2.html#reading_q21" class="q-indicator">21</a>
+                <a href="reading2.html#reading_q22" class="q-indicator">22</a>
+                <a href="reading2.html#reading_q23" class="q-indicator">23</a>
+                <a href="reading2.html#reading_q24" class="q-indicator">24</a>
+                <a href="reading2.html#reading_q25" class="q-indicator">25</a>
+                <a href="reading2.html#reading_q26" class="q-indicator">26</a>
+                <div class="part-separator"></div>
+                <span class="part-label">Passage 3</span>
+                <a href="reading3.html#reading_q27" class="q-indicator">27</a>
+                <a href="reading3.html#reading_q28" class="q-indicator">28</a>
+                <a href="reading3.html#reading_q29" class="q-indicator">29</a>
+                <a href="reading3.html#reading_q30" class="q-indicator">30</a>
+                <a href="reading3.html#reading_q31" class="q-indicator">31</a>
+                <a href="reading3.html#reading_q32" class="q-indicator">32</a>
+                <a href="reading3.html#reading_q33" class="q-indicator">33</a>
+                <a href="reading3.html#reading_q34" class="q-indicator">34</a>
+                <a href="reading3.html#reading_q35" class="q-indicator">35</a>
+                <a href="reading3.html#reading_q36" class="q-indicator">36</a>
+                <a href="reading3.html#reading_q37" class="q-indicator">37</a>
+                <a href="reading3.html#reading_q38" class="q-indicator">38</a>
+                <a href="reading3.html#reading_q39" class="q-indicator">39</a>
+                <a href="reading3.html#reading_q40" class="q-indicator">40</a>
             </div>
 
             <div class="nav-buttons">
-                <a href="reading2.html" class="btn">Next Passage 2 →</a>
+                <a href="reading-intro.html" class="btn secondary">← Back to Intro</a>
+                <a href="../review-answers.html" class="btn secondary">📋 Review Answers</a>
+                <a href="reading2.html" class="btn">Next: Passage 2 →</a>
             </div>
 
-            <button class="btn" style="margin-top: 20px;" onclick="showAnswers()">Show My Answers</button>
+            <button class="btn" style="margin-top: 15px;" onclick="showAnswers()">Show My Answers</button>
             <div id="answerOutput" class="answer-box"></div>
         </div>
     </div>
 
-    <script>
-        // --- PERSISTENT 60-Minute Countdown Timer ---
-        let timeLeft = localStorage.getItem('readingTimeLeft');
-        if (timeLeft === null || isNaN(timeLeft) || timeLeft <= 0) {
-            timeLeft = 60 * 60;
+<script>
+// --- Save & Load Answers ---
+function saveAnswer(key, value) {
+    const val = value.trim();
+    localStorage.setItem(key, val);
+    const qNum = key.replace('reading_q','');
+    if (val) markAnswered(qNum);
+    else unmarkAnswered(qNum);
+}
+function markAnswered(q) {
+    const el = document.querySelector(`.q-indicator[href*="q${q}"]`);
+    if (el) el.classList.add('answered');
+}
+function unmarkAnswered(q) {
+    const el = document.querySelector(`.q-indicator[href*="q${q}"]`);
+    if (el) el.classList.remove('answered');
+}
+window.addEventListener('load', function() {
+    for (let i = 1; i <= 13; i++) {
+        const saved = localStorage.getItem(`reading_q${i}`);
+        if (saved) {
+            const inp = document.getElementById(`reading_q${i}`);
+            if (inp) inp.value = saved;
+            markAnswered(i);
         }
-        const countdownEl = document.getElementById('countdown');
+    }
+    loadNotes();
+});
 
-        function updateTimer() {
-            if (timeLeft <= 0) {
-                countdownEl.textContent = "00:00";
-                alert("Time's up!");
-                localStorage.removeItem('readingTimeLeft');
-                clearInterval(timerInterval);
-                return;
-            }
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            localStorage.setItem('readingTimeLeft', timeLeft);
-            timeLeft--;
-        }
+// --- 60-Minute Timer ---
+let timeLeft = localStorage.getItem('readingTimeLeft');
+if (timeLeft === null || isNaN(timeLeft) || timeLeft <= 0) timeLeft = 60 * 60;
+const countdownEl = document.getElementById('countdown');
+function updateTimer() {
+    if (timeLeft <= 0) {
+        countdownEl.textContent = "00:00";
+        alert("Time's up!");
+        localStorage.removeItem('readingTimeLeft');
+        clearInterval(timerInterval);
+        return;
+    }
+    const m = Math.floor(timeLeft / 60);
+    const s = timeLeft % 60;
+    countdownEl.textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    localStorage.setItem('readingTimeLeft', timeLeft);
+    timeLeft--;
+}
+const timerInterval = setInterval(updateTimer, 1000);
+updateTimer();
 
-        const timerInterval = setInterval(updateTimer, 1000);
-        updateTimer();
+// --- Right-Click Menu ---
+let lastSelection = null;
+document.addEventListener('contextmenu', function(e) {
+    const sel = window.getSelection();
+    const menu = document.getElementById('contextMenu');
+    if (sel.toString().trim() !== '') {
+        e.preventDefault();
+        lastSelection = sel.getRangeAt(0);
+        menu.style.left = e.pageX + 'px';
+        menu.style.top = e.pageY + 'px';
+        menu.style.display = 'block';
+    } else {
+        menu.style.display = 'none';
+        lastSelection = null;
+    }
+});
+document.addEventListener('click', () => {
+    document.getElementById('contextMenu').style.display = 'none';
+});
 
-        // --- Text Highlight Feature ---
-        const passageContainer = document.querySelector('.highlightable');
-        passageContainer.addEventListener('mouseup', function() {
-            const selection = window.getSelection();
-            if (!selection.rangeCount) return;
-            const range = selection.getRangeAt(0);
-            const selectedText = selection.toString().trim();
-            if (!selectedText) return;
+// --- Highlight Functions ---
+function highlightSelection() {
+    if (!lastSelection) return;
+    const span = document.createElement('span');
+    span.className = 'highlight';
+    lastSelection.surroundContents(span);
+    window.getSelection().removeAllRanges();
+    document.getElementById('contextMenu').style.display = 'none';
+    saveNotes();
+}
+function removeNearestHighlight() {
+    if (!lastSelection) return;
+    let el = lastSelection.commonAncestorContainer;
+    if (el.nodeType === 3) el = el.parentElement;
+    if (el && el.classList.contains('highlight')) el.outerHTML = el.innerHTML;
+    document.getElementById('contextMenu').style.display = 'none';
+    saveNotes();
+}
+function removeAllHighlights() {
+    document.querySelectorAll('.highlight').forEach(el => el.outerHTML = el.innerHTML);
+    document.getElementById('contextMenu').style.display = 'none';
+    saveNotes();
+}
 
-            const parent = range.commonAncestorContainer.parentElement;
-            if (parent && parent.classList.contains('highlight')) {
-                parent.outerHTML = parent.innerHTML;
-                selection.removeAllRanges();
-                return;
-            }
+// --- Draggable Notes ---
+let noteCount = 0;
+function createNote(x, y) {
+    noteCount++;
+    const note = document.createElement('div');
+    note.className = 'draggable-note';
+    note.style.left = x + 'px';
+    note.style.top = y + 'px';
+    note.innerHTML = `<div class="note-header">Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text" placeholder="Write your note..."></textarea>`;
+    document.body.appendChild(note);
+    makeDraggable(note);
+    note.querySelector('.note-text').addEventListener('input', saveNotes);
+    saveNotes();
+}
+function addNoteHere() {
+    if (!lastSelection) return;
+    const rect = lastSelection.getBoundingClientRect();
+    createNote(rect.right + 15, rect.top);
+    window.getSelection().removeAllRanges();
+    document.getElementById('contextMenu').style.display = 'none';
+}
+function makeDraggable(el) {
+    const h = el.querySelector('.note-header');
+    let px, py, ox, oy;
+    h.onmousedown = e => {
+        e.preventDefault();
+        px = e.clientX; py = e.clientY;
+        ox = el.offsetLeft; oy = el.offsetTop;
+        document.onmousemove = e => {
+            el.style.left = (ox + e.clientX - px) + 'px';
+            el.style.top = (oy + e.clientY - py) + 'px';
+        };
+        document.onmouseup = () => {
+            document.onmousemove = null;
+            saveNotes();
+        };
+    };
+}
+function saveNotes() {
+    const arr = [];
+    document.querySelectorAll('.draggable-note').forEach(n => {
+        arr.push({l:n.style.left,t:n.style.top,txt:n.querySelector('.note-text').value});
+    });
+    localStorage.setItem('readingNotes', JSON.stringify(arr));
+}
+function loadNotes() {
+    const s = localStorage.getItem('readingNotes');
+    if (!s) return;
+    JSON.parse(s).forEach(d => {
+        const n = document.createElement('div');
+        n.className = 'draggable-note';
+        n.style.left = d.l; n.style.top = d.t;
+        n.innerHTML = `<div class="note-header">Note ${++noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text">${d.txt}</textarea>`;
+        document.body.appendChild(n);
+        makeDraggable(n);
+        n.querySelector('.note-text').addEventListener('input', saveNotes);
+    });
+}
 
-            try {
-                const span = document.createElement('span');
-                span.className = 'highlight';
-                range.surroundContents(span);
-            } catch (e) {
-                const text = range.toString();
-                const span = document.createElement('span');
-                span.className = 'highlight';
-                span.textContent = text;
-                range.deleteContents();
-                range.insertNode(span);
-            }
-
-            selection.removeAllRanges();
-        });
-
-        // --- Show Answers Function ---
-        function showAnswers() {
-            let answers = "--- READING PASSAGE 1 ANSWERS ---\n\n";
-            for (let i = 1; i <= 13; i++) {
-                const textInput = document.getElementById('r1q' + i);
-                if (textInput) {
-                    answers += `Question ${i}: ${textInput.value.trim() || "(not answered)"}\n`;
-                } else {
-                    const selected = document.querySelector(`input[name="r1q${i}"]:checked`);
-                    answers += `Question ${i}: ${selected ? selected.value : "(not answered)"}\n`;
-                }
-            }
-            const outputBox = document.getElementById('answerOutput');
-            outputBox.textContent = answers;
-            outputBox.style.display = 'block';
-            outputBox.scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
+// --- Show Answers ---
+function showAnswers() {
+    let out = "--- READING PASSAGE 1 ANSWERS ---\n\n";
+    for (let i = 1; i <= 13; i++) {
+        const val = localStorage.getItem(`reading_q${i}`) || "(not answered)";
+        out += `Question ${i}: ${val}\n`;
+    }
+    const box = document.getElementById('answerOutput');
+    box.textContent = out;
+    box.style.display = 'block';
+    box.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
 
 </body>
 </html>
