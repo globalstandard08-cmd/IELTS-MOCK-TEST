@@ -3,163 +3,483 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listening Test - Your Results</title>
+    <title>IELTS Listening Test - Part 1</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
             line-height: 1.6;
-            background-color: #f4f6f9;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        .tabs {
+            background-color: #222;
+            padding: 10px 0;
+            margin: -20px -20px 20px -20px;
         }
-        h1 {
-            color: #1f3a5f;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .summary {
-            background: #eef2f7;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 18px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #1f3a5f;
-            color: white;
-        }
-        .correct {
-            color: #10b981;
-            font-weight: bold;
-        }
-        .incorrect {
-            color: #dc2626;
-            font-weight: bold;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #1f3a5f;
+        .tab-link {
             color: white;
             text-decoration: none;
-            border-radius: 4px;
+            padding: 10px 20px;
             font-weight: bold;
-            margin-right: 10px;
+        }
+        .tab-link.active {
+            background-color: #444;
+        }
+        .header-bar {
+            background-color: #eee;
+            padding: 15px 20px;
+            margin: -20px -20px 20px -20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .audio-player {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .audio-note {
+            color: #c0392b;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 100%;
+            gap: 30px;
+        }
+        strong {
+            font-weight: bold;
+        }
+        .nav-buttons {
+            margin-top: 25px;
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
         }
         .btn:hover {
-            background-color: #2e568c;
+            background-color: #0056b3;
         }
-        .btn.clear {
-            background-color: #dc2626;
+        .notes-box {
+            border: 1px solid #ccc;
+            padding: 20px 25px;
+            margin: 15px 0;
+            background-color: #f9f9f9;
+            line-height: 2;
         }
-        .btn.clear:hover {
-            background-color: #b91c1c;
+        .note-row {
+            display: inline-flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .note-row input {
+            padding: 4px 8px;
+            border: 1px solid #999;
+            width: 160px;
+            text-transform: uppercase;
+            margin: 0 8px;
+            transition: all 0.2s;
+        }
+        .note-row input.filled {
+            background-color: #e6fffa;
+            border-color: #007bff;
+        }
+        .highlight {
+            background-color: #ffeb3b;
+            color: #000;
+            padding: 1px 3px;
+            border-radius: 2px;
+        }
+        .context-menu {
+            position: absolute;
+            background: #ffffff;
+            border: 1px solid #999;
+            border-radius: 3px;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+            z-index: 99999 !important;
+            display: none;
+            min-width: 160px;
+        }
+        .context-menu div {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .context-menu div:hover {
+            background: #e7f3ff;
+        }
+        .draggable-note {
+            position: fixed;
+            width: 220px;
+            min-height: 100px;
+            background: #fff9c4;
+            border: 1px solid #fbc02d;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            padding: 8px;
+            z-index: 999;
+            cursor: move;
+        }
+        .note-header {
+            background: #fbc02d;
+            margin: -8px -8px 8px -8px;
+            padding: 6px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .note-text {
+            width: 100%;
+            min-height: 70px;
+            border: none;
+            background: transparent;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+        .question-status {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 6px;
+            margin: 25px 0 15px;
+            padding: 12px 15px;
+            background: #f0f2f5;
+            border-radius: 4px;
+            border: 1px solid #d0d5dd;
+            font-size: 12px;
+        }
+        .part-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #444;
+            margin-right: 4px;
+            margin-left: 8px;
+        }
+        .part-separator {
+            width: 12px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .q-indicator {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: normal;
+            border-radius: 2px;
+            border: 1px solid #d1d5db;
+            background: #e5e7eb;
+            color: #333;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .q-indicator:hover {
+            border-color: #007bff;
+        }
+        .q-indicator.answered {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h1>📋 IELTS Listening Test – Your Results</h1>
-
-        <div class="summary" id="summary"></div>
-
-        <table id="resultsTable">
-            <tr>
-                <th>Question</th>
-                <th>Your Answer</th>
-                <th>Correct Answer</th>
-                <th>Result</th>
-            </tr>
-        </table>
-
-        <div style="margin-top: 20px;">
-            <a href="index.html" class="btn">← Back to Main Menu</a>
-            <button class="btn clear" onclick="startNewTest()">🗑️ Start New Test</button>
-        </div>
-    </div>
-
     <script>
-        // OFFICIAL ANSWER KEY — update this with your actual answers
-        const answerKey = {
-            1: "PHOTO",
-            2: "35",
-            3: "PAYMENT",
-            4: "HOLIDAY",
-            5: "COLOUR",
-            6: "HAND",
-            7: "SIZE",
-            8: "FOCUS",
-            9: "WEEK",
-            10: "ENVELOPE"
-            // Add answers for 11–40 here when ready
-        };
-
-        function calculateBand(correct) {
-            if (correct >= 39) return "9.0";
-            if (correct >= 37) return "8.5";
-            if (correct >= 35) return "8.0";
-            if (correct >= 32) return "7.5";
-            if (correct >= 30) return "7.0";
-            if (correct >= 26) return "6.5";
-            if (correct >= 23) return "6.0";
-            if (correct >= 19) return "5.5";
-            if (correct >= 16) return "5.0";
-            if (correct >= 12) return "4.5";
-            if (correct >= 9) return "4.0";
-            return "Below 4.0";
-        }
-
-        function startNewTest() {
-            if(confirm('⚠️ This will clear ALL your answers, notes, and reset the timer to 30:00.\n\nAre you sure you want to start a new test?')){
-                localStorage.clear();
-                localStorage.setItem('listeningTestStarted', 'true');
-                localStorage.setItem('listeningTimeLeft', 30 * 60);
-                window.location.href = 'listening-part1.html';
+        function saveAnswer(key, value) {
+            const val = value.trim();
+            localStorage.setItem(key, val);
+            const qNum = key.replace('listening_q','');
+            const input = document.getElementById(`q${qNum}`);
+            if (val) {
+                input.classList.add('filled');
+                markAnswered(qNum);
+            } else {
+                input.classList.remove('filled');
+                unmarkAnswered(qNum);
             }
         }
 
         window.addEventListener('load', function() {
-            let totalCorrect = 0;
-            const table = document.getElementById('resultsTable');
-
-            for (let q = 1; q <= 40; q++) {
-                const userAnswer = (localStorage.getItem(`listening_q${q}`) || "").trim().toUpperCase();
-                const correctAnswer = (answerKey[q] || "").trim().toUpperCase();
-                const isCorrect = userAnswer === correctAnswer;
-
-                if (isCorrect) totalCorrect++;
-
-                const row = table.insertRow();
-                row.insertCell(0).textContent = q;
-                row.insertCell(1).textContent = userAnswer || "(not answered)";
-                row.insertCell(2).textContent = answerKey[q] || "(not available)";
-                const resCell = row.insertCell(3);
-                resCell.innerHTML = isCorrect ? '<span class="correct">✔ CORRECT</span>' : '<span class="incorrect">✘ INCORRECT</span>';
+            for (let i = 1; i <= 10; i++) {
+                const saved = localStorage.getItem(`listening_q${i}`);
+                if (saved) {
+                    document.getElementById(`q${i}`).value = saved;
+                    document.getElementById(`q${i}`).classList.add('filled');
+                    markAnswered(i);
+                }
             }
-
-            const band = calculateBand(totalCorrect);
-            document.getElementById('summary').innerHTML =
-                `<strong>Total Correct: ${totalCorrect} / 40</strong> &nbsp;|&nbsp; Estimated Band: <strong>${band}</strong>`;
+            loadNotes();
         });
+
+        const audioFiles = ["part1.mp3", "part2.mp3", "part3.mp3", "part4.mp3"];
+        let userStarted = false;
+        window.addEventListener('load', function() {
+            const audioPlayer = document.getElementById('listeningAudio');
+            audioPlayer.addEventListener('play', () => userStarted = true);
+            audioPlayer.addEventListener('ended', function() {
+                if (!userStarted) return;
+                const currentSrc = audioPlayer.src.split('/').pop().split('?')[0];
+                const currentIndex = audioFiles.indexOf(currentSrc);
+                if (currentIndex !== -1 && currentIndex + 1 < audioFiles.length) {
+                    audioPlayer.src = audioFiles[currentIndex + 1];
+                    audioPlayer.load();
+                    audioPlayer.play().catch(() => alert("Next part ready — click Play to continue"));
+                }
+            });
+        });
+
+        window.addEventListener('load', function() {
+            if (!localStorage.getItem('listeningTestStarted')) {
+                localStorage.setItem('listeningTestStarted', 'true');
+                localStorage.setItem('listeningTimeLeft', 30 * 60);
+            }
+            let timeLeft = parseInt(localStorage.getItem('listeningTimeLeft')) || 30 * 60;
+            const countdownEl = document.getElementById('countdown');
+            function updateTimer() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    localStorage.setItem('listeningTimeLeft', timeLeft);
+                } else {
+                    clearInterval(timerInterval);
+                    alert("Time is up! Review your answers then move to the next part.");
+                }
+            }
+            const timerInterval = setInterval(updateTimer, 1000);
+        });
+
+        let lastSelection = null;
+        document.addEventListener('contextmenu', function(e) {
+            const sel = window.getSelection();
+            const menu = document.getElementById('contextMenu');
+            if (sel.toString().trim() !== '') {
+                e.preventDefault();
+                lastSelection = sel.getRangeAt(0);
+                menu.style.left = e.pageX + "px";
+                menu.style.top = e.pageY + "px";
+                menu.style.display = "block";
+            } else {
+                menu.style.display = "none";
+                lastSelection = null;
+            }
+        });
+        document.addEventListener('click', () => {
+            document.getElementById('contextMenu').style.display = 'none';
+        });
+
+        function highlightSelection() {
+            if (!lastSelection) return;
+            const span = document.createElement("span");
+            span.className = "highlight";
+            lastSelection.surroundContents(span);
+            window.getSelection().removeAllRanges();
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+        function removeNearestHighlight() {
+            if (!lastSelection || !lastSelection.commonAncestorContainer) return;
+            let el = lastSelection.commonAncestorContainer;
+            if (el.nodeType === Node.TEXT_NODE) el = el.parentElement;
+            if (el && el.classList.contains('highlight')) el.outerHTML = el.textContent;
+            window.getSelection().removeAllRanges();
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+        function removeAllHighlights() {
+            document.querySelectorAll(".highlight").forEach(el => el.outerHTML = el.textContent);
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+        function addNoteHere() {
+            if (!lastSelection) return;
+            const rect = lastSelection.getBoundingClientRect();
+            createNote(rect.right + 15, rect.top);
+            window.getSelection().removeAllRanges();
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+
+        let noteCount = 0;
+        function createNote(posX = 120, posY = 180) {
+            noteCount++;
+            const note = document.createElement("div");
+            note.className = "draggable-note";
+            note.style.left = posX + "px";
+            note.style.top = posY + "px";
+            note.innerHTML = `<div class="note-header">Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text" placeholder="Write your notes here..."></textarea>`;
+            document.body.appendChild(note);
+            makeDraggable(note);
+            note.querySelector(".note-text").addEventListener("input", saveNotes);
+            saveNotes();
+        }
+        function makeDraggable(el) {
+            const header = el.querySelector(".note-header");
+            let pos1=0,pos2=0,pos3=0,pos4=0;
+            header.onmousedown = e => {
+                e.preventDefault(); pos3=e.clientX; pos4=e.clientY;
+                document.onmouseup = ()=>{document.onmouseup=null;document.onmousemove=null;saveNotes();};
+                document.onmousemove = e=>{e.preventDefault();pos1=pos3-e.clientX;pos2=pos4-e.clientY;pos3=e.clientX;pos4=e.clientY;el.style.top=(el.offsetTop-pos2)+"px";el.style.left=(el.offsetLeft-pos1)+"px";};
+            };
+        }
+        function saveNotes() {
+            const notes = [];
+            document.querySelectorAll(".draggable-note").forEach(n => notes.push({left:n.style.left,top:n.style.top,text:n.querySelector(".note-text").value}));
+            localStorage.setItem("draggableNotes", JSON.stringify(notes));
+        }
+        function loadNotes() {
+            const saved = localStorage.getItem("draggableNotes");
+            if (!saved) return;
+            JSON.parse(saved).forEach((d,i)=>{
+                noteCount=i+1;
+                const n = document.createElement("div");
+                n.className="draggable-note"; n.style.left=d.left; n.style.top=d.top;
+                n.innerHTML=`<div class="note-header">Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text">${d.text}</textarea>`;
+                document.body.appendChild(n); makeDraggable(n);
+                n.querySelector(".note-text").addEventListener("input", saveNotes);
+            });
+        }
+
+        function markAnswered(q) {
+            const el = document.querySelector(`.q-indicator[href="#q${q}"]`);
+            if (el) el.classList.add('answered');
+        }
+        function unmarkAnswered(q) {
+            const el = document.querySelector(`.q-indicator[href="#q${q}"]`);
+            if (el) el.classList.remove('answered');
+        }
     </script>
+</head>
+<body>
+    <div id="contextMenu" class="context-menu">
+        <div onclick="highlightSelection()">🖍️ Highlight</div>
+        <div onclick="removeNearestHighlight()">❌ Remove This Highlight</div>
+        <div onclick="removeAllHighlights()">🧹 Remove All Highlights</div>
+        <div onclick="addNoteHere()">📝 Add Note</div>
+    </div>
+
+    <div class="tabs">
+        <a class="tab-link active" href="listening-part1.html">Listening Part 1</a>
+        <a class="tab-link" href="listening-part2.html">Listening Part 2</a>
+        <a class="tab-link" href="listening-part3.html">Listening Part 3</a>
+        <a class="tab-link" href="listening-part4.html">Listening Part 4</a>
+        <a class="tab-link" href="reading/reading1.html">Reading</a>
+        <a class="tab-link" href="writing.html">Writing</a>
+    </div>
+
+    <div class="header-bar">
+        <img src="ielts-logo.png" alt="IELTS Logo" style="height: 150px; margin-right: 15px; object-fit: contain;">
+        <h2>IELTS Listening Test - Part 1</h2>
+        <div class="timer" style="background: #fff; padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; font-size: 18px; font-weight: bold;">
+            Time Remaining: <span id="countdown">30:00</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div>
+            <div class="audio-player">
+                <h4>Listening Test</h4>
+                <p class="audio-note">⚠️ Click Play once to start. Audio continues automatically through all parts.</p>
+                <audio id="listeningAudio" controls preload="metadata">
+                    <source src="part1.mp3" type="audio/mpeg">
+                    Your browser does not support audio playback.
+                
+                <p style="font-size:14px;color:#555;">✅ Select any text → Right‑click → Highlight / Remove / Add Note</p>
+            </div>
+
+            <h3>Questions 1–10</h3>
+            <p><strong>Complete the notes below.</strong><br>Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
+
+            <div class="notes-box">
+                <p><strong>Copying photos to digital format</strong><br>Name of company: Picturerep</p>
+                <p><strong>Requirements</strong><br>• Maximum size of photos is 30 cm, minimum size 4 cm.<br>• Photos must not be in a
+                <span class="note-row"><strong id="q1">1</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q1', this.value)"></span> or an album.</p>
+                <p><strong>Cost</strong><br>• The cost for 360 photos is
+                <span class="note-row"><strong id="q2">2 £</strong> <input type="text" placeholder="NUMBER" oninput="saveAnswer('listening_q2', this.value)"></span> (including one disk).<br>• Before the completed order is sent,
+                <span class="note-row"><strong id="q3">3</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q3', this.value)"></span> is required.</p>
+                <p><strong>Services included in the price</strong><br>• Photos can be placed in a folder, e.g. with the name
+                <span class="note-row"><strong id="q4">4</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q4', this.value)"></span>.<br>• The
+                <span class="note-row"><strong id="q5">5</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q5', this.value)"></span> and contrast can be improved if necessary.<br>• Photos which are very fragile will be scanned by
+                <span class="note-row"><strong id="q6">6</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q6', this.value)"></span>.</p>
+                <p><strong>Special restore service (costs extra)</strong><br>• It may be possible to remove an object from a photo, or change the
+                <span class="note-row"><strong id="q7">7</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q7', this.value)"></span>.<br>• A photo which is not correctly in
+                <span class="note-row"><strong id="q8">8</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q8', this.value)"></span> cannot be fixed.</p>
+                <p><strong>Other information</strong><br>• Orders are completed within
+                <span class="note-row"><strong id="q9">9</strong> <input type="text" placeholder="ONE WORD/NUMBER" oninput="saveAnswer('listening_q9', this.value)"></span>.<br>• Send the photos in a box (not
+                <span class="note-row"><strong id="q10">10</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q10', this.value)"></span>).</p>
+            </div>
+
+            <div class="question-status">
+                <span class="part-label">Part 1</span>
+                <a href="#q1" class="q-indicator">1</a>
+                <a href="#q2" class="q-indicator">2</a>
+                <a href="#q3" class="q-indicator">3</a>
+                <a href="#q4" class="q-indicator">4</a>
+                <a href="#q5" class="q-indicator">5</a>
+                <a href="#q6" class="q-indicator">6</a>
+                <a href="#q7" class="q-indicator">7</a>
+                <a href="#q8" class="q-indicator">8</a>
+                <a href="#q9" class="q-indicator">9</a>
+                <a href="#q10" class="q-indicator">10</a>
+                <div class="part-separator"></div>
+                <span class="part-label">Part 2</span>
+                <a href="#" class="q-indicator">11</a>
+                <a href="#" class="q-indicator">12</a>
+                <a href="#" class="q-indicator">13</a>
+                <a href="#" class="q-indicator">14</a>
+                <a href="#" class="q-indicator">15</a>
+                <a href="#" class="q-indicator">16</a>
+                <a href="#" class="q-indicator">17</a>
+                <a href="#" class="q-indicator">18</a>
+                <a href="#" class="q-indicator">19</a>
+                <a href="#" class="q-indicator">20</a>
+                <div class="part-separator"></div>
+                <span class="part-label">Part 3</span>
+                <a href="#" class="q-indicator">21</a>
+                <a href="#" class="q-indicator">22</a>
+                <a href="#" class="q-indicator">23</a>
+                <a href="#" class="q-indicator">24</a>
+                <a href="#" class="q-indicator">25</a>
+                <a href="#" class="q-indicator">26</a>
+                <a href="#" class="q-indicator">27</a>
+                <a href="#" class="q-indicator">28</a>
+                <a href="#" class="q-indicator">29</a>
+                <a href="#" class="q-indicator">30</a>
+                <div class="part-separator"></div>
+                <span class="part-label">Part 4</span>
+                <a href="#" class="q-indicator">31</a>
+                <a href="#" class="q-indicator">32</a>
+                <a href="#" class="q-indicator">33</a>
+                <a href="#" class="q-indicator">34</a>
+                <a href="#" class="q-indicator">35</a>
+                <a href="#" class="q-indicator">36</a>
+                <a href="#" class="q-indicator">37</a>
+                <a href="#" class="q-indicator">38</a>
+                <a href="#" class="q-indicator">39</a>
+                <a href="#" class="q-indicator">40</a>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="listening-part2.html" class="btn">Next Part →</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
