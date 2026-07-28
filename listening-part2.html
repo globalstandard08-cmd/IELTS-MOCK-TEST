@@ -453,14 +453,27 @@
             <p>16 World Adventures: <select id="q16" onchange="saveAnswer('listening_q16', this.value)"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select></p>
             <p>17 Street Life: <select id="q17" onchange="saveAnswer('listening_q17', this.value)"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select></p>
             <p>18 Speedy Italian: <select id="q18" onchange="saveAnswer('listening_q18', this.value)"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select></p>
-
             <p><strong>Questions 19 and 20</strong><br>Choose TWO letters, A–E — which TWO optional after‑school lessons are new?</p>
-            <div class="option-line"><input type="checkbox" name="q1920" value="A" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c=>c.value).join(','))"><label>A swimming</label></div>
-            <div class="option-line"><input type="checkbox" name="q1920" value="B" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c=>c.value).join(','))"><label>B piano</label></div>
-            <div class="option-line"><input type="checkbox" name="q1920" value="C" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c=>c.value).join(','))"><label>C acting</label></div>
-            <div class="option-line"><input type="checkbox" name="q1920" value="D" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c=>c.value).join(','))"><label>D cycling</label></div>
-            <div class="option-line"><input type="checkbox" name="q1920" value="E" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c=>c.value).join(','))"><label>E theatre sound and lighting</label></div>
-
+            <div class="option-line">
+                <input type="checkbox" name="q1920" value="A" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c => c.value).join(','))">
+                <label>A swimming</label>
+            </div>
+            <div class="option-line">
+                <input type="checkbox" name="q1920" value="B" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c => c.value).join(','))">
+                <label>B piano</label>
+            </div>
+            <div class="option-line">
+                <input type="checkbox" name="q1920" value="C" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c => c.value).join(','))">
+                <label>C acting</label>
+            </div>
+            <div class="option-line">
+                <input type="checkbox" name="q1920" value="D" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c => c.value).join(','))">
+                <label>D cycling</label>
+            </div>
+            <div class="option-line">
+                <input type="checkbox" name="q1920" value="E" onchange="saveAnswer('listening_q1920', Array.from(document.querySelectorAll('input[name="q1920"]:checked')).map(c => c.value).join(','))">
+                <label>E theatre sound and lighting</label>
+            </div>
             <div class="question-status">
                 <span class="part-label">Part 1</span>
                 <a href="listening-part1.html#q1" class="q-indicator">1</a>
