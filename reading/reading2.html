@@ -38,6 +38,7 @@
         .q-row { margin: 16px 0; line-height: 1.8; }
         .text-input { padding: 6px 10px; border: 1px solid #999; width: 200px; text-transform: uppercase; margin: 3px 8px; border-radius: 3px; font-size: 14px; }
         .gap-input { width: 130px; margin: 0 5px; }
+        .choice-row { margin: 12px 0; padding-left: 1.2em; }
 
         /* --- COMPACT BUT CLEAR QUESTION NAV BAR --- */
         .question-status {
@@ -96,33 +97,85 @@
         <div class="passage-section scrollable">
             <h3>Reading Passage 2</h3>
             <em>You should spend about 20 minutes on Questions 14–26...</em>
-            <h4 style="text-align:center;margin-bottom:15px;">[Paste your Passage 2 title here]</h4>
+            <h4 style="text-align:center;margin-bottom:15px;">Does education fuel economic growth?</h4>
             <div class="highlightable">
-                <!-- Replace this line with your full Passage 2 text -->
-                <p>Paste your complete Passage 2 content here, keeping all paragraphs intact.</p>
+                <p>Over the past half-century, the main policy goal of education in most countries has been to promote economic growth. Governments have invested heavily in education because they believe that a more educated workforce will be more productive, leading to higher national income and wealth. But is this assumption correct? The link between education and economic growth is actually much more complex than it appears.</p>
+
+                <p>Some economists argue that education does not increase productivity at all. They claim that education is simply a way for individuals to signal their ability to employers. According to this view, people who are naturally more able stay in education longer, not because they learn anything useful, but because education acts as a filter. Employers then use educational qualifications as an easy way to select the most able candidates. If this is true, then increasing the general level of education will not make the workforce more productive – it will just mean that people need to gain more qualifications to get the same jobs.</p>
+
+                <p>There is also evidence that the relationship between education and growth depends on other factors. For example, education is most likely to boost growth when there is a high demand for skilled workers. If an economy is based mainly on low‑skill jobs, then increasing the number of university graduates may not lead to higher growth. Instead, it may lead to graduate unemployment or people working in jobs that do not require their level of education.</p>
+
+                <p>Furthermore, the type of education matters. General academic education may be less useful for economic growth than vocational training that teaches specific skills directly relevant to the workplace. Many developing countries have focused too much on academic education and not enough on technical and vocational skills, which can limit their ability to develop industries that need skilled workers.</p>
+
+                <p>However, supporters of the view that education drives growth point out that education brings benefits beyond just job skills. Educated people are more likely to be healthy, to participate in democracy, and to contribute to society in other ways. These social benefits also feed back into economic growth. For example, a healthier workforce is more productive, and a more stable society provides a better environment for businesses to invest and grow.</p>
+
+                <p>Recent research also suggests that the strongest economic gains come from improving the quality of education, not just increasing the number of years people spend in school. In many countries, there is a big difference between the number of children attending school and what they actually learn. Where basic literacy and numeracy skills are weak, additional years of education have very little impact on economic growth.</p>
+
+                <p>In conclusion, education is important for economic growth, but it is not a guarantee. It works best when it is matched to the needs of the economy, when it provides the right mix of skills, and most importantly, when it is of good quality. Simply spending more money or keeping students in school longer will not automatically lead to higher prosperity.</p>
             </div>
         </div>
 
         <div class="questions-section scrollable">
             <h3>Questions 14–26</h3>
+
             <div class="q-group">
-                <div class="q-instructions"><strong>Questions 14–19</strong><br>[Paste your first instruction set for Q14-19 here]</div>
-                <div class="q-row">14 <input type="text" class="text-input" id="reading_q14" oninput="saveAnswer('reading_q14', this.value)"></div>
-                <div class="q-row">15 <input type="text" class="text-input" id="reading_q15" oninput="saveAnswer('reading_q15', this.value)"></div>
-                <div class="q-row">16 <input type="text" class="text-input" id="reading_q16" oninput="saveAnswer('reading_q16', this.value)"></div>
-                <div class="q-row">17 <input type="text" class="text-input" id="reading_q17" oninput="saveAnswer('reading_q17', this.value)"></div>
-                <div class="q-row">18 <input type="text" class="text-input" id="reading_q18" oninput="saveAnswer('reading_q18', this.value)"></div>
-                <div class="q-row">19 <input type="text" class="text-input" id="reading_q19" oninput="saveAnswer('reading_q19', this.value)"></div>
+                <div class="q-instructions"><strong>Questions 14–18</strong><br>Do the following statements agree with the information given in Reading Passage 2?<br>Write <strong>TRUE</strong> / <strong>FALSE</strong> / <strong>NOT GIVEN</strong></div>
+                <div class="q-row">14 Most countries have seen education as a way to improve their economy.<br><input type="text" class="text-input" id="reading_q14" oninput="saveAnswer('reading_q14', this.value)"></div>
+                <div class="q-row">15 All economists agree that education makes workers more productive.<br><input type="text" class="text-input" id="reading_q15" oninput="saveAnswer('reading_q15', this.value)"></div>
+                <div class="q-row">16 According to the 'signalling' theory, education helps people develop useful skills.<br><input type="text" class="text-input" id="reading_q16" oninput="saveAnswer('reading_q16', this.value)"></div>
+                <div class="q-row">17 Education leads to faster growth when jobs require high levels of skill.<br><input type="text" class="text-input" id="reading_q17" oninput="saveAnswer('reading_q17', this.value)"></div>
+                <div class="q-row">18 All developing countries now focus equally on academic and vocational education.<br><input type="text" class="text-input" id="reading_q18" oninput="saveAnswer('reading_q18', this.value)"></div>
             </div>
+
             <div class="q-group">
-                <div class="q-instructions"><strong>Questions 20–26</strong><br>[Paste your second instruction set for Q20-26 here]</div>
-                <div class="q-row">20 <input type="text" class="text-input gap-input" id="reading_q20" oninput="saveAnswer('reading_q20', this.value)"></div>
-                <div class="q-row">21 <input type="text" class="text-input gap-input" id="reading_q21" oninput="saveAnswer('reading_q21', this.value)"></div>
-                <div class="q-row">22 <input type="text" class="text-input gap-input" id="reading_q22" oninput="saveAnswer('reading_q22', this.value)"></div>
-                <div class="q-row">23 <input type="text" class="text-input gap-input" id="reading_q23" oninput="saveAnswer('reading_q23', this.value)"></div>
-                <div class="q-row">24 <input type="text" class="text-input gap-input" id="reading_q24" oninput="saveAnswer('reading_q24', this.value)"></div>
-                <div class="q-row">25 <input type="text" class="text-input gap-input" id="reading_q25" oninput="saveAnswer('reading_q25', this.value)"></div>
-                <div class="q-row">26 <input type="text" class="text-input gap-input" id="reading_q26" oninput="saveAnswer('reading_q26', this.value)"></div>
+                <div class="q-instructions"><strong>Questions 19–23</strong><br>Choose the correct letter, <strong>A, B, C</strong> or <strong>D</strong>.</div>
+                <div class="q-row"><strong>19</strong> What do supporters of the signalling theory believe about education?<br>
+                    <div class="choice-row">A It improves people’s natural ability.</div>
+                    <div class="choice-row">B It shows employers which candidates are likely to be capable.</div>
+                    <div class="choice-row">C It increases the productivity of the whole workforce.</div>
+                    <div class="choice-row">D It provides people with the skills they need for their job.</div>
+                    <input type="text" class="text-input gap-input" id="reading_q19" oninput="saveAnswer('reading_q19', this.value)">
+                </div>
+                <div class="q-row"><strong>20</strong> What is one problem if an economy has too many graduates?<br>
+                    <div class="choice-row">A Businesses cannot find enough skilled workers.</div>
+                    <div class="choice-row">B People may take jobs below their level of education.</div>
+                    <div class="choice-row">C The economy will grow too quickly.</div>
+                    <div class="choice-row">D People will demand higher salaries.</div>
+                    <input type="text" class="text-input gap-input" id="reading_q20" oninput="saveAnswer('reading_q20', this.value)">
+                </div>
+                <div class="q-row"><strong>21</strong> Why is vocational training often more useful than general education for growth?<br>
+                    <div class="choice-row">A It takes less time to complete.</div>
+                    <div class="choice-row">B It is cheaper for governments to provide.</div>
+                    <div class="choice-row">C It gives skills that are directly used in work.</div>
+                    <div class="choice-row">D It is more popular with students.</div>
+                    <input type="text" class="text-input gap-input" id="reading_q21" oninput="saveAnswer('reading_q21', this.value)">
+                </div>
+                <div class="q-row"><strong>22</strong> According to the text, which of these is NOT a social benefit of education?<br>
+                    <div class="choice-row">A better public health</div>
+                    <div class="choice-row">B greater political participation</div>
+                    <div class="choice-row">C higher investment in new technology</div>
+                    <div class="choice-row">D more stable society</div>
+                    <input type="text" class="text-input gap-input" id="reading_q22" oninput="saveAnswer('reading_q22', this.value)">
+                </div>
+                <div class="q-row"><strong>23</strong> What does recent research say is most important for economic growth?<br>
+                    <div class="choice-row">A increasing the length of time students spend at school</div>
+                    <div class="choice-row">B making sure students learn basic skills well</div>
+                    <div class="choice-row">C providing more university places</div>
+                    <div class="choice-row">D spending more money on education</div>
+                    <input type="text" class="text-input gap-input" id="reading_q23" oninput="saveAnswer('reading_q23', this.value)">
+                </div>
+            </div>
+
+            <div class="q-group">
+                <div class="q-instructions"><strong>Questions 24–26</strong><br>Complete the summary using the list of words, <strong>A–G</strong>, below.<br>Write the correct letter, <strong>A–G</strong>, in boxes 24–26 on your answer sheet.</div>
+                <p style="margin-bottom:12px;"><strong>List of words</strong></p>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:15px;">
+                    <div>A signal</div><div>B investment</div><div>C quality</div>
+                    <div>D workforce</div><div>E demand</div><div>F skills</div>
+                    <div>G growth</div>
+                </div>
+                <p style="margin-bottom:10px;">Education and economic development</p>
+                <div class="q-row">For education to lead to economic <strong>24</strong> <input type="text" class="text-input gap-input" id="reading_q24" oninput="saveAnswer('reading_q24', this.value)">, it must match the needs of the economy. There must be enough <strong>25</strong> <input type="text" class="text-input gap-input" id="reading_q25" oninput="saveAnswer('reading_q25', this.value)"> for skilled workers, and education must provide the right kinds of <strong>26</strong> <input type="text" class="text-input gap-input" id="reading_q26" oninput="saveAnswer('reading_q26', this.value)">. Above all, what matters most is the <strong>26</strong> – how much students actually learn – rather than how many years they spend studying.</div>
             </div>
         </div>
     </div>
