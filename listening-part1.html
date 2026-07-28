@@ -56,8 +56,11 @@
             font-weight: bold;
         }
         .nav-buttons {
-            margin-top: 20px;
-            text-align: right;
+            margin-top: 25px;
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .btn {
             padding: 10px 20px;
@@ -67,7 +70,6 @@
             text-decoration: none;
             font-weight: bold;
             border-radius: 4px;
-            margin-left: 10px;
             cursor: pointer;
         }
         .btn:hover {
@@ -97,25 +99,12 @@
             background-color: #e6fffa;
             border-color: #007bff;
         }
-        .answer-output {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e9ecef;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            white-space: pre-line;
-            display: none;
-        }
-
-        /* Highlight Style */
         .highlight {
             background-color: #ffeb3b;
             color: #000;
             padding: 1px 3px;
             border-radius: 2px;
         }
-
-        /* RIGHT-CLICK MENU */
         .context-menu {
             position: absolute;
             background: #ffffff;
@@ -134,8 +123,6 @@
         .context-menu div:hover {
             background: #e7f3ff;
         }
-
-        /* Draggable Notes */
         .draggable-note {
             position: fixed;
             width: 220px;
@@ -168,8 +155,6 @@
             font-size: 14px;
             outline: none;
         }
-
-        /* Question Status Bar */
         .question-status {
             display: flex;
             flex-wrap: wrap;
@@ -220,7 +205,6 @@
         }
     </style>
     <script>
-        // Auto-save answers
         function saveAnswer(key, value) {
             const val = value.trim();
             localStorage.setItem(key, val);
@@ -235,7 +219,6 @@
             }
         }
 
-        // Load saved answers & notes
         window.addEventListener('load', function() {
             for (let i = 1; i <= 10; i++) {
                 const saved = localStorage.getItem(`listening_q${i}`);
@@ -248,18 +231,6 @@
             loadNotes();
         });
 
-        function showAnswers() {
-            let answers = "--- YOUR ANSWERS ---\n\n";
-            for (let i = 1; i <= 10; i++) {
-                let val = document.getElementById('q'+i).value.trim();
-                answers += "Question " + i + ": " + (val || "(not answered)") + "\n";
-            }
-            let box = document.getElementById('answerBox');
-            box.textContent = answers;
-            box.style.display = box.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Audio Playback
         const audioFiles = ["part1.mp3", "part2.mp3", "part3.mp3", "part4.mp3"];
         let userStarted = false;
         window.addEventListener('load', function() {
@@ -277,7 +248,6 @@
             });
         });
 
-        // Timer
         window.addEventListener('load', function() {
             if (!localStorage.getItem('listeningTestStarted')) {
                 localStorage.setItem('listeningTestStarted', 'true');
@@ -294,13 +264,12 @@
                     localStorage.setItem('listeningTimeLeft', timeLeft);
                 } else {
                     clearInterval(timerInterval);
-                    alert("Time is up! You may still review your answers.");
+                    alert("Time is up! Review your answers then move to the next part.");
                 }
             }
             const timerInterval = setInterval(updateTimer, 1000);
         });
 
-        // === RIGHT-CLICK MENU WITH ALL OPTIONS ===
         let lastSelection = null;
         document.addEventListener('contextmenu', function(e) {
             const sel = window.getSelection();
@@ -332,16 +301,12 @@
             if (!lastSelection || !lastSelection.commonAncestorContainer) return;
             let el = lastSelection.commonAncestorContainer;
             if (el.nodeType === Node.TEXT_NODE) el = el.parentElement;
-            if (el && el.classList.contains('highlight')) {
-                el.outerHTML = el.textContent;
-            }
+            if (el && el.classList.contains('highlight')) el.outerHTML = el.textContent;
             window.getSelection().removeAllRanges();
             document.getElementById('contextMenu').style.display = 'none';
         }
         function removeAllHighlights() {
-            document.querySelectorAll(".highlight").forEach(el => {
-                el.outerHTML = el.textContent;
-            });
+            document.querySelectorAll(".highlight").forEach(el => el.outerHTML = el.textContent);
             document.getElementById('contextMenu').style.display = 'none';
         }
         function addNoteHere() {
@@ -352,7 +317,6 @@
             document.getElementById('contextMenu').style.display = 'none';
         }
 
-        // === DRAGGABLE NOTES ===
         let noteCount = 0;
         function createNote(posX = 120, posY = 180) {
             noteCount++;
@@ -360,10 +324,7 @@
             note.className = "draggable-note";
             note.style.left = posX + "px";
             note.style.top = posY + "px";
-            note.innerHTML = `
-                <div class="note-header">Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div>
-                <textarea class="note-text" placeholder="Write your notes here..."></textarea>
-            `;
+            note.innerHTML = `<div class="note-header">Note ${noteCount}<button onclick="this.parentElement.parentElement.remove(); saveNotes();" style="border:none;background:transparent;cursor:pointer;font-size:16px;">×</button></div><textarea class="note-text" placeholder="Write your notes here..."></textarea>`;
             document.body.appendChild(note);
             makeDraggable(note);
             note.querySelector(".note-text").addEventListener("input", saveNotes);
@@ -396,7 +357,6 @@
             });
         }
 
-        // === QUESTION STATUS MARKING ===
         function markAnswered(q) {
             const el = document.querySelector(`.q-indicator[href="#q${q}"]`);
             if (el) el.classList.add('answered');
@@ -408,8 +368,6 @@
     </script>
 </head>
 <body>
-
-    <!-- RIGHT-CLICK MENU -->
     <div id="contextMenu" class="context-menu">
         <div onclick="highlightSelection()">🖍️ Highlight</div>
         <div onclick="removeNearestHighlight()">❌ Remove This Highlight</div>
@@ -417,7 +375,6 @@
         <div onclick="addNoteHere()">📝 Add Note</div>
     </div>
 
-    <!-- Tabs -->
     <div class="tabs">
         <a class="tab-link active" href="listening-part1.html">Listening Part 1</a>
         <a class="tab-link" href="listening-part2.html">Listening Part 2</a>
@@ -437,7 +394,6 @@
 
     <div class="container">
         <div>
-            <!-- Audio Player -->
             <div class="audio-player">
                 <h4>Listening Test</h4>
                 <p class="audio-note">⚠️ Click Play once to start. Audio continues automatically through all parts.</p>
@@ -470,7 +426,6 @@
                 <span class="note-row"><strong id="q10">10</strong> <input type="text" placeholder="ONE WORD" oninput="saveAnswer('listening_q10', this.value)"></span>).</p>
             </div>
 
-            <!-- Question Status Bar -->
             <div class="question-status">
                 <span class="part-label">Part 1</span>
                 <a href="#q1" class="q-indicator">1</a>
@@ -483,7 +438,6 @@
                 <a href="#q8" class="q-indicator">8</a>
                 <a href="#q9" class="q-indicator">9</a>
                 <a href="#q10" class="q-indicator">10</a>
-
                 <div class="part-separator"></div>
                 <span class="part-label">Part 2</span>
                 <a href="#" class="q-indicator">11</a>
@@ -496,7 +450,6 @@
                 <a href="#" class="q-indicator">18</a>
                 <a href="#" class="q-indicator">19</a>
                 <a href="#" class="q-indicator">20</a>
-
                 <div class="part-separator"></div>
                 <span class="part-label">Part 3</span>
                 <a href="#" class="q-indicator">21</a>
@@ -509,7 +462,6 @@
                 <a href="#" class="q-indicator">28</a>
                 <a href="#" class="q-indicator">29</a>
                 <a href="#" class="q-indicator">30</a>
-
                 <div class="part-separator"></div>
                 <span class="part-label">Part 4</span>
                 <a href="#" class="q-indicator">31</a>
@@ -524,15 +476,10 @@
                 <a href="#" class="q-indicator">40</a>
             </div>
 
-            <!-- Buttons -->
             <div class="nav-buttons">
-                <button class="btn" onclick="showAnswers()">Show / Hide Answers</button>
-                <a href="listening-part2.html" class="btn">Next → Part 2</a>
+                <a href="listening-part2.html" class="btn">Next Part →</a>
             </div>
-
-            <div id="answerBox" class="answer-output"></div>
         </div>
     </div>
-
 </body>
 </html>
