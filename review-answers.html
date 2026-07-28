@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review All Your Answers - Complete Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 25px; line-height: 1.7; max-width: 850px; margin: 0 auto; }
+        h2 { color: #222; border-bottom: 2px solid #007bff; padding-bottom: 8px; }
+        .section { margin: 25px 0; padding: 18px; background: #f8f9fa; border-radius: 6px; }
+        .section h3 { margin-top: 0; color: #333; }
+        .ans-row { padding: 5px 0; border-bottom: 1px solid #eee; }
+        .empty { color: #999; font-style: italic; }
+        .btn-group { margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn { padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: bold; }
+        .btn.secondary { background: #6c757d; }
+        .btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h2>📋 Complete Answer Review</h2>
+    <p>All answers are saved only on your device. They remain until you clear browser data.</p>
+
+    <div class="section">
+        <h3>🎧 Listening — Questions 1–40</h3>
+        <div id="listening-answers"></div>
+    </div>
+
+    <div class="section">
+        <h3>📖 Reading</h3>
+        <div id="reading-answers"><p class="empty">Complete Reading section first</p></div>
+    </div>
+
+    <div class="section">
+        <h3>✍️ Writing</h3>
+        <div id="writing-answers"><p class="empty">Complete Writing section first</p></div>
+    </div>
+
+    <div class="btn-group">
+        <a href="listening-part1.html" class="btn secondary">← Back to Test Start</a>
+        <a href="../writing.html" class="btn">Go to Writing</a>
+    </div>
+
+<script>
+// Show all Listening answers
+let list = "";
+for(let q=1; q<=40; q++){
+  let val = localStorage.getItem(`listening_q${q}`);
+  list += `<div class="ans-row">Q${q}: ${val ? val : '<span class="empty">not answered</span>'}</div>`;
+}
+document.getElementById('listening-answers').innerHTML = list;
+
+// Show Reading answers (ready for when you add them)
+let rList = "";
+for(let q=1; q<=40; q++){
+  let v = localStorage.getItem(`reading_q${q}`);
+  if(v) rList += `<div class="ans-row">Q${q}: ${v}</div>`;
+}
+if(rList) document.getElementById('reading-answers').innerHTML = rList;
+
+// Show Writing answers
+let wList = "";
+for(let t=1; t<=2; t++){
+  let v = localStorage.getItem(`writing_task${t}`);
+  if(v) wList += `<div class="ans-row">Task ${t}: Completed & saved</div>`;
+}
+if(wList) document.getElementById('writing-answers').innerHTML = wList;
+</script>
+</body>
+</html>
