@@ -5,459 +5,252 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IELTS Reading - Passage 2</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.7;
-            color: #333;
-        }
-        .tabs {
-            background-color: #222;
-            padding: 12px 0;
-        }
-        .tab-link {
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            font-weight: bold;
-            display: inline-block;
-        }
-        .tab-link.active {
-            background-color: #007bff;
-        }
-        .header-bar {
-            background-color: #eee;
-            padding: 18px 25px;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; line-height: 1.7; color: #333; height: 100vh; display: flex; flex-direction: column; }
+
+        /* --- COMPACT TOP AREA --- */
+        .tabs { background: #222; padding: 6px 0; flex-shrink: 0; }
+        .tab-link { color: white; padding: 6px 14px; text-decoration: none; font-weight: bold; display: inline-block; font-size: 14px; }
+        .tab-link.active { background: #007bff; }
+
+        .header-bar { background: #eee; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; flex-shrink: 0; }
+        .header-bar h2 { font-size: 18px; }
+        .timer { font-size: 16px; font-weight: bold; color: #d9534f; background: white; padding: 5px 12px; border-radius: 3px; border: 1px solid #ddd; }
+
+        /* --- MAIN CONTENT: LARGER PASSAGE + QUESTIONS --- */
+        .main-wrapper { display: flex; flex: 1; overflow: hidden; }
+        .scrollable { overflow-y: auto; scrollbar-width: auto; scrollbar-color: #999 #f8f8f8; }
+        .scrollable::-webkit-scrollbar { width: 14px; }
+        .scrollable::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 7px; }
+        .scrollable::-webkit-scrollbar-thumb { background: #bbb; border-radius: 7px; border: 3px solid #f1f1f1; }
+
+        .passage-section { flex: 1; background: #f9f9f9; padding: 20px; border-right: 1px solid #ddd; font-size: 16px; }
+        .passage-section h3 { text-align: center; margin-bottom: 12px; font-size: 18px; }
+        .passage-section em { display: block; text-align: center; margin-bottom: 15px; color: #555; font-size: 14px; }
+        .passage-section p { margin-bottom: 16px; text-align: justify; }
+        .highlight { background: #ffeb3b; padding: 1px 3px; border-radius: 2px; }
+        .highlightable { cursor: text; user-select: text; }
+
+        .questions-section { flex: 1; background: #fff; padding: 20px; overflow-y: auto; font-size: 15px; }
+        .questions-section h3 { margin-bottom: 15px; font-size: 17px; }
+        .q-group { margin-bottom: 25px; }
+        .q-instructions { margin-bottom: 12px; line-height: 1.6; font-size: 14px; }
+        .q-row { margin: 16px 0; line-height: 1.8; }
+        .text-input { padding: 6px 10px; border: 1px solid #999; width: 200px; text-transform: uppercase; margin: 3px 8px; border-radius: 3px; font-size: 14px; }
+        .gap-input { width: 130px; margin: 0 5px; }
+
+        /* --- COMPACT BUT CLEAR QUESTION NAV BAR --- */
+        .question-status {
+            flex-shrink: 0;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
             flex-wrap: wrap;
-            gap: 15px;
-        }
-        .timer {
-            font-size: 20px;
-            font-weight: bold;
-            color: #d9534f;
-            background: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-        }
-        /* Better scrollbar */
-        .scrollable {
-            overflow-y: auto;
-            scrollbar-width: auto;
-            scrollbar-color: #999 #f8f8f8;
-        }
-        .scrollable::-webkit-scrollbar {
-            width: 16px;
-        }
-        .scrollable::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 8px;
-        }
-        .scrollable::-webkit-scrollbar-thumb {
-            background: #bbb;
-            border-radius: 8px;
-            border: 4px solid #f1f1f1;
-        }
-        .scrollable::-webkit-scrollbar-thumb:hover {
-            background: #888;
-        }
-        .test-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2px;
-            height: calc(100vh - 220px);
-        }
-        .passage-section {
-            background-color: #f9f9f9;
-            padding: 25px;
-            border-right: 1px solid #ddd;
-        }
-        .passage-section h3 {
-            margin-bottom: 15px;
-            color: #222;
-            text-align: center;
-        }
-        .passage-section em {
-            display: block;
-            margin-bottom: 20px;
-            color: #555;
-            text-align: center;
-        }
-        .passage-section p {
-            margin-bottom: 18px;
-            text-align: justify;
-        }
-        .highlight {
-            background-color: #fff350;
-            padding: 2px 0;
-            border-radius: 2px;
-        }
-        .highlightable {
-            cursor: text;
-            user-select: text;
-        }
-        .highlightable ::selection {
-            background: #ffe566;
-        }
-        .questions-section {
-            background-color: #ffffff;
-            padding: 25px;
-        }
-        .questions-section h3 {
-            margin-bottom: 20px;
-            color: #222;
-        }
-        .q-group {
-            margin-bottom: 30px;
-        }
-        .q-instructions {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-        .q-row {
-            margin: 20px 0;
-            line-height: 1.8;
-        }
-        .text-input {
-            padding: 7px 12px;
-            border: 1px solid #999;
-            width: 80px;
-            text-transform: uppercase;
-            margin: 4px 10px;
-            border-radius: 3px;
-            font-size: 15px;
-            text-align: center;
-        }
-        .option {
-            margin: 10px 0 10px 44px;
-            display: flex;
-            align-items: flex-start;
-        }
-        .option input {
-            margin-right: 12px;
-            width: auto;
-            cursor: pointer;
-            margin-top: 4px;
-        }
-        .word-list {
-            margin: 15px 0;
-            padding: 12px;
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
-            line-height: 1.9;
-        }
-        .nav-buttons {
-            margin-top: 30px;
-            padding-top: 20px;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 15px;
+            background: #f0f2f5;
             border-top: 1px solid #ddd;
-            display: flex;
-            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            font-size: 11px;
         }
-        .btn {
-            padding: 12px 24px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        .answer-box {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e9ecef;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            white-space: pre-line;
-            display: none;
-            font-family: monospace;
-            font-size: 15px;
-            line-height: 1.6;
-        }
+        .part-label { font-size: 10px; font-weight: bold; color: #444; margin: 0 3px 0 6px; }
+        .q-indicator { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 2px; border: 1px solid #d1d5db; background: #e5e7eb; color: #333; cursor: pointer; text-decoration: none; font-size: 12px; }
+        .q-indicator:hover { border-color: #007bff; }
+        .q-indicator.answered { background: #10b981; color: white; border-color: #10b981; }
+
+        /* --- CLEAN NAV BUTTONS --- */
+        .nav-buttons { padding: 10px 20px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; flex-shrink: 0; background: #fff; }
+        .btn { padding: 7px 14px; background: #007bff; color: white; border: none; text-decoration: none; font-weight: bold; border-radius: 3px; cursor: pointer; font-size: 14px; }
+        .btn:hover { background: #0056b3; }
+        .btn.secondary { background: #6c757d; }
+
+        .context-menu { position: absolute; background: #fff; border: 1px solid #999; border-radius: 3px; box-shadow: 2px 2px 6px rgba(0,0,0,0.2); z-index: 99999; display: none; min-width: 150px; font-size: 13px; }
+        .context-menu div { padding: 7px 10px; cursor: pointer; }
+        .context-menu div:hover { background: #e7f3ff; }
+
+        .draggable-note { position: fixed; width: 200px; min-height: 90px; background: #fff9c4; border: 1px solid #fbc02d; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); padding: 7px; z-index: 999; cursor: move; font-size: 13px; }
+        .note-header { background: #fbc02d; margin: -7px -7px 7px; padding: 5px; border-radius: 5px 5px 0 0; font-weight: bold; display: flex; justify-content: space-between; font-size: 13px; }
+        .note-text { width: 100%; min-height: 65px; border: none; background: transparent; resize: vertical; font-family: inherit; font-size: 13px; outline: none; }
     </style>
 </head>
 <body>
 
-  <div class="tabs">
-    <a class="tab-link" href="../listening-part1.html">Listening</a>
-    <a class="tab-link active" href="reading2.html">Reading</a>
-    <a class="tab-link" href="reading3.html">Passage 3</a>
-</div>
+    <div id="contextMenu" class="context-menu">
+        <div onclick="highlightSelection()">🖍️ Highlight</div>
+        <div onclick="removeNearestHighlight()">❌ Remove Highlight</div>
+        <div onclick="removeAllHighlights()">🧹 Remove All</div>
+        <div onclick="addNoteHere()">📝 Add Note</div>
+    </div>
+
+    <div class="tabs">
+        <a class="tab-link" href="reading1.html">Passage 1</a>
+        <a class="tab-link active" href="reading2.html">Passage 2</a>
+        <a class="tab-link" href="reading3.html">Passage 3</a>
+    </div>
 
     <div class="header-bar">
-        <h2>IELTS Reading Test</h2>
+        <h2>IELTS Reading - Passage 2</h2>
         <div class="timer">Time Left: <span id="countdown">60:00</span></div>
     </div>
 
-    <div class="test-container">
-        <!-- LEFT: READING PASSAGE 2 -->
+    <div class="main-wrapper">
         <div class="passage-section scrollable">
             <h3>Reading Passage 2</h3>
-            <em>You should spend about 20 minutes on Questions 14–26, which are based on Reading Passage 2 below.</em>
-
-            <h4 style="text-align: center; margin-bottom: 20px;">I contain multitudes</h4>
-            <p style="text-align: center; font-style: italic; margin-bottom: 20px;">Wendy Moore reviews Ed Yong’s book about microbes</p>
-
+            <em>You should spend about 20 minutes on Questions 14–26...</em>
+            <h4 style="text-align:center;margin-bottom:15px;">[Paste your Passage 2 title here]</h4>
             <div class="highlightable">
-                <p>Microbes, most of them bacteria, have populated this planet since long before animal life developed and they will outlive us. Invisible to the naked eye, they are ubiquitous. They inhabit the soil, air, rocks and water and are present within every form of life, from seaweed and coral to dogs and humans. And, as Yong explains in his utterly absorbing and hugely important book, we mess with them at our peril.</p>
-                <p>Every species has its own colony of microbes, called a 'microbiome', and these microbes vary not only between species but also between individuals and within different parts of each individual. What is amazing is that while the number of human cells in the average person is about 30 trillion, the number of microbial ones is higher - about 39 trillion. At best, Yong informs us, we are only 50 per cent human. Indeed, some scientists even suggest we should think of each species and its microbes as a single unit, dubbed a 'holobiont'.</p>
-                <p>In each human there are microbes that live only in the stomach, the mouth or the armpit and by and large they do so peacefully. So 'bad' microbes are just microbes out of context. Microbes that sit contentedly in the human gut (where there are more microbes than there are stars in the galaxy) can become deadly if they find their way into the bloodstream. These communities are constantly changing too. The right hand shares just one sixth of its microbes with the left hand. And, of course, we are surrounded by microbes. Every time we eat, we swallow a million microbes in each gram of food; we are continually swapping microbes with other humans, pets and the world at large.</p>
-                <p>It's a fascinating topic and Yong, a young British science journalist, is an extraordinarily adept guide. Writing with lightness and panache, he has a knack of explaining complex science in terms that are both easy to understand and totally enthralling. Yong is on a mission. Leading us gently by the hand, he takes us into the world of microbes - a bizarre, alien planet - in a bid to persuade us to love them as much as he does. By the end, we do.</p>
-                <p>For most of human history we had no idea that microbes existed. The first man to see these extraordinarily potent creatures was a Dutch lens-maker called Antony van Leeuwenhoek in the 1670s. Using microscopes of his own design that could magnify up to 270 times, he examined a drop of water from a nearby lake and found it teeming with tiny creatures he called 'animalcules'. It wasn't until nearly two hundred years later that the research of French biologist Louis Pasteur indicated that some microbes caused disease. It was Pasteur's 'germ theory' that gave bacteria the poor image that endures today.</p>
-                <p>Yong's book is in many ways a plea for microbial tolerance, pointing out that while fewer than one hundred species of bacteria bring disease, many thousands more play a vital role in maintaining our health. The book also acknowledges that our attitude towards bacteria is not a simple one. We tend to see the dangers posed by bacteria, yet at the same time we are sold yoghurts and drinks that supposedly nurture 'friendly' bacteria. In reality, says Yong, bacteria should not be viewed as either friends or foes, villains or heroes. Instead we should realise we have a symbiotic relationship, that can be mutually beneficial or mutually destructive.</p>
-                <p>What then do these millions of organisms do? The answer is pretty much everything. New research is now unravelling the ways in which bacteria aid digestion, regulate our immune systems, eliminate toxins, produce vitamins, affect our behaviour and even combat obesity. 'They actually help us become who we are,' says Yong. But we are facing a growing problem. Our obsession with hygiene, our overuse of antibiotics and our unhealthy, low-fibre diets are disrupting the bacterial balance and may be responsible for soaring rates of allergies and immune problems, such as inflammatory bowel disease (IBD).</p>
-                <p>The most recent research actually turns accepted norms upside down. For example, there are studies indicating that the excessive use of household detergents and antibacterial products actually destroys the microbes that normally keep the more dangerous germs at bay. Other studies show that keeping a dog as a pet gives children early exposure to a diverse range of bacteria, which may help protect them against allergies later.</p>
-                <p>The readers of Yong's book must be prepared for a decidedly unglamorous world. Among the less appealing case studies is one about a fungus that is wiping out entire populations of frogs and that can be halted by a rare microbial bacterium. Another is about squid that carry luminescent bacteria that protect them against predators. However, if you can overcome your distaste for some of the investigations, the reasons for Yong's enthusiasm become clear. The microbial world is a place of wonder. Already, in an attempt to stop mosquitoes spreading dengue fever - a disease that infects 400 million people a year - scientists are inserting a specially prepared bacterium into the insects to stop them carrying the virus. In future, we may even see microbes used to combat global warming, or painted onto hospital walls to kill harmful bacteria.</p>
+                <!-- Replace this line with your full Passage 2 text -->
+                <p>Paste your complete Passage 2 content here, keeping all paragraphs intact.</p>
             </div>
         </div>
 
-        <!-- RIGHT: QUESTIONS -->
         <div class="questions-section scrollable">
             <h3>Questions 14–26</h3>
-
             <div class="q-group">
-                <div class="q-instructions">
-                    <strong>Questions 14–16</strong><br>
-                    Choose the correct letter, A, B, C or D.<br>
-                    Write the correct letter in boxes 14–16 on your answer sheet.
-                </div>
-
-                <div class="q-row">
-                    14 What point does the writer make about microbes in the first paragraph?
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q14" value="A" id="r2q14a">
-                    <label for="r2q14a">A They adapt quickly to their environment.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q14" value="B" id="r2q14b">
-                    <label for="r2q14b">B The risk they pose has been exaggerated.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q14" value="C" id="r2q14c">
-                    <label for="r2q14c">C They are more plentiful in animal life than plant life.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q14" value="D" id="r2q14d">
-                    <label for="r2q14d">D They will continue to exist for longer than the human race.</label>
-                </div>
-
-                <div class="q-row">
-                    15 In the second paragraph, the writer is impressed by the fact that
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q15" value="A" id="r2q15a">
-                    <label for="r2q15a">A each species tends to have vastly different microbes.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q15" value="B" id="r2q15b">
-                    <label for="r2q15b">B some parts of the body contain relatively few microbes.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q15" value="C" id="r2q15c">
-                    <label for="r2q15c">C the average individual has more microbial cells than human ones.</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q15" value="D" id="r2q15d">
-                    <label for="r2q15d">D scientists have limited understanding of how microbial cells behave.</label>
-                </div>
-
-                <div class="q-row">
-                    16 What is the writer doing in the fifth paragraph?
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q16" value="A" id="r2q16a">
-                    <label for="r2q16a">A explaining how a discovery was made</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q16" value="B" id="r2q16b">
-                    <label for="r2q16b">B comparing scientists' theories about microbes</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q16" value="C" id="r2q16c">
-                    <label for="r2q16c">C describing confusion among scientists</label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="r2q16" value="D" id="r2q16d">
-                    <label for="r2q16d">D giving details of how microbes cause disease</label>
-                </div>
+                <div class="q-instructions"><strong>Questions 14–19</strong><br>[Paste your first instruction set for Q14-19 here]</div>
+                <div class="q-row">14 <input type="text" class="text-input" id="reading_q14" oninput="saveAnswer('reading_q14', this.value)"></div>
+                <div class="q-row">15 <input type="text" class="text-input" id="reading_q15" oninput="saveAnswer('reading_q15', this.value)"></div>
+                <div class="q-row">16 <input type="text" class="text-input" id="reading_q16" oninput="saveAnswer('reading_q16', this.value)"></div>
+                <div class="q-row">17 <input type="text" class="text-input" id="reading_q17" oninput="saveAnswer('reading_q17', this.value)"></div>
+                <div class="q-row">18 <input type="text" class="text-input" id="reading_q18" oninput="saveAnswer('reading_q18', this.value)"></div>
+                <div class="q-row">19 <input type="text" class="text-input" id="reading_q19" oninput="saveAnswer('reading_q19', this.value)"></div>
             </div>
-
             <div class="q-group">
-                <div class="q-instructions">
-                    <strong>Questions 17–20</strong><br>
-                    Complete the summary using the list of words, A–H, below.<br>
-                    Write the correct letter, A–H, in boxes 17–20 on your answer sheet.
-                </div>
-
-                <div class="word-list">
-                    <strong>A</strong> solution &nbsp;&nbsp;&nbsp;
-                    <strong>B</strong> partnership &nbsp;&nbsp;&nbsp;
-                    <strong>C</strong> destruction &nbsp;&nbsp;&nbsp;
-                    <strong>D</strong> exaggeration<br>
-                    <strong>E</strong> cleanliness &nbsp;&nbsp;&nbsp;
-                    <strong>F</strong> regulations &nbsp;&nbsp;&nbsp;
-                    <strong>G</strong> illness &nbsp;&nbsp;&nbsp;
-                    <strong>H</strong> nutrition
-                </div>
-
-                <p style="margin-bottom:15px;">
-                    Yong's book argues that we should be more tolerant of microbes. Many have a beneficial effect, and only a relatively small number lead to
-                    <strong>17</strong> <input type="text" class="text-input" id="r2q17">.
-                    And although it is misleading to think of microbes as 'friendly', we should also stop thinking of them as the enemy. In fact, we should accept that our relationship with microbes is one based on
-                    <strong>18</strong> <input type="text" class="text-input" id="r2q18">.
-                </p>
-
-                <p style="margin-bottom:15px;">
-                    New research shows that microbes have numerous benefits for humans. Amongst other things, they aid digestion, remove poisons, produce vitamins and may even help reduce obesity. However, there is a growing problem. Our poor
-                    <strong>19</strong> <input type="text" class="text-input" id="r2q19">,
-                    our overuse of antibiotics, and our excessive focus on
-                    <strong>20</strong> <input type="text" class="text-input" id="r2q20">
-                    are upsetting the bacterial balance and may be contributing to the huge increase in allergies and immune system problems.
-                </p>
+                <div class="q-instructions"><strong>Questions 20–26</strong><br>[Paste your second instruction set for Q20-26 here]</div>
+                <div class="q-row">20 <input type="text" class="text-input gap-input" id="reading_q20" oninput="saveAnswer('reading_q20', this.value)"></div>
+                <div class="q-row">21 <input type="text" class="text-input gap-input" id="reading_q21" oninput="saveAnswer('reading_q21', this.value)"></div>
+                <div class="q-row">22 <input type="text" class="text-input gap-input" id="reading_q22" oninput="saveAnswer('reading_q22', this.value)"></div>
+                <div class="q-row">23 <input type="text" class="text-input gap-input" id="reading_q23" oninput="saveAnswer('reading_q23', this.value)"></div>
+                <div class="q-row">24 <input type="text" class="text-input gap-input" id="reading_q24" oninput="saveAnswer('reading_q24', this.value)"></div>
+                <div class="q-row">25 <input type="text" class="text-input gap-input" id="reading_q25" oninput="saveAnswer('reading_q25', this.value)"></div>
+                <div class="q-row">26 <input type="text" class="text-input gap-input" id="reading_q26" oninput="saveAnswer('reading_q26', this.value)"></div>
             </div>
-
-            <div class="q-group">
-                <div class="q-instructions">
-                    <strong>Questions 21–26</strong><br>
-                    Do the following statements agree with the claims of the writer in Reading Passage 2?<br>
-                    In boxes 21–26 on your answer sheet, write<br>
-                    <strong>YES</strong> if the statement agrees with the claims of the writer<br>
-                    <strong>NO</strong> if the statement contradicts the claims of the writer<br>
-                    <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this
-                </div>
-
-                <div class="q-row">
-                    21 It is possible that using antibacterial products in the home fails to have the desired effect.<br>
-                    <input type="text" class="text-input" id="r2q21" placeholder="YES / NO / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    22 It is a good idea to ensure that children come into contact with as few bacteria as possible.<br>
-                    <input type="text" class="text-input" id="r2q22" placeholder="YES / NO / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    23 Yong's book contains more case studies than are necessary.<br>
-                    <input type="text" class="text-input" id="r2q23" placeholder="YES / NO / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    24 The case study about bacteria that prevent squid from being attacked may have limited appeal.<br>
-                    <input type="text" class="text-input" id="r2q24" placeholder="YES / NO / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    25 Efforts to control dengue fever have been surprisingly successful.<br>
-                    <input type="text" class="text-input" id="r2q25" placeholder="YES / NO / NOT GIVEN">
-                </div>
-
-                <div class="q-row">
-                    26 Microbes that reduce the risk of infection have already been put inside the walls of some hospital wards.<br>
-                    <input type="text" class="text-input" id="r2q26" placeholder="YES / NO / NOT GIVEN">
-                </div>
-            </div>
-
-            <div class="nav-buttons">
-                <a href="reading1.html" class="btn">← Previous Passage 1</a>
-                <a href="reading3.html" class="btn">Next Passage 3 →</a>
-            </div>
-
-            <button class="btn" style="margin-top: 20px;" onclick="showAnswers()">Show My Answers</button>
-            <div id="answerOutput" class="answer-box"></div>
         </div>
     </div>
 
-    <script>
-        // --- PERSISTENT 60-Minute Countdown Timer ---
-        let timeLeft = localStorage.getItem('readingTimeLeft');
-        if (timeLeft === null || isNaN(timeLeft) || timeLeft <= 0) {
-            timeLeft = 60 * 60;
-        }
-        const countdownEl = document.getElementById('countdown');
+    <div class="question-status">
+        <span class="part-label">P1</span>
+        <a href="reading1.html#reading_q1" class="q-indicator">1</a>
+        <a href="reading1.html#reading_q2" class="q-indicator">2</a>
+        <a href="reading1.html#reading_q3" class="q-indicator">3</a>
+        <a href="reading1.html#reading_q4" class="q-indicator">4</a>
+        <a href="reading1.html#reading_q5" class="q-indicator">5</a>
+        <a href="reading1.html#reading_q6" class="q-indicator">6</a>
+        <a href="reading1.html#reading_q7" class="q-indicator">7</a>
+        <a href="reading1.html#reading_q8" class="q-indicator">8</a>
+        <a href="reading1.html#reading_q9" class="q-indicator">9</a>
+        <a href="reading1.html#reading_q10" class="q-indicator">10</a>
+        <a href="reading1.html#reading_q11" class="q-indicator">11</a>
+        <a href="reading1.html#reading_q12" class="q-indicator">12</a>
+        <a href="reading1.html#reading_q13" class="q-indicator">13</a>
+        <span class="part-label">P2</span>
+        <a href="#reading_q14" class="q-indicator">14</a>
+        <a href="#reading_q15" class="q-indicator">15</a>
+        <a href="#reading_q16" class="q-indicator">16</a>
+        <a href="#reading_q17" class="q-indicator">17</a>
+        <a href="#reading_q18" class="q-indicator">18</a>
+        <a href="#reading_q19" class="q-indicator">19</a>
+        <a href="#reading_q20" class="q-indicator">20</a>
+        <a href="#reading_q21" class="q-indicator">21</a>
+        <a href="#reading_q22" class="q-indicator">22</a>
+        <a href="#reading_q23" class="q-indicator">23</a>
+        <a href="#reading_q24" class="q-indicator">24</a>
+        <a href="#reading_q25" class="q-indicator">25</a>
+        <a href="#reading_q26" class="q-indicator">26</a>
+        <span class="part-label">P3</span>
+        <a href="reading3.html#reading_q27" class="q-indicator">27</a>
+        <a href="reading3.html#reading_q28" class="q-indicator">28</a>
+        <a href="reading3.html#reading_q29" class="q-indicator">29</a>
+        <a href="reading3.html#reading_q30" class="q-indicator">30</a>
+        <a href="reading3.html#reading_q31" class="q-indicator">31</a>
+        <a href="reading3.html#reading_q32" class="q-indicator">32</a>
+        <a href="reading3.html#reading_q33" class="q-indicator">33</a>
+        <a href="reading3.html#reading_q34" class="q-indicator">34</a>
+        <a href="reading3.html#reading_q35" class="q-indicator">35</a>
+        <a href="reading3.html#reading_q36" class="q-indicator">36</a>
+        <a href="reading3.html#reading_q37" class="q-indicator">37</a>
+        <a href="reading3.html#reading_q38" class="q-indicator">38</a>
+        <a href="reading3.html#reading_q39" class="q-indicator">39</a>
+        <a href="reading3.html#reading_q40" class="q-indicator">40</a>
+    </div>
 
-        function updateTimer() {
-            if (timeLeft <= 0) {
-                countdownEl.textContent = "00:00";
-                alert("Time's up!");
-                localStorage.removeItem('readingTimeLeft');
-                clearInterval(timerInterval);
-                return;
-            }
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            localStorage.setItem('readingTimeLeft', timeLeft);
-            timeLeft--;
-        }
+    <div class="nav-buttons">
+        <a href="reading1.html" class="btn secondary">← Previous</a>
+        <a href="../review-answers.html" class="btn secondary">📋 Review Answers</a>
+        <a href="reading3.html" class="btn">Next: Passage 3 →</a>
+    </div>
 
-        const timerInterval = setInterval(updateTimer, 1000);
-        updateTimer();
+<script>
+// --- Auto Save & Mark ---
+function saveAnswer(key, value) {
+    const val = value.trim();
+    localStorage.setItem(key, val);
+    const q = key.replace('reading_q','');
+    const indicator = document.querySelector(`.q-indicator[href*="q${q}"]`);
+    if (indicator) val ? indicator.classList.add('answered') : indicator.classList.remove('answered');
+}
+window.addEventListener('load', () => {
+    for(let i=14;i<=26;i++){
+        const v = localStorage.getItem(`reading_q${i}`);
+        if(v){ const inp = document.getElementById(`reading_q${i}`); if(inp) inp.value = v; saveAnswer(`reading_q${i}`,v); }
+    }
+    loadNotes();
+});
 
-        // --- Text Highlight Feature ---
-        const passageContainer = document.querySelector('.highlightable');
-        passageContainer.addEventListener('mouseup', function() {
-            const selection = window.getSelection();
-            if (!selection.rangeCount) return;
-            const range = selection.getRangeAt(0);
-            const selectedText = selection.toString().trim();
-            if (!selectedText) return;
+// --- Timer ---
+let timeLeft = +localStorage.getItem('readingTimeLeft') || 3600;
+const countdownEl = document.getElementById('countdown');
+setInterval(()=>{
+    if(timeLeft<=0){ countdownEl.textContent='00:00'; alert("Time's up!"); return; }
+    const m=Math.floor(timeLeft/60), s=timeLeft%60;
+    countdownEl.textContent=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    localStorage.setItem('readingTimeLeft', timeLeft--);
+},1000);
 
-            const parent = range.commonAncestorContainer.parentElement;
-            if (parent && parent.classList.contains('highlight')) {
-                parent.outerHTML = parent.innerHTML;
-                selection.removeAllRanges();
-                return;
-            }
+// --- Right Click Menu ---
+let lastSel=null;
+document.addEventListener('contextmenu',e=>{
+    const sel=window.getSelection();
+    if(sel.toString().trim()){e.preventDefault();lastSel=sel.getRangeAt(0);const m=document.getElementById('contextMenu');m.style=`display:block;left:${e.pageX}px;top:${e.pageY}px`;}
+    else document.getElementById('contextMenu').style.display='none';
+});
+document.addEventListener('click',()=>document.getElementById('contextMenu').style.display='none');
 
-            try {
-                const span = document.createElement('span');
-                span.className = 'highlight';
-                range.surroundContents(span);
-            } catch (e) {
-                const text = range.toString();
-                const span = document.createElement('span');
-                span.className = 'highlight';
-                span.textContent = text;
-                range.deleteContents();
-                range.insertNode(span);
-            }
-            selection.removeAllRanges();
-        });
+// --- Highlight ---
+function highlightSelection(){
+    if(!lastSel)return;
+    const s=document.createElement('span');s.className='highlight';lastSel.surroundContents(s);window.getSelection().removeAllRanges();saveNotes();
+}
+function removeNearestHighlight(){
+    if(!lastSel)return;
+    let el=lastSel.commonAncestorContainer;if(el.nodeType===3)el=el.parentElement;
+    if(el && el.classList.contains('highlight'))el.outerHTML=el.innerHTML;saveNotes();
+}
+function removeAllHighlights(){document.querySelectorAll('.highlight').forEach(e=>e.outerHTML=e.innerHTML);saveNotes();}
 
-        // --- Show Answers Function ---
-        function showAnswers() {
-            let answers = "--- READING PASSAGE 2 ANSWERS ---\n\n";
-            for (let i = 14; i <= 26; i++) {
-                const textInput = document.getElementById('r2q' + i);
-                if (textInput) {
-                    answers += `Question ${i}: ${textInput.value.trim() || "(not answered)"}\n`;
-                } else {
-                    const selected = document.querySelector(`input[name="r2q${i}"]:checked`);
-                    answers += `Question ${i}: ${selected ? selected.value : "(not answered)"}\n`;
-                }
-            }
-            const outputBox = document.getElementById('answerOutput');
-            outputBox.textContent = answers;
-            outputBox.style.display = 'block';
-            outputBox.scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
+// --- Draggable Notes ---
+let noteId=0;
+function makeDrag(el){
+    const h=el.querySelector('.note-header');
+    h.onmousedown=e=>{let px=e.clientX,py=e.clientY,ox=el.offsetLeft,oy=el.offsetTop;document.onmousemove=e=>{el.style.left=(ox+e.clientX-px)+'px';el.style.top=(oy+e.clientY-py)+'px'};document.onmouseup=()=>{document.onmousemove=null;saveNotes()}};
+}
+function addNoteHere(){
+    if(!lastSel)return;
+    const r=lastSel.getBoundingClientRect(),n=document.createElement('div');
+    n.className='draggable-note';n.style.left=(r.right+15)+'px';n.style.top=r.top+'px';
+    n.innerHTML=`<div class="note-header">Note ${++noteId}<button onclick="this.closest('.draggable-note').remove();saveNotes()">×</button></div><textarea class="note-text" placeholder="Write note..."></textarea>`;
+    document.body.appendChild(n);makeDrag(n);n.querySelector('textarea').oninput=saveNotes;
+    window.getSelection().removeAllRanges();
+}
+function saveNotes(){localStorage.readingNotes=JSON.stringify([...document.querySelectorAll('.draggable-note')].map(n=>({l:n.style.left,t:n.style.top,txt:n.querySelector('.note-text').value})))}
+function loadNotes(){
+    if(!localStorage.readingNotes)return;
+    JSON.parse(localStorage.readingNotes).forEach(d=>{
+        const n=document.createElement('div');n.className='draggable-note';n.style.left=d.l;n.style.top=d.t;
+        n.innerHTML=`<div class="note-header">Note ${++noteId}<button onclick="this.closest('.draggable-note').remove();saveNotes()">×</button></div><textarea class="note-text">${d.txt}</textarea>`;
+        document.body.appendChild(n);makeDrag(n);n.querySelector('textarea').oninput=saveNotes;
+    });
+}
+</script>
 
 </body>
 </html>
