@@ -57,12 +57,11 @@
         .q-indicator:hover { border-color: #007bff; }
         .q-indicator.answered { background: #10b981; color: white; border-color: #10b981; }
 
-        /* --- COMPACT NAV BUTTONS --- */
-        .nav-buttons { padding: 10px 20px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; flex-shrink: 0; background: #fff; }
+        /* --- CLEAN NAV BUTTONS --- */
+        .nav-buttons { padding: 10px 20px; display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 8px; flex-shrink: 0; background: #fff; }
         .btn { padding: 7px 14px; background: #007bff; color: white; border: none; text-decoration: none; font-weight: bold; border-radius: 3px; cursor: pointer; font-size: 14px; }
         .btn:hover { background: #0056b3; }
         .btn.secondary { background: #6c757d; }
-        .answer-box { margin: 10px 20px; padding: 12px; background: #e9ecef; border-radius: 3px; display: none; font-family: monospace; font-size: 13px; }
 
         .context-menu { position: absolute; background: #fff; border: 1px solid #999; border-radius: 3px; box-shadow: 2px 2px 6px rgba(0,0,0,0.2); z-index: 99999; display: none; min-width: 150px; font-size: 13px; }
         .context-menu div { padding: 7px 10px; cursor: pointer; }
@@ -99,7 +98,6 @@
             <em>You should spend about 20 minutes on Questions 1–13...</em>
             <h4 style="text-align:center;margin-bottom:15px;">The White Horse of Uffington</h4>
             <div class="highlightable">
-                <!-- your full passage text stays exactly the same here -->
                 <p>The cutting of huge figures or 'geoglyphs' into the earth of English hillsides has taken place for more than 3,000 years. There are 56 hill figures scattered around England, with the vast majority on the chalk downlands of the country's southern counties. The figures include giants, horses, crosses and regimental badges. Although the majority of these geoglyphs date within the last 300 years or so, there are one or two that are much older.</p>
                 <p>The most famous of these figures is perhaps also the most mysterious - the Uffington White Horse in Oxfordshire. The White Horse has recently been re-dated and shown to be even older than its previously assigned ancient pre-Roman Iron Age date. More controversial is the date of the enigmatic Long Man of Wilmington in Sussex. While many historians are convinced the figure is prehistoric, others believe that it was the work of an artistic monk from a nearby priory and was created between the 11th and 15th centuries.</p>
                 <p>The method of cutting these huge figures was simply to remove the overlying grass to reveal the gleaming white chalk below. However, the grass would soon grow over the geoglyph again unless it was regularly cleaned or scoured by a fairly large team of people. One reason that the vast majority of hill figures have disappeared is that when the traditions associated with the figures faded, people no longer bothered or remembered to clear away the grass to expose the chalk outline. Furthermore, over hundreds of years the outlines would sometimes change due to people not always cutting in exactly the same place, thus creating a different shape to the original geoglyph. The fact that any ancient hill figures survive at all in England today is testament to the strength and continuity of local customs and beliefs which, in one case at least, must stretch back over millennia.</p>
@@ -184,13 +182,9 @@
     </div>
 
     <div class="nav-buttons">
-        <a href="reading-intro.html" class="btn secondary">← Intro</a>
-        <a href="../review-answers.html" class="btn secondary">📋 Review</a>
+        <a href="../review-answers.html" class="btn secondary">📋 Review Answers</a>
         <a href="reading2.html" class="btn">Next: Passage 2 →</a>
     </div>
-
-    <button style="margin:0 20px 12px;" class="btn" onclick="showAnswers()">Show My Answers</button>
-    <div id="answerOutput" class="answer-box"></div>
 
 <script>
 // --- Auto Save & Mark ---
@@ -262,13 +256,6 @@ function loadNotes(){
         n.innerHTML=`<div class="note-header">Note ${++noteId}<button onclick="this.closest('.draggable-note').remove();saveNotes()">×</button></div><textarea class="note-text">${d.txt}</textarea>`;
         document.body.appendChild(n);makeDrag(n);n.querySelector('textarea').oninput=saveNotes;
     });
-}
-
-// --- Show Answers ---
-function showAnswers(){
-    let o="--- PASSAGE 1 ANSWERS ---\n\n";
-    for(let i=1;i<=13;i++)o+=`Q${i}: ${localStorage.getItem(`reading_q${i}`)||'not answered'}\n`;
-    const b=document.getElementById('answerOutput');b.textContent=o;b.style.display='block';
 }
 </script>
 
