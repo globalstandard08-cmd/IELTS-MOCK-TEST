@@ -207,7 +207,13 @@ window.addEventListener('load', () => {
 let timeLeft = +localStorage.getItem('readingTimeLeft') || 3600;
 const countdownEl = document.getElementById('countdown');
 setInterval(()=>{
-    if(timeLeft<=0){ countdownEl.textContent='00:00'; alert("Time's up!"); return; }
+    if(timeLeft<=0){ 
+        countdownEl.textContent='00:00'; 
+        alert("Time's up!"); 
+        localStorage.removeItem('readingTimeLeft');
+        window.location.href = 'writing-intro.html';
+        return; 
+    }
     const m=Math.floor(timeLeft/60), s=timeLeft%60;
     countdownEl.textContent=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     localStorage.setItem('readingTimeLeft', timeLeft--);
