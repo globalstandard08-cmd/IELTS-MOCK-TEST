@@ -14,10 +14,14 @@
             font-family: Arial, sans-serif;
             line-height: 1.7;
             color: #333;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .tabs {
             background-color: #222;
             padding: 12px 0;
+            flex-shrink: 0;
         }
         .tab-link {
             color: white;
@@ -38,6 +42,7 @@
             border-bottom: 1px solid #ddd;
             flex-wrap: wrap;
             gap: 15px;
+            flex-shrink: 0;
         }
         .timer {
             font-size: 20px;
@@ -73,7 +78,8 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2px;
-            height: calc(100vh - 220px);
+            flex: 1;
+            overflow: hidden;
         }
         .passage-section {
             background-color: #f9f9f9;
@@ -155,15 +161,61 @@
             border-radius: 4px;
             line-height: 1.9;
         }
-        .nav-buttons {
-            margin-top: 30px;
-            padding-top: 20px;
+
+        /* --- QUESTION NAVIGATION BAR --- */
+        .question-status {
+            flex-shrink: 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 15px;
+            background: #f0f2f5;
             border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            font-size: 11px;
+        }
+        .part-label {
+            font-size: 10px;
+            font-weight: bold;
+            color: #444;
+            margin: 0 3px 0 6px;
+        }
+        .q-indicator {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+            border: 1px solid #d1d5db;
+            background: #e5e7eb;
+            color: #333;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        .q-indicator:hover {
+            border-color: #007bff;
+        }
+        .q-indicator.answered {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        /* --- BOTTOM NAV BUTTONS --- */
+        .page-nav-buttons {
+            flex-shrink: 0;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
+            gap: 8px;
+            background: #fff;
+            border-top: 1px solid #ddd;
         }
         .btn {
-            padding: 12px 24px;
+            padding: 10px 22px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -171,13 +223,13 @@
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
         }
         .btn:hover {
             background-color: #0056b3;
         }
         .answer-box {
-            margin-top: 30px;
+            margin: 15px 20px;
             padding: 20px;
             background-color: #e9ecef;
             border: 1px solid #ccc;
@@ -192,10 +244,11 @@
 </head>
 <body>
 
-   <div class="tabs">
-    <a class="tab-link" href="../listening-part1.html">Listening</a>
-    <a class="tab-link active" href="reading3.html">Reading</a>
-    <a class="tab-link" href="../writing.html">Writing</a>
+    <div class="tabs">
+        <a class="tab-link" href="../listening-part1.html">Listening</a>
+        <a class="tab-link active" href="reading3.html">Reading</a>
+        <a class="tab-link" href="../writing.html">Writing</a>
+    </div>
 
     <div class="header-bar">
         <h2>IELTS Reading Test</h2>
@@ -248,19 +301,19 @@
                     27 What point does the writer make in the first paragraph?
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q27" value="A" id="r3q27a">
+                    <input type="radio" name="r3q27" value="A" id="r3q27a" onchange="saveAnswer('r3q27', 'A')">
                     <label for="r3q27a">A Wisdom appears to be unique to the human race.</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q27" value="B" id="r3q27b">
+                    <input type="radio" name="r3q27" value="B" id="r3q27b" onchange="saveAnswer('r3q27', 'B')">
                     <label for="r3q27b">B A basic assumption about wisdom may be wrong.</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q27" value="C" id="r3q27c">
+                    <input type="radio" name="r3q27" value="C" id="r3q27c" onchange="saveAnswer('r3q27', 'C')">
                     <label for="r3q27c">C Concepts of wisdom may depend on the society we belong to.</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q27" value="D" id="r3q27d">
+                    <input type="radio" name="r3q27" value="D" id="r3q27d" onchange="saveAnswer('r3q27', 'D')">
                     <label for="r3q27d">D There is still much to be discovered about the nature of wisdom.</label>
                 </div>
 
@@ -268,19 +321,19 @@
                     28 What does Igor Grossmann suggest about the ability to make wise decisions?
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q28" value="A" id="r3q28a">
+                    <input type="radio" name="r3q28" value="A" id="r3q28a" onchange="saveAnswer('r3q28', 'A')">
                     <label for="r3q28a">A It can vary greatly from one person to another.</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q28" value="B" id="r3q28b">
+                    <input type="radio" name="r3q28" value="B" id="r3q28b" onchange="saveAnswer('r3q28', 'B')">
                     <label for="r3q28b">B Earlier research into it was based on unreliable data.</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q28" value="C" id="r3q28c">
+                    <input type="radio" name="r3q28" value="C" id="r3q28c" onchange="saveAnswer('r3q28', 'C')">
                     <label for="r3q28c">C The importance of certain influences on it was underestimated.</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q28" value="D" id="r3q28d">
+                    <input type="radio" name="r3q28" value="D" id="r3q28d" onchange="saveAnswer('r3q28', 'D')">
                     <label for="r3q28d">D Various branches of psychology define it according to their own criteria.</label>
                 </div>
 
@@ -288,19 +341,19 @@
                     29 According to the third paragraph, Grossmann claims that the level of wisdom an individual shows
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q29" value="A" id="r3q29a">
+                    <input type="radio" name="r3q29" value="A" id="r3q29a" onchange="saveAnswer('r3q29', 'A')">
                     <label for="r3q29a">A can be greater than they think it is.</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q29" value="B" id="r3q29b">
+                    <input type="radio" name="r3q29" value="B" id="r3q29b" onchange="saveAnswer('r3q29', 'B')">
                     <label for="r3q29b">B will be different in different circumstances.</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q29" value="C" id="r3q29c">
+                    <input type="radio" name="r3q29" value="C" id="r3q29c" onchange="saveAnswer('r3q29', 'C')">
                     <label for="r3q29c">C may be determined by particular aspects of their personality.</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q29" value="D" id="r3q29d">
+                    <input type="radio" name="r3q29" value="D" id="r3q29d" onchange="saveAnswer('r3q29', 'D')">
                     <label for="r3q29d">D should develop over time as a result of their life experiences.</label>
                 </div>
 
@@ -308,19 +361,19 @@
                     30 What is described in the fifth paragraph?
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q30" value="A" id="r3q30a">
+                    <input type="radio" name="r3q30" value="A" id="r3q30a" onchange="saveAnswer('r3q30', 'A')">
                     <label for="r3q30a">A a difficulty encountered when attempting to reason wisely</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q30" value="B" id="r3q30b">
+                    <input type="radio" name="r3q30" value="B" id="r3q30b" onchange="saveAnswer('r3q30', 'B')">
                     <label for="r3q30b">B an example of the type of person who is likely to reason wisely</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q30" value="C" id="r3q30c">
+                    <input type="radio" name="r3q30" value="C" id="r3q30c" onchange="saveAnswer('r3q30', 'C')">
                     <label for="r3q30c">C a controversial view about the benefits of reasoning wisely</label>
                 </div>
                 <div class="option">
-                    <input type="radio" name="r3q30" value="D" id="r3q30d">
+                    <input type="radio" name="r3q30" value="D" id="r3q30d" onchange="saveAnswer('r3q30', 'D')">
                     <label for="r3q30d">D a recommended strategy that can help people to reason wisely</label>
                 </div>
             </div>
@@ -347,19 +400,19 @@
 
                 <p style="margin-bottom:15px;">
                     Igor Grossmann and colleagues have established four characteristics which enable us to make wise decisions. It is important to have a certain degree of
-                    <strong>31</strong> <input type="text" class="text-input" id="r3q31">
+                    <strong>31</strong> <input type="text" class="text-input" id="r3q31" oninput="saveAnswer('r3q31', this.value.toUpperCase())">
                     regarding the extent of our knowledge, and to take into account
-                    <strong>32</strong> <input type="text" class="text-input" id="r3q32">
+                    <strong>32</strong> <input type="text" class="text-input" id="r3q32" oninput="saveAnswer('r3q32', this.value.toUpperCase())">
                     which may not be the same as our own. We should also be able to take a broad
-                    <strong>33</strong> <input type="text" class="text-input" id="r3q33">
+                    <strong>33</strong> <input type="text" class="text-input" id="r3q33" oninput="saveAnswer('r3q33', this.value.toUpperCase())">
                     of any situation. Another key characteristic is being aware of the likelihood of alterations in the way that people relate to each other.
                 </p>
 
                 <p style="margin-bottom:15px;">
                     Grossmann also believes that it is better to regard scenarios with
-                    <strong>34</strong> <input type="text" class="text-input" id="r3q34">.
+                    <strong>34</strong> <input type="text" class="text-input" id="r3q34" oninput="saveAnswer('r3q34', this.value.toUpperCase())">.
                     By avoiding the first-person perspective, we focus more on
-                    <strong>35</strong> <input type="text" class="text-input" id="r3q35">
+                    <strong>35</strong> <input type="text" class="text-input" id="r3q35" oninput="saveAnswer('r3q35', this.value.toUpperCase())">
                     and on other moral ideals, which in turn leads to wiser decision-making.
                 </p>
             </div>
@@ -376,42 +429,97 @@
 
                 <div class="q-row">
                     36 Students participating in the job prospects experiment could choose one of two perspectives to take.<br>
-                    <input type="text" class="text-input" id="r3q36" placeholder="TRUE / FALSE / NOT GIVEN">
+                    <input type="text" class="text-input" id="r3q36" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('r3q36', this.value.toUpperCase())">
                 </div>
 
                 <div class="q-row">
                     37 Participants in the couples experiment were aware that they were taking part in a study about wise reasoning.<br>
-                    <input type="text" class="text-input" id="r3q37" placeholder="TRUE / FALSE / NOT GIVEN">
+                    <input type="text" class="text-input" id="r3q37" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('r3q37', this.value.toUpperCase())">
                 </div>
 
                 <div class="q-row">
                     38 In the couples experiments, the length of the couples' relationships had an impact on the results.<br>
-                    <input type="text" class="text-input" id="r3q38" placeholder="TRUE / FALSE / NOT GIVEN">
+                    <input type="text" class="text-input" id="r3q38" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('r3q38', this.value.toUpperCase())">
                 </div>
 
                 <div class="q-row">
                     39 In both experiments, the participants who looked at the situation from a more detached viewpoint tended to make wiser decisions.<br>
-                    <input type="text" class="text-input" id="r3q39" placeholder="TRUE / FALSE / NOT GIVEN">
+                    <input type="text" class="text-input" id="r3q39" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('r3q39', this.value.toUpperCase())">
                 </div>
 
                 <div class="q-row">
                     40 Grossmann believes that a person's wisdom is determined by their intelligence to only a very limited extent.<br>
-                    <input type="text" class="text-input" id="r3q40" placeholder="TRUE / FALSE / NOT GIVEN">
+                    <input type="text" class="text-input" id="r3q40" placeholder="TRUE / FALSE / NOT GIVEN" oninput="saveAnswer('r3q40', this.value.toUpperCase())">
                 </div>
             </div>
 
-           <div class="nav-buttons">
-    <a href="reading2.html" class="btn">← Previous Passage 2</a>
-    <a href="../writing.html" class="btn">Next → Writing</a>
-</div>
-
-            <button class="btn" style="margin-top: 20px;" onclick="showAnswers()">Show My Answers</button>
+            <button class="btn" style="margin: 20px 0;" onclick="showAnswers()">Show My Answers</button>
             <div id="answerOutput" class="answer-box"></div>
         </div>
     </div>
 
+    <!-- QUESTION NAVIGATION BAR -->
+    <div class="question-status">
+        <span class="part-label">P3</span>
+        <a href="#r3q27" class="q-indicator">27</a>
+        <a href="#r3q28" class="q-indicator">28</a>
+        <a href="#r3q29" class="q-indicator">29</a>
+        <a href="#r3q30" class="q-indicator">30</a>
+        <a href="#r3q31" class="q-indicator">31</a>
+        <a href="#r3q32" class="q-indicator">32</a>
+        <a href="#r3q33" class="q-indicator">33</a>
+        <a href="#r3q34" class="q-indicator">34</a>
+        <a href="#r3q35" class="q-indicator">35</a>
+        <a href="#r3q36" class="q-indicator">36</a>
+        <a href="#r3q37" class="q-indicator">37</a>
+        <a href="#r3q38" class="q-indicator">38</a>
+        <a href="#r3q39" class="q-indicator">39</a>
+        <a href="#r3q40" class="q-indicator">40</a>
+    </div>
+
+    <!-- PREVIOUS / NEXT BUTTONS — OUTSIDE QUESTION BOX, AT BOTTOM -->
+    <div class="page-nav-buttons">
+        <a href="reading2.html" class="btn">← Previous Passage 2</a>
+        <a href="../writing.html" class="btn">Next → Writing</a>
+    </div>
+
     <script>
-        // --- PERSISTENT 60-Minute Countdown Timer ---
+        // --- AUTO SAVE & MARK QUESTION AS ANSWERED ---
+        function saveAnswer(key, value) {
+            const val = (value || '').trim();
+            localStorage.setItem(key, val);
+            const qNum = key.replace('r3q','');
+            const indicator = document.querySelector(`.q-indicator[href="#r3q${qNum}"]`);
+            if (indicator) {
+                val ? indicator.classList.add('answered') : indicator.classList.remove('answered');
+            }
+        }
+
+        // --- LOAD SAVED ANSWERS ON PAGE LOAD ---
+        window.addEventListener('load', () => {
+            for (let i = 27; i <= 40; i++) {
+                const key = `r3q${i}`;
+                const saved = localStorage.getItem(key);
+                if (!saved) continue;
+
+                // Text inputs
+                const textInput = document.getElementById(key);
+                if (textInput && textInput.tagName === 'INPUT' && textInput.type === 'text') {
+                    textInput.value = saved;
+                    saveAnswer(key, saved);
+                }
+                // Radio buttons
+                else {
+                    const radio = document.querySelector(`input[name="r3q${i}"][value="${saved}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        saveAnswer(key, saved);
+                    }
+                }
+            }
+        });
+
+        // --- FIXED TIMER — Redirect when time's up ---
         let timeLeft = localStorage.getItem('readingTimeLeft');
         if (timeLeft === null || isNaN(timeLeft) || timeLeft <= 0) {
             timeLeft = 60 * 60;
@@ -424,12 +532,12 @@
                 alert("Time's up!");
                 localStorage.removeItem('readingTimeLeft');
                 clearInterval(timerInterval);
+                window.location.href = '../writing.html'; // ← goes to Writing after OK
                 return;
             }
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
             localStorage.setItem('readingTimeLeft', timeLeft);
             timeLeft--;
         }
